@@ -1,0 +1,26 @@
+<h2>Users</h2>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Username</th>
+    <th>Email</th>
+  </tr>
+
+<% @users.each do |user| %>
+  <tr class="<%= cycle('even', '') %>">
+    <td><%=h user.name %></td>
+    <td><%=h user.username %></td>
+    <td><%=h user.email %></td>
+    <td><%= link_to 'Roles', '' %></td>
+    <td><%= link_to 'Tasks', user_tasks_path(user.id) %></td>
+    <td><%= link_to 'Show', user %></td>
+    <td><%= link_to 'Edit', edit_user_path(user) %></td>
+    <td><%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New user', new_user_path %>

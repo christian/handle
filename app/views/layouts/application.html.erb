@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <title>Destination Hotel</title>
+    <link rel="stylesheet" href="/stylesheets/blueprint/screen.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/stylesheets/blueprint/print.css" type="text/css" media="print">
+    <link rel="stylesheet" href="/stylesheets/thickbox.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="/stylesheets/styles.css" type="text/css" media="screen">
+    
+    <!--[if IE]><link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
+    <%= javascript_include_tag "jquery", "jrails", "thickbox-compressed" %>
+         
+  </head>
+  
+  <body>
+    <div class="container">
+      <% unless current_user.nil? %>
+        <div class="span-20">
+          <h1 style="border: none; background-color: #02539F;  color:white; padding: 10px;">handle</h1>
+        </div>
+        <div class="span-4 last">
+          Logged in as, <%= current_user.username %>.
+          <%= link_to "Logout", logout_path %>
+        </div>
+      <% end %>
+      
+      <div class="span-24">
+        <% unless current_user.nil? %>
+          <%= menu %>
+        <% end %>
+      <%= yield %>
+      </div>
+    </div>
+  </body>
+</html>

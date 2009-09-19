@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  comment: MyText
+  days: 1
+  hours: 1
+  minutes: 1
+
+two:
+  comment: MyText
+  days: 1
+  hours: 1
+  minutes: 1

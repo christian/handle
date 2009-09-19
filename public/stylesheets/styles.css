@@ -1,0 +1,19 @@
+.Active {
+  color: #5B8F2C;
+}
+.Closed {
+  color: #F23122;
+}
+.orange_box {
+  background-color: #FFC9AF;
+  padding: 20px;
+}
+.comment_box {
+  background:#FCFCFC none repeat scroll 0 0;
+  border-color:#DFDFDF;
+  border-style:solid;
+  border-width:1px 1px 1px 5px;
+  overflow-x:auto;
+  padding:2px 5px;
+  width:96%;  
+}

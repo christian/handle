@@ -1,0 +1,26 @@
+<h1>Listing changes</h1>
+
+<table>
+  <tr>
+    <th>Comment</th>
+    <th>Days</th>
+    <th>Hours</th>
+    <th>Minutes</th>
+  </tr>
+
+<% @changes.each do |change| %>
+  <tr>
+    <td><%=h change.comment %></td>
+    <td><%=h change.days %></td>
+    <td><%=h change.hours %></td>
+    <td><%=h change.minutes %></td>
+    <td><%= link_to 'Show', change %></td>
+    <td><%= link_to 'Edit', edit_change_path(change) %></td>
+    <td><%= link_to 'Destroy', change, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New change', new_change_path %>

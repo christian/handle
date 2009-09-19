@@ -1,0 +1,31 @@
+  <%= hidden_field_tag :task_id, @task.id %>
+  <p>
+    <%= f.label :comment %><br />
+    <%= f.text_area :comment %>
+  </p>
+  <p>
+    <%= f.label :reassing_user_id, "Reassign to" %><br />
+    <%= f.select :reassing_user_id, @users %>
+  </p>
+  <p>
+    <%= f.label :new_status %>
+    <%= f.select :new_status, Task::STATUSES %>
+  </p>
+<div class="span-3">  
+  <p>
+    <%= f.label :days %>
+    <%= f.text_field :days, :class => "text" %>
+  </p>
+</div>  
+<div class="span-3">  
+  <p>
+    <%= f.label :hours %>
+    <%= f.text_field :hours, :class => "text" %>
+  </p>
+</div>  
+<div class="span-3">
+  <p>
+    <%= f.label :minutes %>
+    <%= f.text_field :minutes, :class => "text" %>
+  </p>
+</div>

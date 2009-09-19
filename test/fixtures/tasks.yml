@@ -1,0 +1,19 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  title: MyString
+  description: MyText
+  estimated_time: MyString
+  priority: 1
+  kind: MyString
+  status: MyString
+  resolution: MyString
+
+two:
+  title: MyString
+  description: MyText
+  estimated_time: MyString
+  priority: 1
+  kind: MyString
+  status: MyString
+  resolution: MyString

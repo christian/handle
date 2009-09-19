@@ -1,0 +1,22 @@
+<h2>Projects</h2>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+  </tr>
+
+<% @projects.each do |project| %>
+  <tr class="<%= cycle('even', '')%>">
+    <td><%=h project.name %></td>
+    <td><%=h project.description %></td>
+    <td><%= link_to 'Show', project %></td>
+    <td><%= link_to 'Edit', edit_project_path(project) %></td>
+    <td><%= link_to 'Destroy', project, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New project', new_project_path %>

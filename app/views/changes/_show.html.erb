@@ -1,0 +1,11 @@
+<div class="comment_box">
+<%= change.created_at %>
+<p>
+  <b>Comment:</b>
+  <%=h change.comment %>
+</p>
+<p>
+  <b>Duration:</b>
+  <span class="added"><%=humanized_duration change.minutes %></span>
+</p>
+</div>
