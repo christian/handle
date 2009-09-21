@@ -1,0 +1,8 @@
+<div class="span-6 border">
+  <h2>Projects  </h2>
+  <ul>  
+    <% for project in @projects %>
+      <li><%= link_to project.name, statistics_project_detail_path(project.id) %></li>
+    <% end %>  
+  </ul>
+</div>

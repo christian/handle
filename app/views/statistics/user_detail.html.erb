@@ -1,0 +1,24 @@
+<%= render :partial => 'menu' %>
+
+<%= render :partial => 'side_menu_users' %>
+
+<div class="span-14 last">
+  <h2><%= @user.name %></h2>
+  
+  <table>
+    <tr style="background-color: #FFDDDD;">
+      <th style="border-bottom: double 1px #EF6868;"></th>
+      <th style="border-bottom: double 1px #EF6868;">Active tasks</th>
+      <th style="border-bottom: double 1px #EF6868;">Closed tasks</th>
+    </tr>
+
+    
+    <% for project in @projects %>
+    <tr class="<%= cycle('even', '') %>">  
+      <td><%= project.name %></td>
+      <td><%= @user.opened_tasks_count_for_project(project.id) %></td>
+      <td></td>
+    </tr>
+    <% end %>
+  </table>
+</div>

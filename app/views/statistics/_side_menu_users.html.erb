@@ -1,0 +1,8 @@
+<div class="span-6 border">
+  <h2>Users  </h2>
+  <ul>  
+    <% for user in @users %>
+      <li><%= link_to user.name, statistics_user_detail_path(user.id) %></li>
+    <% end %>  
+  </ul>
+</div>
