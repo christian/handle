@@ -1,8 +1,9 @@
 <div class="comment_box">
-<%= change.created_at %>
 <p>
-  <b>Comment:</b>
-  <%=h change.comment %>
+  On <span class="quiet"><i><%= change.created_at.to_s(:long) %></i></span> <br /><strong><%= change.user.name %></strong> said:
+  <p>
+    <%=h change.comment %>
+  </p>
 </p>
 <p>
   <b>Duration:</b>

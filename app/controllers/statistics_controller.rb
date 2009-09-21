@@ -8,6 +8,12 @@ class StatisticsController < ApplicationController
     @projects.each_with_index do |p, i|
       @select_index = i if current_project.id == p.id
     end
+    
+    @users = User.all
+  end
+
+  def users
+    @users = User.all
   end
 
   def projects
@@ -17,6 +23,14 @@ class StatisticsController < ApplicationController
   def project_detail
     @projects = Project.all
     @project = Project.find(params[:project_id])
+    
+    @users = @project.users
+  end
+  
+  def user_detail
+    @users = User.all
+    @user = User.find(params[:user_id])
+    @projects = @user.projects
   end
 
   private

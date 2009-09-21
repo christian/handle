@@ -1,7 +1,25 @@
 <div class="span-20">
   <%= render :partial => "menu" %>
   
-  Stats for today:
+  <h2>Productivity</h2>
+  From: date Until: date
+  
+  <h2>Users</h2>
+  <table>
+    <tr><th>User</th>
+        <th>Time spent today</th>
+        <th>Opened tasks</th>
+        <th>Closed tasks</th>
+    <% for user in @users %>
+        <tr class="<%= cycle('even', '') %>">
+          <td><%= user.name %></td>
+          <td><%= humanized_duration(user.time_spent_per_day) %></td>
+          <td><%= user.opened_tasks_count %></td>
+          <td></td>
+        </tr>
+    <% end %>
+  </table>  
+
   Tasks completed:
   Tasks with deadline today. (add deadline per task)
   

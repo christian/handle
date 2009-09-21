@@ -12,6 +12,10 @@ class Project < ActiveRecord::Base
     self.all.collect {|p| [p.name, p.id]}
   end
   
+  # def opened_tasks_count
+  #   tasks(:conditions => ['status = "Active"']).count
+  # end
+  
   private
   def save_contributors
     unless users_ids.nil?

@@ -18,6 +18,14 @@
       <%= f.password_field :password, :class => 'text' %>
     </p>
     <%= f.submit "Login", :disable_with => 'Loging in...' %>
+    
+    <h2>Or use OpenID</h2>
+    <p>
+      <%= f.label :openid_identifier, "Openid URL" %>
+      <%= f.text_field :openid_identifier, :class => 'text' %>
+    </p>
+    <%= f.submit 'Login', :disable_with => 'Loging with OpenID...' %>
+    
     </fieldset>
   <% end -%>
 </div>  

@@ -7,14 +7,28 @@
     <%= f.text_field :username %>
   </p>
   <p>
-    <%= f.label :password %><br />
-    <%= f.password_field :password %>
-  </p>
-  <p>
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation %>
-  </p>
-  <p>
     <%= f.label :email %><br />
     <%= f.text_field :email %>
+  </p>
+  <% if @user.openid_identifier.blank? %>
+    <p>
+      <%= f.label :password %><br />
+      <%= f.password_field :password %>
+    </p>
+    <p>
+      <%= f.label :password_confirmation %><br />
+      <%= f.password_field :password_confirmation %>
+    </p>
+    <p>
+      <%= f.submit 'Submit' %>
+    </p>
+  
+    <h2>Or user OpenID</h2>
+  <% end %>
+  <p>
+    <%= f.label :openid_identifier, "Openid URL" %>
+    <%= f.text_field :openid_identifier %>
+  </p>
+  <p>
+    <%= f.submit 'Submit' %>
   </p>
