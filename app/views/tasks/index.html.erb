@@ -1,3 +1,15 @@
+<script type="text/javascript" charset="utf-8">
+  function filter_tasks() { 
+    $.ajax({
+      type: "GET",
+      // url rails like
+      url: "/tasks",
+      dataType: "script", 
+      data: $("form").serialize() 
+    });
+  };
+</script>
+
 <%= javascript_include_tag 'pagination' %>
 
 <div class="span-20">
@@ -28,22 +40,36 @@
       
   </div>
 
-  <div style="background-color: #F26522; color: white; padding: 7px;">
+  <div style="background-color: #7F4F4F; color: white; padding: 7px;">
     <strong>Filter</strong> <br />
-    <p>    
-    <%= check_box_tag :show_features, :show_features, true %>bugs <br />
-    <%= check_box_tag :show_features, :show_features, true %>features <br />
-    </p>    
-    <hr />
-    <p>    
-    <%= check_box_tag :show_features, :show_features, true %>closed <br />
-    <%= check_box_tag :show_features, :show_features, true %>active <br />
-    </p>  
-    <hr />
-    <p>    
-    <%= check_box_tag :show_features, :show_features, true %>won't fix <br />
-    <%= check_box_tag :show_features, :show_features, true %>completed <br />
-    </p>  
-    </div>
+    <% form_tag :url => '/tasks', :method => "GET" do %>
+      <p>   
+      <% Task::STATUSES.each do |status| %>
+        <%= check_box_tag "tasks_status[]",    status,      session[:tasks_status].include?(status), {:onclick => "filter_tasks();"} %> <%= status %><br />
+      <% end %>
+      </p>    
+      <hr />
+      <p>    
+      <% Task::KINDS.each do |kind| %>
+        <%= check_box_tag "tasks_kind[]",      kind,        session[:tasks_kind].include?(kind), {:onclick => "filter_tasks();"} %> <%= kind %><br />
+      <% end %>
+      </p>  
+      <hr />
+      <p>    
+      <% Task::RESOLUTIONS.each do |resolution| %>
+        <%= check_box_tag "tasks_resolution[]", resolution, session[:tasks_resolution].include?(resolution), {:onclick => "filter_tasks();"} %> <%= resolution %><br />
+      <% end %>
+      </p>  
+      <hr />
+      <p>
+      <% Task::PRIORITIES.each do |priority| %>
+        <%= check_box_tag "tasks_priority[]",   priority[1], session[:tasks_priority].include?(priority[1].to_s), {:onclick => "filter_tasks();"} %> <%= priority[0] %><br />
+      <% end %>
+      </p>
+    <% end %>
+    
+    you have: x tasks total
+    and y opened
+  </div>
   
 </div>

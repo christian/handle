@@ -26,7 +26,8 @@ class ChangesController < ApplicationController
     @change = Change.new(params[:change])
     @change.task_id = params[:task_id]
     @change.user_id = current_user.id
-    if @change.save
+#    raise @change.task.inspect
+    if @change.save && @change.task.update_attributes(params[:change][:task_attributes])
       flash[:notice] = 'Change was successfully created.'
       # redirect to tasks if time is added from index or to task otherwise
       redirect_to :back

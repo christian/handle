@@ -3,7 +3,13 @@
 <%= render :partial => 'side_menu_users' %>
 
 <div class="span-14 last">
-  <h2><%= @user.name %></h2>
+  <h2><%= @user.name %>'s activity</h2>
+
+  <h3>Today</h3>
+  
+  Today's time: 
+  
+  <h3>Tasks overview</h3>
   
   <table>
     <tr style="background-color: #FFDDDD;">
@@ -21,4 +27,9 @@
     </tr>
     <% end %>
   </table>
+  
+  <h3>Producivity so far</h3>
+  
+  Select from date, select to date
+  Medium time/ per day.
 </div>

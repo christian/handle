@@ -3,9 +3,10 @@ class Change < ActiveRecord::Base
   belongs_to :task
   
   attr_accessor :reassing_user_id
-  attr_accessor :new_status
   attr_accessor :days
   attr_accessor :hours
+
+  accepts_nested_attributes_for :task
   
   before_save :convert_time_spent_to_minutes
   after_save :reassign_to_user

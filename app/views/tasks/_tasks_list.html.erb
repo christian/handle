@@ -5,6 +5,7 @@
 <% else %>
     <table>
       <tr>
+        <th>Kind</th>
         <th>Title</th>
         <th>Opener</th>
         <th>Time</th>
@@ -16,6 +17,7 @@
 
     <% @tasks.each do |task| %>
       <tr class="<%= cycle('even', '') %>">
+        <td style="width: 8%;"><div class="<%= task.kind %>">&nbsp;</div></td>
         <td><%=link_to task.title, task %><br />
         <span class="quiet small">Last change <%= time_ago_in_words(task.updated_at) %> ago</span>
         </td>
@@ -27,7 +29,7 @@
         <td style="width: 5%;"><strong class="<%=h task.status %>"><%=h task.status %></strong></td>
         <td style="width: 5%;"><%=h task.resolution %></td>
         <td style="width: 4%;"><%= link_to '',  "/changes/new?height=600&width=600&inlineId=hiddenModalContent&task_id=#{task.id}" , :class => 'thickbox ss_sprite ss_time_add', :title => 'Add time for task' %></td>
-        <td style="width: 4%;"><%= link_to '',  "/changes/new?height=600&width=600&inlineId=hiddenModalContent&task_id=#{task.id}" , :class => 'thickbox ss_sprite ss_comment', :title => 'Close task' %></td>
+        <td style="width: 4%;"><%= link_to '',  "/changes/new?height=600&width=600&inlineId=hiddenModalContent&task_id=#{task.id}" , :class => 'thickbox ss_sprite ss_comment_add', :title => 'Close task' %></td>
         <td style="width: 4%;"><%= link_to '',  "/changes/new?height=600&width=600&inlineId=hiddenModalContent&task_id=#{task.id}" , :class => 'thickbox ss_sprite ss_cross', :title => 'Close task' %></td>
 
       </tr>

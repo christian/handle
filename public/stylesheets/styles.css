@@ -25,3 +25,15 @@ input#user_openid_identifier, input#user_session_openid_identifier {
   color: #000;
   padding-left: 18px;
 }
+
+.Bug {
+  background: url("images/bug.png") no-repeat;
+}
+
+.Feature {
+  background: url("images/feature.png") no-repeat;
+}
+
+.Story {
+  background: url("images/story.png") no-repeat;
+}
