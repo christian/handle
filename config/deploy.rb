@@ -3,6 +3,10 @@ gem 'brightbox', '>=2.2.2'
 require 'brightbox/recipes'
 require 'brightbox/passenger'
 
+on :start do
+    `ssh-add`
+end
+
 # The name of your application.  Used for deployment directory and filenames
 # and Apache configs. Should be unique on the Brightbox
 set :application, "handle"
