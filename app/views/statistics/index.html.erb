@@ -1,4 +1,4 @@
-<div class="span-20">
+<div class="span-24 last">
   <%= render :partial => "menu" %>
   
   <h2>Productivity</h2>
@@ -12,7 +12,7 @@
         <th>Closed tasks</th>
     <% for user in @users %>
         <tr class="<%= cycle('even', '') %>">
-          <td><%= user.name %></td>
+          <td><%= link_to user.name, statistics_user_detail_url(user) %></td>
           <td><%= humanized_duration(user.time_spent_per_day) %></td>
           <td><%= user.opened_tasks_count %></td>
           <td></td>
@@ -24,22 +24,4 @@
   Tasks with deadline today. (add deadline per task)
   
 </div>
-
-<div class="span-4 last">
-  <div style="background-color: #75CC28; color: white; padding: 7px;">
-    Project &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-  <%= select_tag 'project', options_for_select(projects_collection, @select_index.to_i), 
-      {:onchange => "#{remote_function(:url  => "#{get_tasks_tasks_path}",
-                                       :method => :get,
-                                       :with => "'project_id='+ $(\"\#project\").val()"
-                                      )
-                      }"
-      } %>
-  </div>
-
-  <div style="background-color: #F26522; color: white; padding: 7px;">
-    Filter tasks 
-  </div>
-  
 </div>

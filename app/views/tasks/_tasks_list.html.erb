@@ -25,13 +25,18 @@
         <td class="small" style="width: 14%;">Estimated: <%=h task.estimated_time %><br />
             Spent: <%=humanized_duration task.time_spent %>
         </td>
-        <td style="width: 5%;"><%=h task.priority %></td>
+        <td style="width: 5%;"><%= "<span class=\"ss_sprite ss_bullet_red\" style=\"margin-left: -11px;\"></span>" * task.priority %></td>
         <td style="width: 5%;"><strong class="<%=h task.status %>"><%=h task.status %></strong></td>
-        <td style="width: 5%;"><%=h task.resolution %></td>
+        <td style="width: 5%;">
+          <% if task.resolution == "In progress"%>
+            <span class="ss_sprite ss_cog"></span>
+          <% else %>
+            <span class="ss_sprite ss_tick"></span>
+          <% end %><small><%= task.resolution %></small>
+        </td>
         <td style="width: 4%;"><%= link_to '',  "/changes/new?height=600&width=600&inlineId=hiddenModalContent&task_id=#{task.id}" , :class => 'thickbox ss_sprite ss_time_add', :title => 'Add time for task' %></td>
         <td style="width: 4%;"><%= link_to '',  "/changes/new?height=600&width=600&inlineId=hiddenModalContent&task_id=#{task.id}" , :class => 'thickbox ss_sprite ss_comment_add', :title => 'Close task' %></td>
         <td style="width: 4%;"><%= link_to '',  "/changes/new?height=600&width=600&inlineId=hiddenModalContent&task_id=#{task.id}" , :class => 'thickbox ss_sprite ss_cross', :title => 'Close task' %></td>
-
       </tr>
     <% end %>
     </table>

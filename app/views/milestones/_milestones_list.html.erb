@@ -1,0 +1,19 @@
+  <table>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Start date</th>
+      <th>End date</th>
+    </tr>
+
+  <% milestones.each do |milestone| %>
+    <tr class="<%= cycle('even', '') %>">
+      <td><%=h milestone.title %></td>
+      <td><%=h milestone.description %></td>
+      <td style="width: 10%;"><%=h milestone.start_date.to_s(:short) %></td>
+      <td style="width: 9%;"><%=h milestone.end_date.to_s(:short) %></td>
+      <td style="width: 5%;"><%= link_to '<span class="ss_sprite ss_page_white_edit"></span>', edit_milestone_path(milestone) %></td>
+      <td style="width: 5%;"><%= link_to '<span class="ss_sprite ss_delete"></span>', milestone, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+  </table>

@@ -33,6 +33,21 @@ class StatisticsController < ApplicationController
     @projects = @user.projects
   end
 
+  # => creates an xml for displaying time tracking for this week
+  def xml_user_this_week
+    @user = User.find(params[:user_id])
+    beginning_of_week = Date.today.beginning_of_week
+    @this_week = [*(beginning_of_week..beginning_of_week + 4.days)]
+    @time_spent = Array.new
+    @this_week.each do |day|
+      @time_spent << @user.time_spent_per_day(day)
+    end
+    
+    respond_to do |format|
+      format.xml {render :action => "user_detail.xml.builder", :layout => false}
+    end
+  end
+
   private
   
   def current_project

@@ -1,4 +1,9 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :r_files
+
+  map.resources :milestones, :collection => {:xml_month => :get, 
+                                             :get_milestones => :get}
+
   map.resources :changes
 
   map.resources :projects
@@ -7,13 +12,15 @@ ActionController::Routing::Routes.draw do |map|
   map.logout 'logout', :controller => 'user_sessions', :action => 'destroy'
   map.register 'register', :controller => 'users', :action => 'new'
   
+  map.statistics_xml_user_this_week 'statistics/users/:user_id/week_time', :controller => 'statistics', :action => 'xml_user_this_week'
+  
   map.statistics_user_detail 'statistics/users/:user_id', :controller => 'statistics', :action => 'user_detail'
   map.statistics_project_detail 'statistics/projects/:project_id', :controller => 'statistics', :action => 'project_detail'
   map.statistics 'statistics', :controller => 'statistics', :action => 'index'
   
   map.resources :user_sessions
   map.resources :users, :has_many => :tasks
-  map.resources :tasks, :collection => {:get_tasks => :get}
+  map.resources :tasks, :collection => {:get_tasks => :get}, :member => {:add_watcher => :post, :remove_watcher => :post}
   map.root :controller => "tasks"
   
   # The priority is based upon order of creation: first created -> highest priority.

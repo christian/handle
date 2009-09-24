@@ -1,0 +1,13 @@
+<h2>New file</h2>
+
+<% form_for(@r_file, :html => { :multipart => true }) do |f| %>
+  <%= f.error_messages %>
+
+  <%= render :partial => 'form_fields', :locals => {:f => f} %>
+  
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', r_files_path %>

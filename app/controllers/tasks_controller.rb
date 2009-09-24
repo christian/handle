@@ -29,8 +29,28 @@ class TasksController < ApplicationController
     end
   end
   
+  def add_watcher
+    @task = Task.find(params[:id])
+    @watcher = User.find(params[:watcher_id])
+    @task.watchers << @watcher
+    show
+    render :update do |page|
+      page.replace_html 'watchers', :partial => 'watchers', :locals => {:watchers => @watchers, :contributors => @contributors, :task => @task}
+    end
+  end
+  
+  def remove_watcher
+    Watching.find_by_task_id_and_user_id(params[:id], params[:user_id]).destroy
+    show
+    render :update do |page|
+      page.replace_html 'watchers', :partial => 'watchers', :locals => {:watchers => @watchers, :contributors => @contributors, :task => @task}
+    end
+  end
+  
   def show
     @task = Task.find(params[:id])
+    @contributors = current_project.users
+    @watchers = @task.watchers
   end
 
   def new
@@ -75,7 +95,7 @@ class TasksController < ApplicationController
   private
   
   def current_project
-    @project ||= Project.first    
+    @project ||= current_user.current_project || current_user.projects.first    
   end
   def current_project=(project)
     @project = project

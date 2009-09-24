@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090921134243) do
+ActiveRecord::Schema.define(:version => 20090924131211) do
 
   create_table "changes", :force => true do |t|
     t.text     "comment"
@@ -24,6 +24,16 @@ ActiveRecord::Schema.define(:version => 20090921134243) do
   create_table "memberships", :force => true do |t|
     t.integer  "project_id"
     t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "milestones", :force => true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.integer  "project_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -45,6 +55,17 @@ ActiveRecord::Schema.define(:version => 20090921134243) do
 
   create_table "projects", :force => true do |t|
     t.string   "name"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "r_files", :force => true do |t|
+    t.string   "file_file_name"
+    t.integer  "file_file_size"
+    t.string   "file_content_type"
+    t.integer  "parent_id"
+    t.string   "type"
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -76,6 +97,11 @@ ActiveRecord::Schema.define(:version => 20090921134243) do
     t.datetime "updated_at"
     t.integer  "current_project_id"
     t.string   "openid_identifier"
+  end
+
+  create_table "watchings", :force => true do |t|
+    t.integer "task_id"
+    t.integer "user_id"
   end
 
 end

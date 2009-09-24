@@ -3,6 +3,7 @@ class Project < ActiveRecord::Base
   has_many :users, :through => :memberships
   
   has_many :tasks, :dependent => :destroy
+  has_many :milestones
   
   attr_accessor :users_ids
   

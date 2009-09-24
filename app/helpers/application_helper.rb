@@ -13,8 +13,10 @@ module ApplicationHelper
   def menu
     m = '<ul class="tabs">'
     menu = [['Tasks', tasks_path],
-            ['Specs', ''],
             ['Messages', ''],
+            ['Files', r_files_path],
+            ['Milestones', milestones_path],
+            ['My todos', ''],
             ['Projects', projects_path],
             ['Users', users_path],
             ['Statistics', statistics_path]]

@@ -1,0 +1,14 @@
+    <strong>Watchers</strong>
+    <br />
+    <ul>
+      <% for watcher in watchers %>
+        <li><%= link_to_remote '<span class="ss_sprite ss_cross" style="margin-left:-10px;"></span>', :url => "remove_watcher?user_id=#{watcher.id}&id=#{task.id}", :method => "post" %> <%= watcher.name %></li>
+      <% end %>
+    </ul>
+    <strong>Project Contributors</strong>
+    <ul>
+      <% for contributor in contributors %>
+        <li><%= link_to_remote '<span class="ss_sprite ss_arrow_up" style="margin-left:-10px;"></span>', :url => "add_watcher?watcher_id=#{contributor.id}&id=#{task.id}", :method => "post" %> <%= contributor.name %></li>
+      <% end %>
+    </ul>
+    <strong>Total time per task</strong>

@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="/stylesheets/styles.css" type="text/css" media="screen">
     
     <!--[if IE]><link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->
-    <%= javascript_include_tag "jquery", "jrails", "thickbox-compressed" %>
+    <%= javascript_include_tag "jquery", "jrails", "thickbox-compressed", "../graphs/amcolumn/swfobject" %>
          
   </head>
   
@@ -18,11 +18,13 @@
     <div class="container">
       <% unless current_user.nil? %>
         <div class="span-20">
-          <h1 style="border: none; background-color: #02539F;  color:white; padding: 10px;">handle</h1>
+          <h1 style="border-bottom: solid 6px #75CC28; background-color: #02539F;  color:white; padding: 10px;">handle</h1>
         </div>
-        <div class="span-4 last">
-          Logged in as <%= current_user.username %>.
+        <div class="span-4 last" style="background-color: #75CC28; color: white; border-bottom: solid 6px #5B9F1D;">
+          <div style="padding: 7px; text-align: right; height: 42px;">
+            Hi <%= current_user.username %>!<br />
           <%= link_to "Logout", logout_path %>
+          </div>
         </div>
       <% end %>
       

@@ -1,0 +1,20 @@
+  <p>
+    <%= f.label :title %><br />
+    <%= f.text_field :title, :class => "text" %>
+  </p>
+  <p>
+    <%= f.label :description %><br />
+    <%= f.text_area :description %>
+  </p>
+  <p>
+    <%= f.label :start_date %><br />
+    <%= f.date_select :start_date %>
+  </p>
+  <p>
+    <%= f.label :end_date %><br />
+    <%= f.date_select :end_date %>
+  </p>
+  <p>
+    <%= f.label :project_id, "Select project" %>
+    <%= f.select :project_id, Project.all.collect {|p| [p.name, p.id]} %>
+  </p>

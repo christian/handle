@@ -1,0 +1,23 @@
+<p>
+  <b>Title:</b>
+  <%=h @milestone.title %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%=h @milestone.description %>
+</p>
+
+<p>
+  <b>Start date:</b>
+  <%=h @milestone.start_date %>
+</p>
+
+<p>
+  <b>End date:</b>
+  <%=h @milestone.end_date %>
+</p>
+
+
+<%= link_to 'Edit', edit_milestone_path(@milestone) %> |
+<%= link_to 'Back', milestones_path %>

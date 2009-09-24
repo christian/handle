@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
   end
   
   def time_spent_per_day(day=Date.today)
-    changes.inject(0) {|sum, change| sum + change.minutes }
+    changes.for_day_equals(day).inject(0) {|sum, change| sum + change.minutes }
   end
 
   private
