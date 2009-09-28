@@ -3,9 +3,9 @@ gem 'brightbox', '>=2.2.2'
 require 'brightbox/recipes'
 require 'brightbox/passenger'
 
-on :start do
-    `ssh-add`
-end
+# on :start do
+#     `ssh-add`
+# end
 
 # The name of your application.  Used for deployment directory and filenames
 # and Apache configs. Should be unique on the Brightbox
@@ -97,7 +97,7 @@ set :branch, "master"
 # Forces a Pty so that svn+ssh repository access will work. You
 # don't need this if you are using a different SCM system. Note that
 # ptys stop shell startup scripts from running.
-default_run_options[:pty] = true
+#default_run_options[:pty] = true
 
 ## Logrotation
 # Where the logs are stored. Defaults to <shared_path>/log
