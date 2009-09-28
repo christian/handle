@@ -15,7 +15,7 @@
   border-width:1px 1px 1px 5px;
   overflow-x:auto;
   padding:2px 5px;
-  width:96%;  
+  /*width:96%;  */
 }
 /* embeds the openid image in the text field */
 input#user_openid_identifier, input#user_session_openid_identifier {

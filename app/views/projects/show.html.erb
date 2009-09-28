@@ -1,13 +1,18 @@
-<p>
-  <b>Name:</b>
-  <%=h @project.name %>
-</p>
+<h2><%= link_to "Projects", projects_path %> &raquo; <%=h @project.name %></h2>
 
+<h3>Description</h3>
 <p>
-  <b>Description:</b>
   <%=h @project.description %>
 </p>
 
+<h3>Contributors</h3>
+<ul>
+  <% for contributor in @contributors  %>
+    <li><%= contributor.name %></li>
+  <% end %>
+</ul>
+
+<hr />
 
 <%= link_to 'Edit', edit_project_path(@project) %> |
-<%= link_to 'Back', projects_path %>
+<%= link_to 'Back to projects index', projects_path %>

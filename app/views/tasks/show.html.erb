@@ -11,7 +11,7 @@
     </div>
     <div class="span-4 border">
       <b>Estimated time:</b>
-      <%=h @task.estimated_time %>
+      <%=humanized_duration(@task.estimated_time) %>
     </div>
     <div class="span-3 border">
       <b>Priority:</b>
@@ -35,16 +35,18 @@
   <hr />
 
   <% for change in @task.changes %>
-    <%= render :partial => "changes/show", :locals => {:change => change} %>
+    <p><%= render :partial => "changes/show", :locals => {:change => change} %></p>
   <% end %>
   <br />
-  <%= link_to 'Add time',  "/changes/new?height=600&width=600&inlineId=hiddenModalContent&task_id=#{@task.id}" , :class => 'thickbox ss_sprite ss_time_add', :title => 'Change task' %><br />
+  <p>
+    <%= link_to 'Add time',  "/changes/new?height=540&width=520&inlineId=hiddenModalContent&task_id=#{@task.id}" , :class => 'thickbox ss_sprite ss_time_add', :title => 'Change task' %>
+    <br />
+  </p>
+
 </div>
 
-
-
 <div class="span-4 last">
-  <div style="background-color: #EEEEEE; padding: 7px;" id="watchers">
+  <div style="background-color: #EEEEEE; padding: 7px; border: solid 1px #cccccc;" id="watchers">
     <%= render :partial => 'watchers', :locals => {:watchers => @watchers, :contributors => @contributors, :task => @task} %>
   </div>
 </div>

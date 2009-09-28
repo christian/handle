@@ -1,22 +1,23 @@
-<h2>Files</h2>
+<div class="span-20">
+  <h2>Files</h2>
 
-<div class="span-6 border">
-  <div style="text-align: right;"><%= link_to '<span class="ss_sprite ss_add"><strong>New file</strong></span>', new_r_file_path %></div>
-  
-  <table>
-    <tr>
-      <th>File name</th>
-    </tr>
+  <div class="span-6 border">
+    <div style="text-align: right;" id="files_list">
+      <%= render :partial => 'files_list', :locals => {:files => @r_files} %>
+    </div>
+  </div>
 
-  <% @r_files.each do |r_file| %>
-    <tr>
-      <td><%= image_tag RFile::ICONS[r_file.file.content_type] %><%=link_to r_file.file_file_name, r_file.file.url %></td>
-      <td style="width: 2%;"><%= link_to '<span class="ss_sprite ss_page_white_edit "></span>', edit_r_file_path(r_file) %></td>
-      <td style="width: 2%;"><%= link_to '<span class="ss_sprite ss_delete"></span>', r_file, :confirm => 'Are you sure?', :method => :delete %></td>
-    </tr>
-  <% end %>
-  </table>
-</div>
+  <div class="span-4 last">
+    <div style="background-color: #75CC28; color: white; padding: 7px;">
+    Project &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-<br />
-
+    <%= select_tag 'project', options_for_select(projects_collection, @select_index.to_i), 
+      {:onchange => "#{remote_function(:url  => "#{get_files_r_files_path}",
+                                       :method => :get,
+                                       :with => "'project_id='+ $(\"\#project\").val()"
+                                      )
+                      }"
+      } %>
+    
+    </div>
+  </div>

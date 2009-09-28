@@ -7,6 +7,12 @@
 
   <h3>Today - <span class="added"><%= humanized_duration(@user.time_spent_per_day) %></span></h3>
   
+  <ul>
+    <% for task in @worked_on_tasks %>
+      <li><%= link_to task.title, task %></li>
+    <% end %>
+  </ul>
+  
   <h3>This week</h3>
     <div id="population_chart" class='chart'>
       <strong>Text displayed when the user doesn't have Flash. You might want to display a simple table with the population, search engines and visitor without flash would love that.</strong>
@@ -24,7 +30,7 @@
       so.write("population_chart");
       // ]]>
     </script>
-  
+  <br />
   <h3>Tasks overview</h3>
   
   <table>

@@ -13,13 +13,13 @@ module ApplicationHelper
   def menu
     m = '<ul class="tabs">'
     menu = [['Tasks', tasks_path],
-            ['Messages', ''],
+            # ['Messages', ''],
             ['Files', r_files_path],
             ['Milestones', milestones_path],
-            ['My todos', ''],
+            #['My todos', ''],
             ['Projects', projects_path],
             ['Users', users_path],
-            ['Statistics', statistics_path]]
+            ['Statistics', statistics_from_until_path(Date.today.strftime("%Y-%m-%d"), Date.today.strftime("%Y-%m-%d"))]]
     menu.each do |menu_item|
       m += ' <li>' +  link_to(menu_item.first, menu_item.last, :class => (controller.controller_name == menu_item.first.downcase ? 'selected' : '')) + '</li>'
     end

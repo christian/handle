@@ -1,51 +1,64 @@
+<div class="span-10">  
   <%= hidden_field_tag :task_id, @task.id %>
-  <p>
-    <%= f.label :comment %><br />
-    <%= f.text_area :comment %>
-  </p>
+  <div class="span-10 last">  
+    <p>
+      <%= f.label :comment %><br />
+      <%= f.text_area :comment %>
+    </p>
+  </div>  
+
+  <div class="span-4" style="background-color: #eeeeee;"><h3 style="text-align:right;"><br /> Time spent &nbsp;</h3></div>
+  <div class="span-2">  
+    <p>
+      <%= f.label :days %>
+      <%= f.text_field :days, :class => "text" %>
+    </p>
+  </div>  
+  <div class="span-2">  
+    <p>
+      <%= f.label :hours %>
+      <%= f.text_field :hours, :class => "text" %>
+    </p>
+  </div>  
+  <div class="span-2 last">
+    <p>
+      <%= f.label :minutes %>
+      <%= f.text_field :minutes, :class => "text" %>
+    </p>
+  </div>
+
+  <div class="span-4" style="background-color: #eeeeee;" ><h3 style="text-align:right;"><br /> On &nbsp;</h3></div>
+  <div class="span-6 last">  
+    <%= f.date_select :for_day %>
+  </div>  
+
+<p>&nbsp;</p>
+</div>  
+
+<div class="4 last">  
   <p>
     <%= f.label :reassing_user_id, "Reassign to" %><br />
     <%= f.select :reassing_user_id, @users %>
   </p>
 
-
-          <% f.fields_for :task do |task_form| %>
-          <p>
-            <%= task_form.label :priority %><br />
-            <%= task_form.select :priority, Task::PRIORITIES  %>
-          </p>  
-          <p>   
-            <%= task_form.label :kind %><br />
-            <%= task_form.select :kind, Task::KINDS %>
-          </p>  
-          <p>   
-            <%= task_form.label :status %><br />
-            <%= task_form.select :status, Task::STATUSES %>
-          </p>  
-          <p>   
-            <%= task_form.label :resolution %><br />
-            <%= task_form.select :resolution, Task::RESOLUTIONS %>
-          </p>
-          <% end %>
-
-
-<div class="span-3">  
-  <p>
-    <%= f.label :days %>
-    <%= f.text_field :days, :class => "text" %>
-  </p>
-</div>  
-<div class="span-3">  
-  <p>
-    <%= f.label :hours %>
-    <%= f.text_field :hours, :class => "text" %>
-  </p>
-</div>  
-<div class="span-3">
-  <p>
-    <%= f.label :minutes %>
-    <%= f.text_field :minutes, :class => "text" %>
-  </p>
+  <% f.fields_for :task do |task_form| %>
+    <p>
+      <%= task_form.label :priority %><br />
+      <%= task_form.select :priority, Task::PRIORITIES  %>
+    </p>  
+    <p>   
+      <%= task_form.label :kind %><br />
+      <%= task_form.select :kind, Task::KINDS %>
+    </p>  
+    <p>   
+      <%= task_form.label :status %><br />
+      <%= task_form.select :status, Task::STATUSES %>
+    </p>  
+    <p>   
+      <%= task_form.label :resolution %><br />
+      <%= task_form.select :resolution, Task::RESOLUTIONS %>
+    </p>
+  <% end %>
 </div>
 
-<%= f.date_select :for_day %>
+

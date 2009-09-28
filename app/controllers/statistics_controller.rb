@@ -31,6 +31,7 @@ class StatisticsController < ApplicationController
     @users = User.all
     @user = User.find(params[:user_id])
     @projects = @user.projects
+    @worked_on_tasks = Change.tasks_for_day(Date.today)
   end
 
   # => creates an xml for displaying time tracking for this week

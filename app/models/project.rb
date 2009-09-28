@@ -4,6 +4,7 @@ class Project < ActiveRecord::Base
   
   has_many :tasks, :dependent => :destroy
   has_many :milestones
+  has_many :files, :class_name => "RFile"  
   
   attr_accessor :users_ids
   

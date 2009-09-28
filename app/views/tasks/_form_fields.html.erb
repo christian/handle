@@ -1,14 +1,54 @@
-<div style="span-15 last">
+<div class="span-14 last">
   <div class="span-5">
     <%= f.label :project_id, 'Project' %>
     <%= f.select :project_id, Project::projects_select %>
   </div>
-  <div class="span-5 last">
+  <div class="span-5">
     <%= f.label :assignee_id, 'Assign to' %>
     <%= f.select :assignee_id, @users_select, :selected => @selected_index_user %>
   </div>
+  <div class="span-4 last">
+  <p>
+    <%= f.label :priority %><br />
+    <%= f.select :priority, Task::PRIORITIES  %>
+  </p>
+  </div>
+
   <%= f.hidden_field :opener_id, :value => current_user.id %>
-  <div class="span-10 last">
+  
+    <div class="span-6">
+    <div class="span-2"><p>
+      <%= f.label :estimated_days, 'Days' %><br />
+      <%= f.text_field :estimated_days, :class => 'text' %>
+    </p></div>
+    <div class="span-2"><p>
+      <%= f.label :estimated_hours, 'Hours' %><br />
+      <%= f.text_field :estimated_hours, :class => 'text' %>
+    </p></div>    
+    <div class="span-2 last"><p>
+      <%= f.label :estimated_minutes, 'Minutes' %><br />
+      <%= f.text_field :estimated_minutes, :class => 'text' %>
+    </p>
+    </div></div>
+    <div class="span-2">
+    <p>
+      <%= f.label :kind %><br />
+      <%= f.select :kind, Task::KINDS %>
+    </p>
+    </div>
+    <div class="span-3">
+    <p>
+      <%= f.label :status %><br />
+      <%= f.select :status, Task::STATUSES %>
+    </p>
+    </div>
+    <div class="span-3 last">
+    <p>
+      <%= f.label :resolution %><br />
+      <%= f.select :resolution, Task::RESOLUTIONS %>
+    </p>
+    </div>
+
     <p>
       <%= f.label :title %><br />
       <%= f.text_field :title, :class => 'text' %>
@@ -17,35 +57,4 @@
       <%= f.label :description %><br />
       <%= f.text_area :description %>
     </p>
-  </div>
-</div>
-
-<div class="span-10 last"></div>
-  <div class="span-3">
-  <p>
-    <%= f.label :estimated_time %><br />
-    <%= f.text_field :estimated_time, :class => 'text' %>
-  </p>
-  </div>
-  <div class="span-3">
-  <p>
-    <%= f.label :priority %><br />
-    <%= f.select :priority, Task::PRIORITIES  %>
-  </p>
-  </div>
-  <div class="span-2">
-  <p>
-    <%= f.label :kind %><br />
-    <%= f.select :kind, Task::KINDS %>
-  </p>
-  <div class="span-2 last">
-  <p>
-    <%= f.label :status %><br />
-    <%= f.select :status, Task::STATUSES %>
-  </p>
-  <p>
-    <%= f.label :resolution %><br />
-    <%= f.select :resolution, Task::RESOLUTIONS %>
-  </p>
-  </div>
 </div>

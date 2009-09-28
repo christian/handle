@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :r_files
+  map.resources :r_files, :collection => {:get_files => :get}
 
   map.resources :milestones, :collection => {:xml_month => :get, 
                                              :get_milestones => :get}
@@ -16,11 +16,14 @@ ActionController::Routing::Routes.draw do |map|
   
   map.statistics_user_detail 'statistics/users/:user_id', :controller => 'statistics', :action => 'user_detail'
   map.statistics_project_detail 'statistics/projects/:project_id', :controller => 'statistics', :action => 'project_detail'
+
+  map.statistics_from_until 'statistics/:from/:until', :controller => 'statistics', :action => 'index'
   map.statistics 'statistics', :controller => 'statistics', :action => 'index'
-  
+    
   map.resources :user_sessions
   map.resources :users, :has_many => :tasks
-  map.resources :tasks, :collection => {:get_tasks => :get}, :member => {:add_watcher => :post, :remove_watcher => :post}
+  map.resources :tasks, :collection => {:get_tasks => :get}, 
+                        :member => {:add_watcher => :post, :remove_watcher => :post}
   map.root :controller => "tasks"
   
   # The priority is based upon order of creation: first created -> highest priority.

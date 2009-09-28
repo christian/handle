@@ -27,6 +27,10 @@ class User < ActiveRecord::Base
     changes.for_day_equals(day).inject(0) {|sum, change| sum + change.minutes }
   end
 
+  def changes_today
+    changes.count(:conditions => ["for_day = ?", Date.today])
+  end
+
   private
   def map_openid_registration(registration)
     self.email = registration[:email] if email.blank?

@@ -1,3 +1,4 @@
+<div class="span-12">  
   <p>
     <%= f.label :title %><br />
     <%= f.text_field :title, :class => "text" %>
@@ -6,6 +7,8 @@
     <%= f.label :description %><br />
     <%= f.text_area :description %>
   </p>
+</div>  
+<div class="span-12 last">  
   <p>
     <%= f.label :start_date %><br />
     <%= f.date_select :start_date %>
@@ -18,3 +21,4 @@
     <%= f.label :project_id, "Select project" %>
     <%= f.select :project_id, Project.all.collect {|p| [p.name, p.id]} %>
   </p>
+</div>

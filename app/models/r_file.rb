@@ -8,4 +8,6 @@ class RFile < ActiveRecord::Base
            'image/jpg' => 'doc_types/icon_image.gif',
            'image/png' => 'doc_types/icon_image.gif',
            'image/gif' => 'doc_types/icon_image.gif'}
+           
+  belongs_to :project
 end

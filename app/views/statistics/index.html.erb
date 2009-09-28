@@ -1,27 +1,55 @@
+<script type="text/javascript" charset="utf-8">
+  $(function(){
+    $("#show_button").click(function(){
+      date_from = $("#from_From_1i").val() + "-" + 
+                  $("#from_From_2i").val() + "-" +
+                  $("#from_From_3i").val()
+                   
+      date_until =  $("#until_From_1i").val() + "-" + 
+                    $("#until_From_2i").val() + "-" +
+                    $("#until_From_3i").val()
+                   
+      //alert(date_from + " => " + date_until)
+      $("#dates_form").attr("action", "/statistics/" + date_form + "/" + date_until)
+    })
+  })
+</script>
+
 <div class="span-24 last">
   <%= render :partial => "menu" %>
   
-  <h2>Productivity</h2>
-  From: date Until: date
+  <h2>Tasks</h2>
+  
+  <p>  Todal changes today: <%= Change.total_today %></p>
+  <br />
+
+  <div style="text-align: center;">
+    <% form_tag({:action => 'index'}, {:id => "dates_form"}) do %>
+      From: <%= date_select :from, "From" %> Until: <%= date_select :until, "From" %> <%= submit_tag "Show", :id => "show_button" %>
+    <% end %>
+  </div>
   
   <h2>Users</h2>
   <table>
     <tr><th>User</th>
         <th>Time spent today</th>
+        <th>Changes</th>
+        
         <th>Opened tasks</th>
-        <th>Closed tasks</th>
+        <th>Completed tasks</th>
+        
+        <th>Deadline passed</th>
     <% for user in @users %>
         <tr class="<%= cycle('even', '') %>">
           <td><%= link_to user.name, statistics_user_detail_url(user) %></td>
           <td><%= humanized_duration(user.time_spent_per_day) %></td>
+
+          <td><%= user.changes_today %></td>
           <td><%= user.opened_tasks_count %></td>
+          <td></td>
           <td></td>
         </tr>
     <% end %>
   </table>  
-
-  Tasks completed:
-  Tasks with deadline today. (add deadline per task)
-  
 </div>
 </div>

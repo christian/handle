@@ -4,8 +4,18 @@ class TasksController < ApplicationController
   
   def index
     @user_of_tasks = params[:user_id] ? params[:user_id] : current_user.id
-    @tasks = current_project.tasks.assignee_id_equals(@user_of_tasks).kind_equals(session[:tasks_kind]).priority_equals(session[:tasks_priority]).status_equals(session[:tasks_status]).resolution_equals(session[:tasks_resolution]).paginate(:per_page => 10, :page => params[:page])
-
+    
+    unless params[:project_id]
+      # view a certain's users tasks
+      @tasks_for = params[:user_id].nil? ? "Your" : User.find(params[:user_id]).name 
+      @tasks = current_project.tasks.assignee_id_equals(@user_of_tasks).kind_equals(session[:tasks_kind]).priority_equals(session[:tasks_priority]).status_equals(session[:tasks_status]).resolution_equals(session[:tasks_resolution]).paginate(:per_page => 10, :page => params[:page])
+    else
+      # view a certain's project tasks
+      @project = Project.find(params[:project_id])
+      @tasks_for = @project.name
+      @tasks = @project.tasks.assignee_id_equals(@user_of_tasks).kind_equals(session[:tasks_kind]).priority_equals(session[:tasks_priority]).status_equals(session[:tasks_status]).resolution_equals(session[:tasks_resolution]).paginate(:per_page => 10, :page => params[:page])
+    end
+    
     @projects = current_user.projects
     @select_index = 0
     @projects.each_with_index do |p, i|
@@ -95,7 +105,8 @@ class TasksController < ApplicationController
   private
   
   def current_project
-    @project ||= current_user.current_project || current_user.projects.first    
+    # amend this
+    @project ||= (current_user.current_project || current_user.projects.first)    
   end
   def current_project=(project)
     @project = project

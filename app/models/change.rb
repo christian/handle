@@ -19,4 +19,12 @@ class Change < ActiveRecord::Base
   def convert_time_spent_to_minutes
     self.minutes = days.to_i * 1440 + hours.to_i * 60 + read_attribute(:minutes).to_i
   end
+  
+  def self.total_today # should be today for interval
+    self.count(:conditions => ["for_day = ?", Date.today])
+  end
+  
+  def self.tasks_for_day(day)
+    self.all(:conditions =>["for_day = ?", day], :include => :task).collect(&:task)
+  end
 end

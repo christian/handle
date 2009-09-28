@@ -1,6 +1,6 @@
 <% if tasks.empty? %>
   <div class="notice">
-    No tasks for you at this project.
+    No tasks.
   </div>
 <% else %>
     <table>
@@ -22,7 +22,7 @@
         <span class="quiet small">Last change <%= time_ago_in_words(task.updated_at) %> ago</span>
         </td>
         <td style="width: 9%;"><%=h task.opener.name %></td>
-        <td class="small" style="width: 14%;">Estimated: <%=h task.estimated_time %><br />
+        <td class="small" style="width: 14%;">Estimated: <%=humanized_duration(task.estimated_time) %><br />
             Spent: <%=humanized_duration task.time_spent %>
         </td>
         <td style="width: 5%;"><%= "<span class=\"ss_sprite ss_bullet_red\" style=\"margin-left: -11px;\"></span>" * task.priority %></td>
@@ -34,9 +34,9 @@
             <span class="ss_sprite ss_tick"></span>
           <% end %><small><%= task.resolution %></small>
         </td>
-        <td style="width: 4%;"><%= link_to '',  "/changes/new?height=600&width=600&inlineId=hiddenModalContent&task_id=#{task.id}" , :class => 'thickbox ss_sprite ss_time_add', :title => 'Add time for task' %></td>
-        <td style="width: 4%;"><%= link_to '',  "/changes/new?height=600&width=600&inlineId=hiddenModalContent&task_id=#{task.id}" , :class => 'thickbox ss_sprite ss_comment_add', :title => 'Close task' %></td>
-        <td style="width: 4%;"><%= link_to '',  "/changes/new?height=600&width=600&inlineId=hiddenModalContent&task_id=#{task.id}" , :class => 'thickbox ss_sprite ss_cross', :title => 'Close task' %></td>
+        <td style="width: 4%;"><%= link_to '',  "/changes/new?height=540&width=520&inlineId=hiddenModalContent&task_id=#{task.id}" , :class => 'thickbox ss_sprite ss_time_add', :title => 'Add time for task' %></td>
+        <!-- <td style="width: 4%;"><%= link_to '',  "/changes/new?height=600&width=600&inlineId=hiddenModalContent&task_id=#{task.id}" , :class => 'thickbox ss_sprite ss_comment_add', :title => 'Close task' %></td>
+        <td style="width: 4%;"><%= link_to '',  "/changes/new?height=600&width=600&inlineId=hiddenModalContent&task_id=#{task.id}" , :class => 'thickbox ss_sprite ss_cross', :title => 'Close task' %></td> -->
       </tr>
     <% end %>
     </table>
