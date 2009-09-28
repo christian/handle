@@ -97,7 +97,8 @@ set :branch, "master"
 # Forces a Pty so that svn+ssh repository access will work. You
 # don't need this if you are using a different SCM system. Note that
 # ptys stop shell startup scripts from running.
-#default_run_options[:pty] = true
+default_run_options[:pty] = true
+default_run_options[:shell] = false
 
 ## Logrotation
 # Where the logs are stored. Defaults to <shared_path>/log
@@ -119,8 +120,8 @@ set :branch, "master"
 ## Deployment settings
 # The brightbox gem deploys as the user 'rails' by default and
 # into the 'production' environment. You can change these as required.
-# set :user, "rails"
-# set :rails_env, :production
+set :user, "rails"
+set :rails_env, :production
 
 ## Command running settings
 # use_sudo is switched off by default so that commands are run
