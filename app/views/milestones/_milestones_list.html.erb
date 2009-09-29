@@ -1,10 +1,10 @@
     <% milestones.each do |milestone| %>  
         <div class="span-15" style="background-color: #E5ECF9;">
-          <h3 style="margin-top: 9px; margin-bottom: 9px; margin-left: 10px;"><%=h milestone.title %></h3>
+          <h3 style="margin-top: 9px; margin-bottom: 9px; margin-left: 10px;"><%=h milestone.name %></h3>
         </div>
         <div class="span-5 last">
-          <strong>Starts: </strong><%=h milestone.start_date.to_s(:long) %><br />
-          <strong>Ends:</strong> <%=h milestone.end_date.to_s(:long) %>
+          <strong>Starts: </strong><%=h milestone.start_at.to_s(:long) %><br />
+          <strong>Ends:</strong> <%=h milestone.end_at.to_s(:long) %>
         </div>
         <div class="19 last" style="padding-top: 10px;" >
           <p><br /><br /><%=h milestone.description %></p>

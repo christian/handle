@@ -3,7 +3,14 @@ class MilestonesController < ApplicationController
   helper_method :projects_collection, :current_project
   
   def index
-    @milestones = current_project.milestones.all :order => "start_date"
+    @milestones = current_project.milestones.all :order => "start_at"
+    
+    @month = Time.now.month#params[:month].to_i
+    @year = Time.now.year#params[:year].to_i
+
+    @shown_month = Date.civil(@year, @month)
+    @event_strips = Milestone.event_strips_for_month(@shown_month)
+    
   end
   def xml_month
     @milestones = Hash.new

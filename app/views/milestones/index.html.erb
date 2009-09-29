@@ -1,3 +1,108 @@
+<style type="text/css" media="screen">
+  /*
+    Calendar theme, based on Geoffrey Grosenbach http://nubyonrails.com
+
+    Colors: 
+      Tan: ecede2 
+      Turq: 003355
+      Cream: ffffdd
+  */
+
+  .calendar {
+    background-image: url('/images/event_calendar/85_bg.gif');
+    background-repeat: repeat;
+    margin: auto;
+  }
+
+  .calendar thead {
+    background-color: white;
+  }
+
+  .calendar th {
+    padding-bottom: 5px;
+  }
+
+  th.monthName {
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .dayName th {
+    font-size: 11px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    background-color: #303030;
+    color: white;
+  }
+
+  .otherMonth, .day, .specialDay {
+    font-size: 11px;
+    text-align: center;
+    padding: 2px 0;
+    padding-left: 1px;
+    border-right: 1px solid #d5d5d5;
+    border-bottom: 1px dotted #bbbbbb;
+  }
+
+  .otherMonth {
+    color: #d5d5d5;
+    background-color: white;
+  }
+
+  .day, .specialDay {
+    background-color: #ecede2;
+  }
+  .specialDay {
+    color: white;
+  }
+  .specialDay a, .specialDay a:visited, .specialDay a:hover {
+    color: white;
+    text-decoration: none;
+    padding: 1em;
+  }
+  .specialDay a:hover {
+    color: white;
+    background-color: black;
+  }
+  .weekendDay {
+    /* background-color: #ffffdd; */
+  }
+  .today{
+  	background-color: #ffffdd;
+  }
+
+  .beginning_of_week {
+    border-left: 1px solid #d5d5d5;
+    padding-left: 0;
+  }
+
+  /* Event blocks */
+  .events { 
+    position: relative; 
+    border-bottom: 1px solid #d5d5d5;
+    border-left: 1px solid #d5d5d5;
+  }
+
+  .event {
+    overflow: hidden;
+    text-align: left;
+    position: absolute;
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .event :hover {
+    background-color: #2EAC6A;
+  }
+
+  .event div { 
+    cursor: pointer;
+    padding-left: 6px; 
+    color:#ffffff; 
+    text-decoration: none;
+  }
+</style>
+
 <div class="span-20 border">
   <div class="span-16">
     <h2>Milestones</h1>
@@ -16,7 +121,7 @@
 </div>
 
 
-<div id="milestones_chart" class='chart'>
+<!-- <div id="milestones_chart" class='chart'>
   <strong>Text displayed when the user doesn't have Flash. You might want to display a simple table with the population, search engines and visitor without flash would love that.</strong>
   <p> To see this page properly, you need to upgrade your Flash Player, please visit the Adobe web site</p>
 </div>
@@ -29,9 +134,12 @@
   so.addVariable("preloader_color", "#FFFFFF");
   so.write("milestones_chart");
   // ]]>
-</script>
+</script> -->
 
 
-<br />
+<!-- <br />
 
-<%= link_to '<span class="ss_sprite ss_add"><strong>New milestone</strong></span>', new_milestone_path, :class => 'button' %>
+<%= link_to '<span class="ss_sprite ss_add"><strong>New milestone</strong></span>', new_milestone_path, :class => 'button' %> -->
+
+
+<%= event_calendar %>
