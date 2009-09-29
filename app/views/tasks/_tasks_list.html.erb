@@ -7,7 +7,11 @@
       <tr>
         <th>Kind</th>
         <th>Title</th>
-        <th>Opener</th>
+        <th>Opener
+          <% if @project %>/
+            <br />Asignee
+          <% end %>
+        </th>
         <th>Time</th>
         <th>Priority</th>
         <!-- <th>Kind</th> -->
@@ -21,7 +25,12 @@
         <td><%=link_to task.title, task %><br />
         <span class="quiet small">Last change <%= time_ago_in_words(task.updated_at) %> ago</span>
         </td>
-        <td style="width: 9%;"><%=h task.opener.name %></td>
+        <td style="width: 9%;">
+          <%=h task.opener.name %>
+          <% if @project %>
+            <br /><%= task.asignee.name %>
+          <% end %>
+        </td>
         <td class="small" style="width: 14%;">Estimated: <%=humanized_duration(task.estimated_time) %><br />
             Spent: <%=humanized_duration task.time_spent %>
         </td>

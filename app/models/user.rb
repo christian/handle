@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
     current_project.users.collect{ |u| [u.name, u.id]}
   end
   
-  # a name scope may fit here
+  # refactor as bellow
   def opened_tasks_count_for_project(proj_id)
     tasks.count(:conditions => ['status = "Active" AND project_id = ?', proj_id])
   end
@@ -22,6 +22,14 @@ class User < ActiveRecord::Base
   def closed_tasks_count_for_project(proj_id)
     tasks.count(:conditions => ['status = "Closed" AND project_id = ?', proj_id])
   end
+  
+  def priority_tasks_count_for_project(proj_id, priority)
+    tasks.count(:conditions => ['priority = ? AND project_id = ?', proj_id, priority])
+  end
+  
+  #
+  #...
+  #
   
   def opened_tasks_count
     tasks(:conditions => ['status = "Active"']).count

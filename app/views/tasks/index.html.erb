@@ -29,8 +29,15 @@
   <%= render :partial => 'shared/current_project_select' %>
 
   <div style="background-color: #EEEEEE; padding: 7px;">
-    <strong>Filter</strong> <br />
     <% form_tag :url => '/tasks', :method => "GET" do %>
+      Order
+      <p>
+        <%= select_tag :tasks_order, options_for_select(Task::ORDER), {:style => "width: 85px;", :onchange => "filter_tasks();" } %>
+        <%= select_tag :tasks_order_type, options_for_select(Task::ORDER_TYPE), {:style => "width: 45px;", :onchange => "filter_tasks();" } %>
+      </p>
+      
+      <hr />
+      
       <p>   
       <% Task::STATUSES.each do |status| %>
         <%= check_box_tag "tasks_status[]",    status,      session[:tasks_status].include?(status), {:onclick => "filter_tasks();"} %> <%= status %><br />

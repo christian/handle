@@ -8,12 +8,12 @@ class TasksController < ApplicationController
     unless params[:project_id]
       # view a certain's users tasks
       @tasks_for = params[:user_id].nil? ? "Your" : User.find(params[:user_id]).name 
-      @tasks = current_project.tasks.assignee_id_equals(@user_of_tasks).kind_equals(session[:tasks_kind]).priority_equals(session[:tasks_priority]).status_equals(session[:tasks_status]).resolution_equals(session[:tasks_resolution]).paginate(:per_page => 10, :page => params[:page])
+      @tasks = current_project.tasks.assignee_id_equals(@user_of_tasks).kind_equals(session[:tasks_kind]).priority_equals(session[:tasks_priority]).status_equals(session[:tasks_status]).resolution_equals(session[:tasks_resolution]).order(session[:tasks_order], session[:tasks_order_type]).paginate(:per_page => 10, :page => params[:page])
     else
       # view a certain's project tasks
       @project = Project.find(params[:project_id])
       @tasks_for = @project.name
-      @tasks = @project.tasks.assignee_id_equals(@user_of_tasks).kind_equals(session[:tasks_kind]).priority_equals(session[:tasks_priority]).status_equals(session[:tasks_status]).resolution_equals(session[:tasks_resolution]).paginate(:per_page => 10, :page => params[:page])
+      @tasks = @project.tasks.kind_equals(session[:tasks_kind]).priority_equals(session[:tasks_priority]).status_equals(session[:tasks_status]).resolution_equals(session[:tasks_resolution]).order(session[:tasks_order], session[:tasks_order_type]).paginate(:per_page => 10, :page => params[:page])
     end
     
     if request.xhr?
@@ -95,5 +95,11 @@ class TasksController < ApplicationController
 
     session[:tasks_resolution] ||= Task::RESOLUTIONS
     session[:tasks_resolution] = params[:tasks_resolution] unless params[:tasks_resolution].nil?
+    
+    session[:tasks_order] ||= Task::ORDER[2]
+    session[:tasks_order] = params[:tasks_order] unless params[:tasks_order].nil?
+    
+    session[:tasks_order_type] ||= Task::ORDER_TYPE[1]
+    session[:tasks_order_type] = params[:tasks_order_type] unless params[:tasks_order_type].nil?
   end
 end

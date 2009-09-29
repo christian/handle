@@ -21,6 +21,14 @@ class Task < ActiveRecord::Base
   KINDS       = %w(Bug Feature Story)
   RESOLUTIONS = ['In progress', 'Completed']
   
+  ORDER       = ['title', 'priority', 'status', 'resolution', 'kind']
+  ORDER_TYPE  = ['asc', 'desc']
+  
+  named_scope :order, lambda { |order, order_type| {
+      :order => "#{order} #{order_type}"
+    }
+  }
+  
   after_save :add_watchers
   before_save :convert_time_spent_to_minutes
   
