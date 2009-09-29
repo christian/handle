@@ -1,4 +1,6 @@
 class Task < ActiveRecord::Base
+  default_scope :order => 'created_at DESC'
+    
   belongs_to :project
   belongs_to :asignee, :class_name => "User", :foreign_key => "assignee_id"
   belongs_to :opener, :class_name => "User", :foreign_key => "opener_id"
@@ -6,6 +8,8 @@ class Task < ActiveRecord::Base
   has_many :watchings
   has_many :watchers, :through => :watchings, :source => :user 
   has_many :changes
+  
+  validates_presence_of :title
   
   attr_accessor :estimated_days
   attr_accessor :estimated_hours

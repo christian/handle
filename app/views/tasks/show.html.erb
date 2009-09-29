@@ -1,4 +1,12 @@
-<h2><%= link_to 'Tasks', tasks_path %> &raquo; <%= @task.title %></h2>
+<div class="span-24 last">
+  <div class="span-18">
+    <h2><%= link_to 'Tasks', tasks_path %> &raquo; <%= @task.title %> </h2>
+  </div>
+  <div class="span-6 last" style="text-align: right;">
+    <span class="quiet">Created: <span class="alt"><%= @task.created_at.to_s(:long) %></span></span><br />
+    <span class="quiet">Last updated: <dpan class="alt"><%= @task.updated_at.to_s(:long) %></dpan></span>
+  </div>
+</div>
 
 <div class="span-20">
   <div class="span-19 box">
@@ -33,7 +41,8 @@
   </p>
 
   <hr />
-
+  
+  <h3>Changes</h3>
   <% for change in @task.changes %>
     <p><%= render :partial => "changes/show", :locals => {:change => change} %></p>
   <% end %>

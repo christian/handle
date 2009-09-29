@@ -27,7 +27,7 @@
         </td>
         <td style="width: 5%;"><%= "<span class=\"ss_sprite ss_bullet_red\" style=\"margin-left: -11px;\"></span>" * task.priority %></td>
         <td style="width: 5%;"><strong class="<%=h task.status %>"><%=h task.status %></strong></td>
-        <td style="width: 5%;">
+        <td style="width: 11%;">
           <% if task.resolution == "In progress"%>
             <span class="ss_sprite ss_cog"></span>
           <% else %>
@@ -45,3 +45,4 @@
 <hr />
 
 <%= will_paginate @tasks %>
+

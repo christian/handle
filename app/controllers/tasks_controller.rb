@@ -16,11 +16,6 @@ class TasksController < ApplicationController
       @tasks = @project.tasks.assignee_id_equals(@user_of_tasks).kind_equals(session[:tasks_kind]).priority_equals(session[:tasks_priority]).status_equals(session[:tasks_status]).resolution_equals(session[:tasks_resolution]).paginate(:per_page => 10, :page => params[:page])
     end
     
-    # @projects = current_user.projects
-    # @select_index = 0
-    # @projects.each_with_index do |p, i|
-    #   @select_index = i if current_project.id == p.id
-    # end
     if request.xhr?
       render :update do |page|
         page.replace_html 'tasks_list', :partial => 'tasks_list', :locals =>{:tasks => @tasks}
@@ -69,13 +64,12 @@ class TasksController < ApplicationController
     @users_select = @users.collect{ |u| [u.name, u.id] }
     @selected_index_user = 0
     @users_select.each_with_index { |u,i| (@selected_index_user = i+1) if u[1] == current_user.id }
+    
     respond_to do |format|
       format.js {render :partial => 'new_task', :task => @task} 
     end
   end
-  # def edit
-  #   @task = Task.find(params[:id])
-  # end
+
   def create
     @task = Task.new(params[:task])
     if @task.save

@@ -2,11 +2,11 @@
 <p>
   On <span class="quiet"><i><%= change.created_at.to_s(:long) %></i></span> <br /><strong><%= change.user.name %></strong> said:
   <p>
-    <%=h change.comment %>
+    <%= change.comment %>
   </p>
 </p>
 <p>
   <b>Duration:</b>
-  <span class="added"><%=humanized_duration change.minutes %></span>
+  <span class="added">&nbsp; <%=humanized_duration change.minutes %> &nbsp;</span>
 </p>
 </div>
