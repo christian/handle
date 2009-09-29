@@ -37,7 +37,9 @@ class TasksController < ApplicationController
   def add_watcher
     @task = Task.find(params[:id])
     @watcher = User.find(params[:watcher_id])
-    @task.watchers << @watcher
+    unless @task.watchers(:select => :id).collect(&:id).include?(@watcher.id)
+      @task.watchers << @watcher
+    end
     show
     render :update do |page|
       page.replace_html 'watchers', :partial => 'watchers', :locals => {:watchers => @watchers, :contributors => @contributors, :task => @task}

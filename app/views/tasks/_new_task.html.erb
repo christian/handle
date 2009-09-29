@@ -1,7 +1,7 @@
 <% form_for(@task, :update => {:failure => "error_messages"}) do |f| %>
-  <div id="error_messages" class="error">
+  <!-- <div id="error_messages" class="error"> -->
     <%= f.error_messages %>
-  </div>
+  <!-- </div> -->
 
   <%= render :partial => 'form_fields', :locals => {:f => f} %>
   

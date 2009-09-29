@@ -302,7 +302,7 @@
       <color></color>                                   
       <alpha></alpha>
       <balloon_text>
-        <![CDATA[Anomaly in {series}: {value}C (Smoothed)]]>  <!-- [column(line).balloon.text] ({title} {value} {series} {description} {percents}) You can format any balloon text: {title} will be replaced with real title, {value} - with value and so on. You can add your own text or html code too. -->
+        <![CDATA[{value} Minutes]]>  <!-- [column(line).balloon.text] ({title} {value} {series} {description} {percents}) You can format any balloon text: {title} will be replaced with real title, {value} - with value and so on. You can add your own text or html code too. -->
       </balloon_text>                                         
     </graph>
   </graphs>
