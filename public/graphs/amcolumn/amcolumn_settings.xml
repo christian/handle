@@ -296,8 +296,8 @@
       <pattern_color></pattern_color>                          <!-- [] (hex color code) the color of the pattern -->      
     </graph>
 
-    <graph gid="2">
-      <type>line</type>                                     
+    <graph gid="minutes">
+      <type>column</type>                                     
       <title>Smoothed</title>                               
       <color></color>                                   
       <alpha></alpha>

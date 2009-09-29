@@ -54,8 +54,8 @@ class TasksController < ApplicationController
   
   def show
     @task = Task.find(params[:id])
-    @contributors = current_project.users
     @watchers = @task.watchers
+    @contributors = current_project.users#.delete(@watchers)
   end
 
   def new
@@ -76,11 +76,11 @@ class TasksController < ApplicationController
       flash[:notice] = 'Task was successfully created.'
       redirect_to(@task)
     else
-      respond_to do |format|
-        format.js {render :partial => 'new_task', :task => @task} 
-      end
+      #render :action => "new_task"
+      redirect_to "/changes/new?height=540&width=520&inlineId=hiddenModalContent&task_id=37"
     end
   end
+  
   private
 
   def set_filter_session_vars

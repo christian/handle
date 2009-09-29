@@ -2,35 +2,40 @@
 
 <%= render :partial => 'side_menu_users' %>
 
-<div class="span-14 last">
+<div class="span-18 last">
   <h2><%= @user.name %>'s activity</h2>
 
-  <h3>Today - <span class="added"><%= humanized_duration(@user.time_spent_per_day) %></span></h3>
+  <div class="span-9">
+    <h3>Today - <span class="added"><%= humanized_duration(@user.time_spent_per_day) %></span></h3>
+    Tasks that cristi worked on today
+    <ul>
+      <% for task in @worked_on_tasks %>
+        <li><%= link_to task.title, task %></li>
+      <% end %>
+    </ul>
+  </div>  
   
-  <ul>
-    <% for task in @worked_on_tasks %>
-      <li><%= link_to task.title, task %></li>
-    <% end %>
-  </ul>
-  
-  <h3>This week</h3>
-    <div id="population_chart" class='chart'>
-      <strong>Text displayed when the user doesn't have Flash. You might want to display a simple table with the population, search engines and visitor without flash would love that.</strong>
-      <p> To see this page properly, you need to upgrade your Flash Player, please visit the Adobe web site</p>
-    </div>
+  <div class="span-9 last">
+    <h3>This week</h3>
+      <div id="population_chart" class='chart'>
+        <strong>Text displayed when the user doesn't have Flash. You might want to display a simple table with the population, search engines and visitor without flash would love that.</strong>
+        <p> To see this page properly, you need to upgrade your Flash Player, please visit the Adobe web site</p>
+      </div>
 
-    <script type="text/javascript">
-      // <![CDATA[    
-      var so = new SWFObject("/graphs/amcolumn/amcolumn.swf", "population_chart", "550", "380", "1", "#FFFFFF");
-      so.addVariable("path", "/graphs/amcolumn/");
-      so.addVariable("settings_file", escape("/graphs/amcolumn/amcolumn_settings.xml"));
-      so.addVariable("data_file", escape("<%= statistics_xml_user_this_week_path(@user.id) %>")); 
-      so.addVariable("additional_chart_settings", "<settings><labels><label><x>250</x><y>25</y><text_size>18</text_size><text><![CDATA[<b><%= @user.name %>'weekly timespent</b>]]></text></label></labels></settings>");
-      so.addVariable("preloader_color", "#FFFFFF");
-      so.write("population_chart");
-      // ]]>
-    </script>
-  <br />
+      <script type="text/javascript">
+        // <![CDATA[    
+        var so = new SWFObject("/graphs/amcolumn/amcolumn.swf", "population_chart", "350", "280", "1", "#FFFFFF");
+        so.addVariable("path", "/graphs/amcolumn/");
+        so.addVariable("settings_file", escape("/graphs/amcolumn/amcolumn_settings.xml"));
+        so.addVariable("data_file", escape("<%= statistics_xml_user_this_week_path(@user.id) %>")); 
+        so.addVariable("additional_chart_settings", "<settings><labels><label><x>150</x><y>25</y><text_size>12</text_size><text><![CDATA[<b>weekly timespent</b>]]></text></label></labels></settings>");
+        so.addVariable("preloader_color", "#FFFFFF");
+        so.write("population_chart");
+        // ]]>
+      </script>
+    <br />
+  </div>
+
   <h3>Tasks overview</h3>
   
   <table>
@@ -45,7 +50,7 @@
     <tr class="<%= cycle('even', '') %>">  
       <td><%= project.name %></td>
       <td><%= @user.opened_tasks_count_for_project(project.id) %></td>
-      <td></td>
+      <td><%= @user.closed_tasks_count_for_project(project.id) %></td>
     </tr>
     <% end %>
   </table>

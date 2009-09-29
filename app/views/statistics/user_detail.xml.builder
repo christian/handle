@@ -3,7 +3,7 @@ xml.chart do
   #xml.message "You can broadcast any message to chart from data XML file", :bg_color => "#FFFFFF", :text_color => "#000000"
   xml.series do    
     @this_week.each_with_index do |day, index|
-      xml.value day.strftime("%A"), :xid => index
+      xml.value day.strftime("%a"), :xid => index
     end
   end
 

@@ -19,6 +19,10 @@ class User < ActiveRecord::Base
     tasks.count(:conditions => ['status = "Active" AND project_id = ?', proj_id])
   end
   
+  def closed_tasks_count_for_project(proj_id)
+    tasks.count(:conditions => ['status = "Closed" AND project_id = ?', proj_id])
+  end
+  
   def opened_tasks_count
     tasks(:conditions => ['status = "Active"']).count
   end
