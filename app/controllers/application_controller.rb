@@ -27,6 +27,25 @@ class ApplicationController < ActionController::Base
     @current_user = current_user_session && current_user_session.record
   end
   
+  
+  def current_project
+    # amend this
+    @project ||= (current_user.current_project || current_user.projects.first)    
+  end
+  
+  def current_project=(project)
+    @project = project
+  end
+  
+  def projects_collection
+    projects = Hash[*Project.all.collect{|p| [p.name, p.id]}.flatten]
+    current_project_id = current_user.current_project.id
+    projects.keys.each_with_index do |val,index|
+      @select_index = index if val == current_user.current_project.name
+    end
+    projects
+  end
+  
   # def current_project
   #   if defined?(@current_user)
   #     return @current_user.current_project 

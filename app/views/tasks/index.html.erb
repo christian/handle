@@ -26,18 +26,7 @@
 </div>
 
 <div class="span-4 last">
-  <div style="background-color: #75CC28; color: white; padding: 7px;">
-    Project &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-  <%= select_tag 'project', options_for_select(projects_collection, @select_index.to_i), 
-      {:onchange => "#{remote_function(:url  => "#{get_tasks_tasks_path}",
-                                       :method => :get,
-                                       :with => "'project_id='+ $(\"\#project\").val()"
-                                      )
-                      }"
-      } %>
-      
-  </div>
+  <%= render :partial => 'shared/current_project_select' %>
 
   <div style="background-color: #EEEEEE; padding: 7px;">
     <strong>Filter</strong> <br />
@@ -62,7 +51,7 @@
       <hr />
       <p>
       <% Task::PRIORITIES.each do |priority| %>
-        <%= check_box_tag "tasks_priority[]",   priority[1], session[:tasks_priority].include?(priority[1].to_s), {:onclick => "filter_tasks();"} %> <%= priority[0] %><br />
+        <%= check_box_tag "tasks_priority[]", priority[1], session[:tasks_priority].include?(priority[1].to_s), {:onclick => "filter_tasks();"} %> <%= priority[0] %><br />
       <% end %>
       </p>
     <% end %>

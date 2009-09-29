@@ -56,19 +56,4 @@ class MilestonesController < ApplicationController
     @milestone.destroy
     redirect_to(milestones_url)
   end
-  
-  def current_project
-    @project ||= current_user.current_project || current_user.projects.first    
-  end
-  def current_project=(project)
-    @project = project
-  end
-  def projects_collection
-    # Hash[*Project.all.collect{|p| [p.name, p.id]}.flatten]
-    Project.all.collect{|p| [p.name, p.id]}.inject({}) do |result, element|
-      result[element.first.to_sym] = element.last
-      result
-    end
-  end
-  
 end

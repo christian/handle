@@ -50,26 +50,4 @@ class RFilesController < ApplicationController
     @r_file.destroy
     redirect_to(r_files_url)
   end
-  
-  private
-  
-  def current_project
-    @project ||= current_user.current_project #|| current_user.projects.first    
-  end
-  def current_project=(project)
-    @project = project
-  end
-  def projects_collection
-    # Hash[*Project.all.collect{|p| [p.name, p.id]}.flatten]
-    @select_index = 0
-    i = 0
-    Project.all.collect{|p| [p.name, p.id]}.inject({}) do |result, element|
-      i += 1
-      @select_index = i if element.last == current_project.id
-      result[element.first.to_sym] = element.last
-      result
-    end
-#    raise @select_index.inspect
-  end
-  
 end

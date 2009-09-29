@@ -16,11 +16,11 @@ class TasksController < ApplicationController
       @tasks = @project.tasks.assignee_id_equals(@user_of_tasks).kind_equals(session[:tasks_kind]).priority_equals(session[:tasks_priority]).status_equals(session[:tasks_status]).resolution_equals(session[:tasks_resolution]).paginate(:per_page => 10, :page => params[:page])
     end
     
-    @projects = current_user.projects
-    @select_index = 0
-    @projects.each_with_index do |p, i|
-      @select_index = i if current_project.id == p.id
-    end
+    # @projects = current_user.projects
+    # @select_index = 0
+    # @projects.each_with_index do |p, i|
+    #   @select_index = i if current_project.id == p.id
+    # end
     if request.xhr?
       render :update do |page|
         page.replace_html 'tasks_list', :partial => 'tasks_list', :locals =>{:tasks => @tasks}
@@ -87,42 +87,13 @@ class TasksController < ApplicationController
       end
     end
   end
-  # def update
-  #   @task = Task.find(params[:id])
-  #   if @task.update_attributes(params[:task])
-  #     flash[:notice] = 'Task was successfully updated.'
-  #     redirect_to(@task)
-  #   else
-  #     render :action => "edit"
-  #   end
-  # end
-  def destroy
-    @task = @project.tasks.find(params[:id])
-    @task.destroy
-    redirect_to(tasks_url)
-  end
-  
   private
-  
-  def current_project
-    # amend this
-    @project ||= (current_user.current_project || current_user.projects.first)    
-  end
-  def current_project=(project)
-    @project = project
-  end
-  def projects_collection
-    # Hash[*Project.all.collect{|p| [p.name, p.id]}.flatten]
-    Project.all.collect{|p| [p.name, p.id]}.inject({}) do |result, element|
-      result[element.first.to_sym] = element.last
-      result
-    end
-  end
+
   def set_filter_session_vars
     session[:tasks_kind] ||= Task::KINDS  # what if there are no projects with ceratain attributes here
     session[:tasks_kind] = params[:tasks_kind] unless params[:tasks_kind].nil?
 
-    session[:tasks_priority] ||= Task::PRIORITIES.collect{ |p| p[1] }
+    session[:tasks_priority] ||= Task::PRIORITIES.collect{ |p| p[1].to_s }
     session[:tasks_priority] = params[:tasks_priority] unless params[:tasks_priority].nil?
 
     session[:tasks_status] ||= Task::STATUSES
