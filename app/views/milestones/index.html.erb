@@ -7,7 +7,9 @@
       Turq: 003355
       Cream: ffffdd
   */
-
+  table  {
+    width: 595px;
+  }
   .calendar {
     background-image: url('/images/event_calendar/85_bg.gif');
     background-repeat: repeat;
@@ -22,9 +24,14 @@
     padding-bottom: 5px;
   }
 
-  th.monthName {
+  .calendar th.monthName {
     font-size: 16px;
     font-weight: bold;
+    text-align: center;
+  }
+  
+  th.monthName + th {
+    text-align: right;
   }
 
   .dayName th {
@@ -81,6 +88,10 @@
     position: relative; 
     border-bottom: 1px solid #d5d5d5;
     border-left: 1px solid #d5d5d5;
+    margin-left: -5px;
+    margin-top: -5px;
+    margin-bottom: -5px;
+    margin-right: -10px;
   }
 
   .event {
@@ -141,5 +152,6 @@
 
 <%= link_to '<span class="ss_sprite ss_add"><strong>New milestone</strong></span>', new_milestone_path, :class => 'button' %> -->
 
-
+<div class="span-15">
 <%= event_calendar %>
+</div>

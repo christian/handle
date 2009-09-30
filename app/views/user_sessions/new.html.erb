@@ -1,14 +1,13 @@
 <div class="prepend-8 span-8 append-8 last">
-  <% if flash[:error] %>
-  <div class="error">
-    <%= flash[:error] %>
-  </div>
-  <% end %>
-
   <% form_for @user_session do |f| -%>
-    <%= f.error_messages %>
     <fieldset>
     <legend>Login</legend>
+    <% if flash[:error] %>
+    <div class="error">
+      <%= flash[:error] %>
+    </div>
+    <% end %>
+
     <p>
       <%= f.label :username, "Username" %>
       <%= f.text_field :username, :class => 'text' %>

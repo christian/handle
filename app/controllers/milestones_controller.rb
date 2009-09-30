@@ -5,22 +5,22 @@ class MilestonesController < ApplicationController
   def index
     @milestones = current_project.milestones.all :order => "start_at"
     
-    @month = Time.now.month#params[:month].to_i
-    @year = Time.now.year#params[:year].to_i
+    @month = params[:month].nil? ? Time.now.month : params[:month].to_i 
+    @year  = params[:year].nil? ? Time.now.year : params[:year].to_i 
 
     @shown_month = Date.civil(@year, @month)
     @event_strips = Milestone.event_strips_for_month(@shown_month)
     
   end
-  def xml_month
-    @milestones = Hash.new
-    current_project.milestones.all(:order => "start_date").each do |milestone|
-      @milestones[milestone.title] = [milestone.start_date.day, milestone.end_date.day]
-    end
-    respond_to do |format|
-      format.xml {render :action => "xml_month.xml.builder", :layout => false}
-    end
-  end
+  # def xml_month
+  #   @milestones = Hash.new
+  #   current_project.milestones.all(:order => "start_date").each do |milestone|
+  #     @milestones[milestone.title] = [milestone.start_date.day, milestone.end_date.day]
+  #   end
+  #   respond_to do |format|
+  #     format.xml {render :action => "xml_month.xml.builder", :layout => false}
+  #   end
+  # end
   def get_milestones
     @current_project = Project.find_by_id(params[:project_id])
     current_user.update_attributes(:current_project_id => @current_project.id)
