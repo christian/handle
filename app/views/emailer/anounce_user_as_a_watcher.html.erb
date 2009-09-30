@@ -1,0 +1,13 @@
+<h3>Hi!</h3>
+
+<p>
+  You are getting this because you are a watcher on task <%= link_to @task.title task_url(@task) %>.
+</p>
+
+<p>
+  The change is
+</p>
+
+<%= render :partial => "changes/show", :locals => {:change => @change} %>
+
+Cheers!

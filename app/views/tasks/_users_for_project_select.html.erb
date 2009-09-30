@@ -1,0 +1,2 @@
+    <%= label_tag :assignee_id, 'Assign to' %>
+    <%= select_tag 'task[assignee_id]', options_for_select(@users_select, :selected => @selected_index_user) %>

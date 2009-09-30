@@ -1,3 +1,9 @@
+ActionMailer::Base.smtp_settings = {
+  :address  => "smtp-relay.brightbox.net",
+  :port  => 25, 
+  :domain  => "brightbox.net"
+}
+
 # Settings specified here will take precedence over those in config/environment.rb
 
 # The production environment is meant for finished, "live" apps.

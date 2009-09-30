@@ -23,7 +23,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :user_sessions
   map.resources :users, :has_many => :tasks
   map.resources :tasks, :collection => {:get_tasks => :get}, 
-                        :member => {:add_watcher => :post, :remove_watcher => :post}
+                        :member => {:add_watcher => :post, :remove_watcher => :post, :close => :post}
   map.root :controller => "tasks"
   
   # The priority is based upon order of creation: first created -> highest priority.

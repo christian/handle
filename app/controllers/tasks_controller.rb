@@ -2,9 +2,8 @@ class TasksController < ApplicationController
   before_filter :login_required, :current_project, :set_filter_session_vars
   helper_method :projects_collection, :current_project
   
-  def index
+  def filter_tasks
     @user_of_tasks = params[:user_id] ? params[:user_id] : current_user.id
-    
     unless params[:project_id]
       # view a certain's users tasks
       @tasks_for = params[:user_id].nil? ? "Your" : User.find(params[:user_id]).name 
@@ -15,7 +14,10 @@ class TasksController < ApplicationController
       @tasks_for = @project.name
       @tasks = @project.tasks.kind_equals(session[:tasks_kind]).priority_equals(session[:tasks_priority]).status_equals(session[:tasks_status]).resolution_equals(session[:tasks_resolution]).order(session[:tasks_order], session[:tasks_order_type]).paginate(:per_page => 10, :page => params[:page])
     end
-    
+  end
+  
+  def index
+    filter_tasks
     if request.xhr?
       render :update do |page|
         page.replace_html 'tasks_list', :partial => 'tasks_list', :locals =>{:tasks => @tasks}
@@ -51,6 +53,15 @@ class TasksController < ApplicationController
     show
     render :update do |page|
       page.replace_html 'watchers', :partial => 'watchers', :locals => {:watchers => @watchers, :contributors => @contributors, :task => @task}
+    end
+  end
+  
+  def close
+    filter_tasks
+    @task = Task.find(params[:task_id])
+    @task.update_attributes(:status => :close)
+    render :update do |page|
+      page.replace_html 'tasks_list', :partial => {:tasks => @tasks}
     end
   end
   

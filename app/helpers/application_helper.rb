@@ -16,14 +16,14 @@ module ApplicationHelper
   
   def menu
     m = '<ul class="tabs">'
-    menu = [['<span class="ss_sprite ss_layout_edit ">Tasks</span>', tasks_path],
+    menu = [['<span class="ss_sprite ss_layout_edit ">&nbsp; Tasks</span>', tasks_path],
             # ['Messages', ''],
-            ['<span class="ss_sprite ss_folder_page ">Files</span>', r_files_path],
-            ['<span class="ss_sprite ss_calendar ">Milestones</span>', milestones_path],
+            ['<span class="ss_sprite ss_folder_page ">&nbsp; Files</span>', r_files_path],
+            ['<span class="ss_sprite ss_calendar ">&nbsp; Milestones</span>', milestones_path],
             #['My todos', ''],
-            ['<span class="ss_sprite ss_briefcase">Projects</span>', projects_path],
-            ['<span class="ss_sprite ss_group">Users</span>', users_path],
-            ['<span class="ss_sprite ss_chart_bar ">Statistics</span>', statistics_from_until_path(Date.today.strftime("%Y-%m-%d"), Date.today.strftime("%Y-%m-%d"))]]
+            ['<span class="ss_sprite ss_briefcase">&nbsp; Projects</span>', projects_path],
+            ['<span class="ss_sprite ss_group">&nbsp; Users</span>', users_path],
+            ['<span class="ss_sprite ss_chart_bar">&nbsp; Statistics</span>', statistics_from_until_path(Date.today.strftime("%Y-%m-%d"), Date.today.strftime("%Y-%m-%d"))]]
     menu.each do |menu_item|
       m += ' <li>' +  link_to(menu_item.first, menu_item.last, :class => (controller.controller_name == menu_item.first.downcase ? 'selected' : '')) + '</li>'
     end

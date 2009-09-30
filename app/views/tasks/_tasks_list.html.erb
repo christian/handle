@@ -8,7 +8,7 @@
         <th>Kind</th>
         <th>Title</th>
         <th>Opener
-          <% if @project %>/
+          <% unless params[:project_id].nil? %>/
             <br />Asignee
           <% end %>
         </th>
@@ -26,9 +26,9 @@
         <span class="quiet small">Last change <%= time_ago_in_words(task.updated_at) %> ago</span>
         </td>
         <td style="width: 9%;">
-          <%=h task.opener.name %>
-          <% if @project %>
-            <br /><%= task.asignee.name %>
+          <%=link_to task.opener.name, task.asignee %>
+          <% unless params[:project_id].nil? %>
+            <br /><%= link_to task.asignee.name, task.asignee unless task.asignee.nil? %>
           <% end %>
         </td>
         <td class="small" style="width: 14%;">Estimated: <%=humanized_duration(task.estimated_time) %><br />
@@ -44,8 +44,7 @@
           <% end %><small><%= task.resolution %></small>
         </td>
         <td style="width: 4%;"><%= link_to '',  "/changes/new?height=540&width=520&inlineId=hiddenModalContent&task_id=#{task.id}" , :class => 'thickbox ss_sprite ss_time_add', :title => 'Add time for task' %></td>
-        <!-- <td style="width: 4%;"><%= link_to '',  "/changes/new?height=600&width=600&inlineId=hiddenModalContent&task_id=#{task.id}" , :class => 'thickbox ss_sprite ss_comment_add', :title => 'Close task' %></td>
-        <td style="width: 4%;"><%= link_to '',  "/changes/new?height=600&width=600&inlineId=hiddenModalContent&task_id=#{task.id}" , :class => 'thickbox ss_sprite ss_cross', :title => 'Close task' %></td> -->
+        <td style="width: 4%;"><%= link_to_remote '', {:url => close_task_path(task.id), :prompt => "Close task?"}, {:class => 'ss_sprite ss_cross', :title => 'Close task'} %></td>
       </tr>
     <% end %>
     </table>
