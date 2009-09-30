@@ -16,14 +16,14 @@ module ApplicationHelper
   
   def menu
     m = '<ul class="tabs">'
-    menu = [['Tasks', tasks_path],
+    menu = [['<span class="ss_sprite ss_layout_edit ">Tasks</span>', tasks_path],
             # ['Messages', ''],
-            ['Files', r_files_path],
-            ['Milestones', milestones_path],
+            ['<span class="ss_sprite ss_folder_page ">Files</span>', r_files_path],
+            ['<span class="ss_sprite ss_calendar ">Milestones</span>', milestones_path],
             #['My todos', ''],
-            ['Projects', projects_path],
-            ['Users', users_path],
-            ['Statistics', statistics_from_until_path(Date.today.strftime("%Y-%m-%d"), Date.today.strftime("%Y-%m-%d"))]]
+            ['<span class="ss_sprite ss_briefcase">Projects</span>', projects_path],
+            ['<span class="ss_sprite ss_group">Users</span>', users_path],
+            ['<span class="ss_sprite ss_chart_bar ">Statistics</span>', statistics_from_until_path(Date.today.strftime("%Y-%m-%d"), Date.today.strftime("%Y-%m-%d"))]]
     menu.each do |menu_item|
       m += ' <li>' +  link_to(menu_item.first, menu_item.last, :class => (controller.controller_name == menu_item.first.downcase ? 'selected' : '')) + '</li>'
     end
