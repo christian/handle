@@ -11,7 +11,3 @@
         <li><%= link_to_remote '<span class="ss_sprite ss_arrow_up" style="margin-left:-10px;"></span>', :url => "add_watcher?watcher_id=#{contributor.id}&id=#{task.id}", :method => "post" %> <%= contributor.name %></li>
       <% end %>
     </ul>
-    <strong>
-      Total time spent<br />
-      <%= humanized_duration(task.time_spent) %>
-    </strong>

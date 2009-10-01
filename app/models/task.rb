@@ -10,7 +10,7 @@ class Task < ActiveRecord::Base
   has_many :changes
   
   validates_presence_of :title
-  validates_uniqueness_of :title
+  validates_uniqueness_of :title, :on => :create, :message => "must be unique"  
   
   attr_accessor :estimated_days
   attr_accessor :estimated_hours
@@ -37,8 +37,10 @@ class Task < ActiveRecord::Base
   end
   
   def add_watchers
-    watchers << opener
-    watchers << asignee if asignee.id != opener.id
+    if watchers(:select => "id").collect(&:id) & [opener.id, asignee.id] == nil
+      watchers << opener 
+      watchers << asignee if asignee.id != opener.id
+    end
   end
   
   def convert_time_spent_to_minutes

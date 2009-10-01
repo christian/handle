@@ -22,15 +22,29 @@ class ChangesController < ApplicationController
   #   @change = Change.find(params[:id])
   # end
   
+  def get_task_changes(old_task_params, new_task_params)
+    task_changes = ''
+    new_task_params.each_pair do |k, v|
+      if old_task_params[k].to_s != v
+        task_changes += "#{k}@@#{old_task_params[k]}>>#{v}||"
+      end
+    end
+    task_changes
+  end
+  
   def create
     @change = Change.new(params[:change])
     @change.task_id = params[:task_id]
     @change.user_id = current_user.id
     @task = Task.find(params[:task_id])
-    if @change.save && @change.task.update_attributes(params[:change][:task_attributes])
-      wachers_emails = @task.watchers.collect(&:email)
-      send_email('anounce_user_as_a_watcher', wachers_emails, "Task changed", @task, @change)
+    
+    @change.task_changes = get_task_changes(@task.attributes, params[:change][:task_attributes])
+    
+    if @change.save && @task.update_attributes(params[:change][:task_attributes])
+      # wachers_emails = @task.watchers.collect(&:email)
+      # send_email('anounce_user_as_a_watcher', wachers_emails, "Task changed", @task, @change)
       # redirect to tasks if time is added from index or to task otherwise
+      
       redirect_to :back
     else
       render :action => "new"

@@ -22,13 +22,13 @@
     <% @tasks.each do |task| %>
       <tr class="<%= cycle('even', '') %>">
         <td style="width: 8%;"><div class="<%= task.kind %>">&nbsp;</div></td>
-        <td><%=link_to task.title, task %><br />
+        <td><strong><%=link_to task.title, task %></strong><br />
         <span class="quiet small">Last change <%= time_ago_in_words(task.updated_at) %> ago</span>
         </td>
         <td style="width: 9%;">
-          <%=link_to task.opener.name, task.asignee %>
+          <%=link_to task.opener.name, task.asignee, :class => "quiet" %>
           <% unless params[:project_id].nil? %>
-            <br /><%= link_to task.asignee.name, task.asignee unless task.asignee.nil? %>
+            <br /><%= link_to task.asignee.name, task.asignee, :class => "quiet" unless task.asignee.nil? %>
           <% end %>
         </td>
         <td class="small" style="width: 14%;">Estimated: <%=humanized_duration(task.estimated_time) %><br />

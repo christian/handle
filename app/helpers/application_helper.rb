@@ -16,16 +16,17 @@ module ApplicationHelper
   
   def menu
     m = '<ul class="tabs">'
-    menu = [['<span class="ss_sprite ss_layout_edit ">&nbsp; Tasks</span>', tasks_path],
+    # ['text on tab +  visual effects', 'path', 'controller for hightlight']
+    menu = [['<span class="ss_sprite ss_layout_edit ">&nbsp; Tasks</span>', tasks_path, 'tasks'],
             # ['Messages', ''],
-            ['<span class="ss_sprite ss_folder_page ">&nbsp; Files</span>', r_files_path],
-            ['<span class="ss_sprite ss_calendar ">&nbsp; Milestones</span>', milestones_path],
+            ['<span class="ss_sprite ss_folder_page ">&nbsp; Files</span>', r_files_path, 'r_files'],
+            ['<span class="ss_sprite ss_calendar ">&nbsp; Milestones</span>', milestones_path, 'milestones'],
             #['My todos', ''],
-            ['<span class="ss_sprite ss_briefcase">&nbsp; Projects</span>', projects_path],
-            ['<span class="ss_sprite ss_group">&nbsp; Users</span>', users_path],
-            ['<span class="ss_sprite ss_chart_bar">&nbsp; Statistics</span>', statistics_from_until_path(Date.today.strftime("%Y-%m-%d"), Date.today.strftime("%Y-%m-%d"))]]
+            ['<span class="ss_sprite ss_briefcase">&nbsp; Projects</span>', projects_path, 'projects'],
+            ['<span class="ss_sprite ss_group">&nbsp; Users</span>', users_path, 'users'],
+            ['<span class="ss_sprite ss_chart_bar">&nbsp; Statistics</span>', statistics_from_until_path(Date.today.strftime("%Y-%m-%d"), Date.today.strftime("%Y-%m-%d")), 'statistics']]
     menu.each do |menu_item|
-      m += ' <li>' +  link_to(menu_item.first, menu_item.last, :class => (controller.controller_name == menu_item.first.downcase ? 'selected' : '')) + '</li>'
+      m += ' <li>' +  link_to(menu_item.first, menu_item[1], :class => (controller.controller_name == menu_item[2].downcase ? 'selected' : '')) + '</li>'
     end
     m += '</ul>'
 

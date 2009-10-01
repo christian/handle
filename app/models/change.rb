@@ -27,4 +27,21 @@ class Change < ActiveRecord::Base
   def self.tasks_for_day(day)
     self.all(:conditions =>["for_day = ?", day], :include => :task).collect(&:task)
   end
+  
+  # reader
+  # should refactor this in a helper or smth
+  def task_changes
+    unless read_attribute(:task_changes).nil? 
+      unless read_attribute(:task_changes).empty? 
+        changes = "<strong>Task changed</strong>: <ul>"
+        read_attribute(:task_changes).split("||").each do |change|
+          change.sub!("@@", ' from ')
+          change.sub!(">>", ' to ')
+          changes += "<li>" + change + "</li>"
+        end
+        changes += "</ul>"
+        return changes
+      end
+    end
+  end
 end

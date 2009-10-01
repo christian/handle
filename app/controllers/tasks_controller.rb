@@ -93,7 +93,7 @@ class TasksController < ApplicationController
       redirect_to "/changes/new?height=540&width=520&inlineId=hiddenModalContent&task_id=37"
     end
   end
-  
+
   private
 
   def set_filter_session_vars
