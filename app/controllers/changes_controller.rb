@@ -52,7 +52,10 @@ class ChangesController < ApplicationController
   end
   
   def send_email(email_kind, recipients, subject, task = nil, change = nil)
-    Emailer.send(:"deliver_#{email_kind}", recipients, subject, task, change)
+    recipients.each do |recipient|
+      Emailer.send(:"deliver_#{email_kind}", recipient, subject, task, change)
+    end
+    
     return if request.xhr?
     flash[:notice] = "Messages succesfully sent"
   end
