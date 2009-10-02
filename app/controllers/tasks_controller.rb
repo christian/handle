@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_filter :login_required, :current_project, :set_filter_session_vars
+  before_filter :login_required, :current_project, :set_filter_session_vars#, :projects_collection
   helper_method :projects_collection, :current_project
   
   def filter_tasks
@@ -17,6 +17,8 @@ class TasksController < ApplicationController
   end
   
   def index
+    @select_index = select_index
+#    raise select_index.inspect
     filter_tasks
     if request.xhr?
       render :update do |page|

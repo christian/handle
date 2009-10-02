@@ -9,6 +9,16 @@ class ApplicationController < ActionController::Base
   filter_parameter_logging :password, :password_confirmation
   helper_method :current_user#, :current_project
   
+  protected
+  
+  def select_index
+    @select_index
+  end
+  
+  def select_index=(s)
+    @select_index = s
+  end
+  
   private
   
   def login_required
@@ -41,7 +51,7 @@ class ApplicationController < ActionController::Base
     projects = Hash[*Project.all.collect{|p| [p.name, p.id]}.flatten]
     current_project_id = current_user.current_project.id
     projects.keys.each_with_index do |val,index|
-      @select_index = index if val == current_user.current_project.name
+      select_index = index if val == current_user.current_project.name
     end
     projects
   end

@@ -10,7 +10,6 @@ class MilestonesController < ApplicationController
 
     @shown_month = Date.civil(@year, @month)
     @event_strips = Milestone.event_strips_for_month(@shown_month)
-    
   end
   # def xml_month
   #   @milestones = Hash.new
@@ -23,7 +22,7 @@ class MilestonesController < ApplicationController
   # end
   def get_milestones
     @current_project = Project.find_by_id(params[:project_id])
-    current_user.update_attributes(:current_project_id => @current_project.id)
+    current_user.update_attributes(:current_project_id => @current_project.id) 
     @milestones = @current_project.milestones
     render :update do |page|
       page.replace_html 'milestones_list', :partial => 'milestones_list', :locals =>{:milestones => @milestones}
@@ -43,7 +42,7 @@ class MilestonesController < ApplicationController
   def create
     @milestone = current_project.milestones.new(params[:milestone])
     if @milestone.save
-      flash[:notice] = 'current_project.milestones was successfully created.'
+      flash[:notice] = 'Milestone succesfully created.'
       redirect_to(@milestone)
     else
       render :action => "new"

@@ -129,7 +129,22 @@
 
 
 <div class="span-4 last">
-  <%= render :partial => 'shared/current_project_select' %>
+  <%#= render :partial => 'shared/current_project_select' %>
+  
+  <!-- REFACTOR THIS !!!!!!!!!!!!!!!!!!!  -->
+  
+  <div style="background-color: #75CC28; color: white; padding: 7px;">
+    Project &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+  <%= select_tag 'project', options_for_select(projects_collection, @select_index.to_i + 1), 
+      {:onchange => "#{remote_function(:url  => "#{get_milestones_milestones_path}",
+                                       :method => :get,
+                                       :with => "'project_id='+ $(\"\#project\").val()"
+                                      )
+                      }"
+      } %>
+  </div>
+  
 </div>
 
 
