@@ -3,4 +3,5 @@ class Milestone < ActiveRecord::Base
   
   has_event_calendar
   
+  default_scope :order => 'start_at'
 end

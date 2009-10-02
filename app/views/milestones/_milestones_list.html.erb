@@ -1,3 +1,4 @@
+    Add toggle show/hide fo each milestone detail
     <% milestones.each do |milestone| %>  
         <div class="span-15" style="background-color: #E5ECF9;">
           <h3 style="margin-top: 9px; margin-bottom: 9px; margin-left: 10px;"><%=h milestone.name %></h3>
@@ -7,7 +8,7 @@
           <strong>Ends:</strong> <%=h milestone.end_at.to_s(:long) %>
         </div>
         <div class="19 last" style="padding-top: 10px;" >
-          <p><br /><br /><%=h milestone.description %></p>
+          <p><br /><br /><%= milestone.description %></p>
           <%= link_to '<span class="ss_sprite ss_page_white_edit"></span>', edit_milestone_path(milestone) %>
           <%= link_to '<span class="ss_sprite ss_delete"></span>', milestone, :confirm => 'Are you sure?', :method => :delete %>
         </div>

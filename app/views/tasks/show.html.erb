@@ -99,10 +99,13 @@
     <% end %>
     
     <br />
+    
+    <% unless @task.changes.empty? %>
     <p style="text-align: right;">
       <%= link_to 'Add change',  "/changes/new?height=540&width=520&inlineId=hiddenModalContent&task_id=#{@task.id}" , :class => 'thickbox ss_sprite ss_time_add', :title => 'Change task' %>
       <br />
     </p>
+    <% end %>
     
   </div>
 </div>

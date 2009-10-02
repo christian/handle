@@ -1,6 +1,6 @@
 <p>
   <b>Title:</b>
-  <%=h @milestone.title %>
+  <%=h @milestone.name %>
 </p>
 
 <p>
@@ -10,12 +10,12 @@
 
 <p>
   <b>Start date:</b>
-  <%=h @milestone.start_date %>
+  <%=h @milestone.start_at %>
 </p>
 
 <p>
   <b>End date:</b>
-  <%=h @milestone.end_date %>
+  <%= @milestone.end_at %>
 </p>
 
 
