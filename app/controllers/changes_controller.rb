@@ -41,8 +41,8 @@ class ChangesController < ApplicationController
     @change.task_changes = get_task_changes(@task.attributes, params[:change][:task_attributes])
     
     if @change.save && @task.update_attributes(params[:change][:task_attributes])
-      # wachers_emails = @task.watchers.collect(&:email)
-      # send_email('anounce_user_as_a_watcher', wachers_emails, "Task changed", @task, @change)
+      wachers_emails = @task.watchers.collect(&:email)
+      send_email('anounce_user_as_a_watcher', wachers_emails, "Task changed", @task, @change)
       # redirect to tasks if time is added from index or to task otherwise
       
       redirect_to :back
@@ -52,7 +52,7 @@ class ChangesController < ApplicationController
   end
   
   def send_email(email_kind, recipients, subject, task = nil, change = nil)
-    Emailer.send(:"#{email_kind}_contact", recipients, subject, task, change)
+    Emailer.send(:"deliver_#{email_kind}", recipients, subject, task, change)
     return if request.xhr?
     flash[:notice] = "Messages succesfully sent"
   end

@@ -58,8 +58,8 @@
               cell_text = "#{d.mday}"
               cell_attrs = {:class => 'day'}
               @task.changes.each do |change|
-                if change.for_day.mday == d.mday
-                  cell_text = link_to ("#{change.for_day.mday}", "##{change.for_day.to_s(:long)}")
+                if change.for_day.mday == d.mday && change.for_day.month == d.month
+                  cell_text = link_to ("#{change.for_day.mday}", "##{change.for_day}")
                   cell_attrs[:class] = 'specialDay'
                 end
               end
@@ -70,6 +70,8 @@
   </div>
 
   <div class="span-14 last"> 
+    <%= render :partial => "shared/notice" %>
+        
     <h3><%= @task.title %></h3>
     <p>
       <%=h @task.description %>
@@ -85,7 +87,7 @@
     <p>
       <div class="" style="color: #02539F;padding-bottom: 5px; margin-left: 10px;">
         <strong>
-          <a style="text-decoration: none;" name="<%= day.to_s(:long) %>">Work on <%= day.to_s(:long) %>
+          <a style="text-decoration: none;" name="<%= day %>">Work on <%= day.to_s(:long) %>
         </a>
         </strong>
       </div>

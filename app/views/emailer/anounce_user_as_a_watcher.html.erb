@@ -1,13 +1,43 @@
 <h3>Hi!</h3>
 
 <p>
-  You are getting this because you are a watcher on task <%= link_to @task.title task_url(@task) %>.
+  You are getting this because you are a watcher on task <%= link_to @task.title, task_path(@task.id) %>.
 </p>
 
 <p>
   The change is
 </p>
 
-<%= render :partial => "changes/show", :locals => {:change => @change} %>
+<%#= render :partial => "changes/show", :locals => {:change => @change} %>
+
+
+<style type="text/css" media="screen">
+  .change_comment {
+    font-size: 1.5em;
+    text-indent: 1.5em;
+    padding:8px;
+    color: #002F00;
+  }
+</style>
+
+<div class="<%= cycle "comment_box_1", "comment_box_2" %>">
+<p>
+  <span class="quiet"><i><%= @change.created_at.to_s(:long) %></i></span>, <strong><%= @change.user.name %></strong>:
+  <p class="change_comment loud">
+    <span style="color: #7F1F23;" class="alt"><%= @change.comment %></span>
+    <p><%= @change.task_changes %></p>
+  </p>
+</p>
+
+<% unless @change.minutes == 0 %>
+  <p>
+    <b>Duration:</b>
+    <span class="added">&nbsp; <%#=humanized_duration @change.minutes %> &nbsp;</span>
+  </p>
+<% end %>
+
+</div>
+
+
 
 Cheers!
