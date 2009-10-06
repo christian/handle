@@ -48,7 +48,7 @@ class ApplicationController < ActionController::Base
   end
   
   def projects_collection
-    projects = Hash[*Project.all.collect{|p| [p.name, p.id]}.flatten]
+    projects = Hash[*current_user.projects.all.collect{|p| [p.name, p.id]}.flatten]
     unless current_user.current_project.nil?
       current_project_id = current_user.projects.first.id 
       projects.keys.each_with_index do |val,index|
