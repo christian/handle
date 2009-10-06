@@ -13,6 +13,8 @@
 <%= javascript_include_tag 'pagination' %>
 
 <div class="span-20 border">
+  <%= render :partial => "shared/notice" %>
+  
   <div class="span-17">
     <h2><%= @tasks_for %> tasks</h2>
   </div>
@@ -21,8 +23,6 @@
   </div>
 
   <div class="span-20 last" id="tasks_list">
-    <%= render :partial => "shared/notice" %>
-    
     <%= render :partial => 'tasks_list', :locals => {:tasks => @tasks} %>
   </div>
 </div>

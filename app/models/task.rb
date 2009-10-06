@@ -37,7 +37,7 @@ class Task < ActiveRecord::Base
   end
   
   def add_watchers
-    if watchers(:select => "id").collect(&:id) & [opener.id, asignee.id] == nil
+    if (watchers(:select => "id").collect(&:id) & [opener.id, asignee.id]) == []
       watchers << opener 
       watchers << asignee if asignee.id != opener.id
     end

@@ -37,7 +37,7 @@
     <div class="span-2 last">
     <p>
       <%= f.label :priority %><br />
-      <%= f.select :priority, Task::PRIORITIES  %>
+      <%= f.select :priority, options_for_select(Task::PRIORITIES, :selected => 3)  %>
     </p>
     </div>
     

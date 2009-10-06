@@ -76,7 +76,7 @@
     /* background-color: #ffffdd; */
   }
   .today{
-  	background-color: #ffffdd;
+  	background-color: #FEFF9F;
   }
 
   .beginning_of_week {
@@ -122,7 +122,11 @@
   <div class="span-4 last">
     <%= link_to '<span class="ss_sprite ss_add"><strong>New milestone</strong></span>', new_milestone_path, :class => 'button positive' %>  
   </div>
+  
   <div class="span-20 last" id="milestones_list">  
+    <%= event_calendar do |event| 
+          return ['dsdsd', link_to("sdsds", "sdsds")]
+        end %>
     <%= render :partial => 'milestones_list', :locals => {:milestones => @milestones} %>
   </div>
 </div>
@@ -168,6 +172,3 @@
 
 <%= link_to '<span class="ss_sprite ss_add"><strong>New milestone</strong></span>', new_milestone_path, :class => 'button' %> -->
 
-<div class="span-15">
-  <%= event_calendar %>
-</div>

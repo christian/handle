@@ -2,7 +2,7 @@ class Emailer < ActionMailer::Base
   def anounce_user_as_a_watcher(recipients, subject, task = nil, change = nil)
     @subject = subject
     @recipients = recipients
-    @from = 'no-reply@destravel-002.vm.brightbox.net'
+    @from = 'handle@destravel-002.vm.brightbox.net'
     @sent_on = Time.now
     
     @body["task"] = task

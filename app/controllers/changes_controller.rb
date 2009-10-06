@@ -6,10 +6,6 @@ class ChangesController < ApplicationController
     @changes = Change.all
   end
   
-  # def show
-  #   @change = Change.find(params[:id])
-  # end
-
   def new
     @change = @task.changes.new
     @users = current_user.collaboratores
@@ -17,10 +13,6 @@ class ChangesController < ApplicationController
       format.js {render :partial => 'changes/new', :change => @change} 
     end
   end
-  
-  # def edit
-  #   @change = Change.find(params[:id])
-  # end
   
   def get_task_changes(old_task_params, new_task_params)
     task_changes = ''
@@ -41,10 +33,9 @@ class ChangesController < ApplicationController
     @change.task_changes = get_task_changes(@task.attributes, params[:change][:task_attributes])
     
     if @change.save && @task.update_attributes(params[:change][:task_attributes])
-      wachers_emails = @task.watchers.collect(&:email)
+      wachers_emails = @task.watchers(:conditions => ["id != ?", current_user.id]).collect(&:email)
       send_email('anounce_user_as_a_watcher', wachers_emails, "Task changed", @task, @change)
       # redirect to tasks if time is added from index or to task otherwise
-      
       redirect_to :back
     else
       render :action => "new"
@@ -59,22 +50,6 @@ class ChangesController < ApplicationController
     return if request.xhr?
     flash[:notice] = "Messages succesfully sent"
   end
-  
-  # def update
-  #   @change = Change.find(params[:id])
-  #   if @change.update_attributes(params[:change])
-  #     flash[:notice] = 'Change was successfully updated.'
-  #     redirect_to(@change)
-  #   else
-  #     render :action => "edit"
-  #   end
-  # end
-  # 
-  # def destroy
-  #   @change = Change.find(params[:id])
-  #   @change.destroy
-  #   redirect_to(changes_url)
-  # end
   
   private
   def get_task

@@ -225,7 +225,7 @@ module EventCalendar
         end.compact
       end
     end
-  
+
     def event_row(content, min_height, event_height, event_margin)
       num_events = content.inject(0) do |sum, strip| 
         strip.blank? ? sum + 0 : sum + 1

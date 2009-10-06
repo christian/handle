@@ -4,12 +4,18 @@
   <tr>
     <th>Name</th>
     <th>Description</th>
+    <th>Contributors</th>
   </tr>
 
 <% @projects.each do |project| %>
   <tr class="<%= cycle('even', '')%>">
     <td><%=h project.name %></td>
-    <td><%=h project.description %></td>
+    <td><%= project.description %></td>
+    <td>
+    <% for user in project.users %>
+      <span class="small quiet"><%= user.name %></span><br />
+    <% end %> 
+    </td>
     <td><%= link_to 'View tasks', tasks_path(:project_id => project.id) %></td>
     <td><%= link_to 'Show', project %></td>
     <td><%= link_to 'Edit', edit_project_path(project) %></td>

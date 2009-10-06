@@ -1,7 +1,8 @@
+<% unless milestones.empty? %>
     Add toggle show/hide fo each milestone detail
     <% milestones.each do |milestone| %>  
         <div class="span-15" style="background-color: #E5ECF9;">
-          <h3 style="margin-top: 9px; margin-bottom: 9px; margin-left: 10px;"><%=h milestone.name %></h3>
+          <h3 style="margin-top: 9px; margin-bottom: 9px; margin-left: 10px;"><a name="milestone_<%= milestone.id %>"><%=h milestone.name %></a></h3>
         </div>
         <div class="span-5 last">
           <strong>Starts: </strong><%=h milestone.start_at.to_s(:long) %><br />
@@ -14,3 +15,7 @@
         </div>
         <br /><br />
     <% end %>
+<% else %>
+  <br />
+  <div class="notice">No milestone defined.</div>
+<% end %>

@@ -4,7 +4,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :milestones, :collection => {:xml_month => :get, 
                                              :get_milestones => :get}
 
-  map.resources :changes
+  map.resources :changes, :except => [:show, :edit]
 
   map.resources :projects
 

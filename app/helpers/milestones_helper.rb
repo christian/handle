@@ -17,7 +17,7 @@ module MilestonesHelper
 
   def event_calendar
     calendar event_calendar_options do |event|
-      "<a href='/events/#{event.id}' title=\"#{h(event.name)}\"><div>#{h(event.name)}</div></a>"
+      "<a href='#milestone_#{event.id}' title=\"#{h(event.name)}\"><div>#{h(event.name)}</div></a>"
     end
   end
 end
