@@ -1,3 +1,15 @@
+<script type="text/javascript" charset="utf-8">
+  jQuery.fn.delay = function(time,func){
+      return this.each(function(){
+          setTimeout(func,time);
+      });
+  };
+
+  $(function(){
+    $('#notice').delay(1000, function(){$('#notice').fadeOut()})
+  });
+</script>
+
 <% if flash[:notice] %>
-  <div class="notice"><%= flash[:notice] %></div>
+  <div class="notice" id="notice"><%= flash[:notice] %></div>
 <% end %>
