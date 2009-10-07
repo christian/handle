@@ -11,14 +11,6 @@ class ApplicationController < ActionController::Base
   
   protected
   
-  def select_index
-    @select_index
-  end
-  
-  def select_index=(s)
-    @select_index = s
-  end
-  
   private
   
   def login_required
@@ -52,10 +44,12 @@ class ApplicationController < ActionController::Base
     unless current_user.current_project.nil?
       current_project_id = current_user.projects.first.id 
       projects.keys.each_with_index do |val,index|
-        select_index = index if val == current_user.current_project.name
+        @select_index = index if val == current_user.current_project.name
+        session[:current_project_select_index] = @select_index
       end
     else
-      select_index = current_user.projects.first.id
+      @select_index = current_user.projects.first.id
+      session[:current_project_select_index] = @select_index
     end
     projects
   end

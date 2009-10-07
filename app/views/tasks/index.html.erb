@@ -28,7 +28,7 @@
 </div>
 
 <div class="span-4 last">
-  <%= render :partial => 'shared/current_project_select' %>
+  <%= render :partial => 'shared/current_project_select', :locals => {:url => get_tasks_tasks_path} %>
 
   <div style="background-color: #EEEEEE; padding: 7px;">
     <% form_tag :url => '/tasks', :method => "GET" do %>

@@ -17,8 +17,6 @@ class TasksController < ApplicationController
   end
   
   def index
-    @select_index = select_index
-#    raise select_index.inspect
     filter_tasks
     if request.xhr?
       render :update do |page|

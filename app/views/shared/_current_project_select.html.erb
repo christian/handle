@@ -1,8 +1,8 @@
   <div style="background-color: #75CC28; color: white; padding: 7px;">
     Project &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-  <%= select_tag 'project', options_for_select(projects_collection, @select_index.to_i + 1), 
-      {:onchange => "#{remote_function(:url  => "#{get_tasks_tasks_path}",
+  <%= select_tag 'project', options_for_select(projects_collection, session[:current_project_select_index].to_i + 1), 
+      {:onchange => "#{remote_function(:url  => url,
                                        :method => :get,
                                        :with => "'project_id='+ $(\"\#project\").val()"
                                       )
