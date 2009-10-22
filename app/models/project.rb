@@ -1,4 +1,6 @@
 class Project < ActiveRecord::Base
+  default_scope :order => 'name ASC'
+  
   has_many :memberships, :dependent => :destroy
   has_many :users, :through => :memberships
   

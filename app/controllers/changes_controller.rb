@@ -34,7 +34,8 @@ class ChangesController < ApplicationController
     
     if @change.save && @task.update_attributes(params[:change][:task_attributes])
       wachers_emails = @task.watchers.collect(&:email) # (:conditions => ["id != ?", current_user.id]).
-      send_email('anounce_user_as_a_watcher', wachers_emails, "Task changed", @task, @change)
+      project = @task.project
+      send_email('anounce_user_as_a_watcher', wachers_emails, "Updated task: [#{project.name}] : [#{@task.title}]", @task, @change)
       # redirect to tasks if time is added from index or to task otherwise
       redirect_to :back
     else

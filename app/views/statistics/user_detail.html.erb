@@ -43,14 +43,29 @@
       <th style="border-bottom: double 1px #EF6868;"></th>
       <th style="border-bottom: double 1px #EF6868;">Active tasks</th>
       <th style="border-bottom: double 1px #EF6868;">Closed tasks</th>
+      <th style="border-bottom: double 1px #EF6868;">Completion</th>
     </tr>
 
     
     <% for project in @projects %>
     <tr class="<%= cycle('even', '') %>">  
       <td><%= project.name %></td>
-      <td><%= @user.opened_tasks_count_for_project(project.id) %></td>
-      <td><%= @user.closed_tasks_count_for_project(project.id) %></td>
+      <%
+       @active = @user.opened_tasks_count_for_project(project.id)
+       @closed = @user.closed_tasks_count_for_project(project.id)
+       @percent_completed = @active == 0 ? 0 : @closed * 100 / @active
+      %>
+      <td><%= @active %></td>
+      <td><%= @closed %></td>
+      <td>
+        <div class="meter-wrap">
+            <div class="meter-value" style="background-color: #75cc28; width: <%= @percent_completed.to_i %>%;">
+                <div class="meter-text">
+                    <%= @percent_completed %>%
+                </div>
+            </div>
+        </div>
+      </td>
     </tr>
     <% end %>
   </table>

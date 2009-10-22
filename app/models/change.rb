@@ -28,6 +28,10 @@ class Change < ActiveRecord::Base
     self.all(:conditions =>["for_day = ?", day], :include => :task).collect(&:task)
   end
   
+  def self.tasks_for_day_user(day, user_id)
+    self.all(:conditions =>["for_day = ? AND user_id = ?", day, user_id], :include => :task).collect(&:task)
+  end
+  
   # reader
   # should refactor this in a helper or smth
   def task_changes

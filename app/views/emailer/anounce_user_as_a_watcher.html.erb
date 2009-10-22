@@ -26,8 +26,8 @@
 
 <% unless @change.minutes == 0 %>
   <p>
-    <b>Duration:</b>
-    <span class="added">&nbsp; <%#=humanized_duration @change.minutes %> &nbsp;</span>
+    <b>Time spent: </b>
+    <span class="added">&nbsp; <%=humanized_duration @change.minutes %> &nbsp;</span>
   </p>
 <% end %>
 

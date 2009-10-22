@@ -48,3 +48,29 @@ input#user_openid_identifier, input#user_session_openid_identifier {
 .Story {
   background: url("images/story.png") no-repeat;
 }
+
+
+/*progress bar*/
+.meter-wrap{
+    position: relative;
+}
+
+.meter-wrap, .meter-value, .meter-text {
+    /* The width and height of your image */
+    width: 155px; height: 30px;
+}
+
+.meter-wrap, .meter-value {
+    background: #bdbdbd top left no-repeat;
+}
+            
+.meter-text {
+    position: absolute;
+    top:0; left:0;
+
+    padding-top: 5px;
+                
+    color: #fff;
+    text-align: center;
+    width: 100%;
+}
