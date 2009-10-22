@@ -7,12 +7,23 @@ class TasksController < ApplicationController
     unless params[:project_id]
       # view a certain's users tasks
       @tasks_for = params[:user_id].nil? ? "Your" : User.find(params[:user_id]).name 
-      @tasks = current_project.tasks.assignee_id_equals(@user_of_tasks).kind_equals(session[:tasks_kind]).priority_equals(session[:tasks_priority]).status_equals(session[:tasks_status]).resolution_equals(session[:tasks_resolution]).order(session[:tasks_order], session[:tasks_order_type]).paginate(:per_page => 10, :page => params[:page])
+      @tasks = current_project.tasks.assignee_id_equals(@user_of_tasks).
+                              kind_equals(session[:tasks_kind]).
+                              priority_equals(session[:tasks_priority]).
+                              status_equals(session[:tasks_status]).
+                              resolution_equals(session[:tasks_resolution]).
+                              order(session[:tasks_order], session[:tasks_order_type]).
+                              paginate(:per_page => 10, :page => params[:page])
     else
       # view a certain's project tasks
       @project = Project.find(params[:project_id])
       @tasks_for = @project.name
-      @tasks = @project.tasks.kind_equals(session[:tasks_kind]).priority_equals(session[:tasks_priority]).status_equals(session[:tasks_status]).resolution_equals(session[:tasks_resolution]).order(session[:tasks_order], session[:tasks_order_type]).paginate(:per_page => 10, :page => params[:page])
+      @tasks = @project.tasks.kind_equals(session[:tasks_kind]).
+                              priority_equals(session[:tasks_priority]).
+                              status_equals(session[:tasks_status]).
+                              resolution_equals(session[:tasks_resolution]).
+                              order(session[:tasks_order], session[:tasks_order_type]).
+                              paginate(:per_page => 10, :page => params[:page])
     end
   end
   
@@ -28,6 +39,7 @@ class TasksController < ApplicationController
   def get_tasks
     @current_project = Project.find_by_id(params[:project_id])
     current_user.update_attributes(:current_project_id => @current_project.id)
+    session[:current_project_select_index] = current_user.id
     @tasks = @current_project.tasks.find_all_by_assignee_id(current_user.id).paginate(:per_page => 10, :page => params[:page])
     render :update do |page|
       page.replace_html 'tasks_list', :partial => 'tasks_list', :locals =>{:tasks => @tasks}
