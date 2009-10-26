@@ -1,0 +1,48 @@
+<script type="text/javascript" charset="utf-8">
+  function graph_data() {
+    var d1 = [];
+    <% @this_week.each_with_index do |day, index| %>
+      <% t = (@time_spent[index] / 60.0).to_f + (@time_spent[index] % 60.0 / 60.0).to_f %>
+      d1.push([<%= day.to_time.to_i * 1000 %>, <%= t %>]);
+    <% end %>
+    var options = {
+        series: {
+          label: "Time spent in hours",
+          points: {show: true},
+          bars: {
+            show: true,
+            barWidth: 24 * 60 * 45 * 1000,
+            align: "center",
+            fill: true, 
+            fillColor: "rgba(255, 255, 123, 0.8)",
+          },
+        },
+        xaxis: {
+          mode: "time",
+          timeformat: "%d %b",
+          tickSize: [1, "day"],
+        },
+        grid: {
+          clickable: true,
+          mouseActiveRadius: 10,
+        }
+    }; // end options
+     $.plot($("#graph"), [d1], options);
+     $("#graph").bind("plotclick", function (event, pos, item) {
+         // alert("You clicked at " + pos.x + ", " + pos.y);
+         // secondary axis coordinates if present are in pos.x2, pos.y2,
+         // if you need global screen coordinates, they are pos.pageX, pos.pageY
+         if (item) {
+           highlight(item.series, item.datapoint);
+           alert("You clicked a point!");
+         }
+     });
+  }
+  
+  $(function () {
+    graph_data();
+  });
+</script>
+
+<div id="graph" style="width: 350px; height: 200px; position: relative;">
+</div>

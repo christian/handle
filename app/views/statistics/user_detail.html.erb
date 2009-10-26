@@ -1,3 +1,4 @@
+
 <%= render :partial => 'menu' %>
 
 <%= render :partial => 'side_menu_users' %>
@@ -17,22 +18,12 @@
   
   <div class="span-9 last">
     <h3>This week</h3>
-      <div id="population_chart" class='chart'>
-        <strong>Text displayed when the user doesn't have Flash. You might want to display a simple table with the population, search engines and visitor without flash would love that.</strong>
-        <p> To see this page properly, you need to upgrade your Flash Player, please visit the Adobe web site</p>
+      <span id="prev_link"><%= link_to_remote "&laquo; Previous week", :url => { :action => "time_for_week", :start_day => @last_monday, :user_id => @user.id }%></span>&nbsp; &nbsp; &nbsp;
+      <span id="next_link"></span>
+      
+      <div id="weekly_graph">
+        <%= render :partial => "weekly_graph" %>
       </div>
-
-      <script type="text/javascript">
-        // <![CDATA[    
-        var so = new SWFObject("/graphs/amcolumn/amcolumn.swf", "population_chart", "350", "280", "1", "#FFFFFF");
-        so.addVariable("path", "/graphs/amcolumn/");
-        so.addVariable("settings_file", escape("/graphs/amcolumn/amcolumn_settings.xml"));
-        so.addVariable("data_file", escape("<%= statistics_xml_user_this_week_path(@user.id) %>")); 
-        so.addVariable("additional_chart_settings", "<settings><labels><label><x>150</x><y>25</y><text_size>12</text_size><text><![CDATA[<b>weekly timespent</b>]]></text></label></labels></settings>");
-        so.addVariable("preloader_color", "#FFFFFF");
-        so.write("population_chart");
-        // ]]>
-      </script>
     <br />
   </div>
 
@@ -41,8 +32,9 @@
   <table>
     <tr style="background-color: #FFDDDD;">
       <th style="border-bottom: double 1px #EF6868;"></th>
-      <th style="border-bottom: double 1px #EF6868;">Active tasks</th>
-      <th style="border-bottom: double 1px #EF6868;">Closed tasks</th>
+      <th style="border-bottom: double 1px #EF6868;">Active</th>
+      <th style="border-bottom: double 1px #EF6868;">Closed</th>
+      
       <th style="border-bottom: double 1px #EF6868;">Completion</th>
     </tr>
 
@@ -72,8 +64,27 @@
   
   <h3>Producivity so far</h3>
   
+  <%  form_remote_tag :url => {:action => :statistics_for_dates} do %>
+
+    <div class="span-4">
+      <%= label_tag :from_date, "From" %><a class="dp-choose-date" title="Choose date" href="#">Choose date</a> <br />
+      <%= text_field_tag :from_date, nil, :id => "from_date", :class=> "date-pick dp-applied text" %>
+    </div>
+    <div class="span-4">
+      <%= label_tag :from_date, "Until" %><a class="dp-choose-date" title="Choose date" href="#">Choose date</a> <br />
+      <%= text_field_tag :from_date, nil, :id => "until_date", :class=> "date-pick dp-applied text", :size => 10  %>
+    </div>
+    
+    <%= submit_tag "Show" %>
+  <% end %>
+  
+  <div id="productivity">
+    
+  </div>
+  
   Select from date, select to date
   Medium time/ per day.
 
-  
 </div>
+
+

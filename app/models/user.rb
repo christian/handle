@@ -43,6 +43,10 @@ class User < ActiveRecord::Base
     changes.count(:conditions => ["for_day = ?", Date.today])
   end
 
+  def total_amount_of_work
+    
+  end
+  
   private
   def map_openid_registration(registration)
     self.email = registration[:email] if email.blank?
