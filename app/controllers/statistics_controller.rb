@@ -32,6 +32,7 @@ class StatisticsController < ApplicationController
     @user = User.find(params[:user_id])
     @projects = @user.projects
     @worked_on_tasks = Change.tasks_for_day_user(Date.today, @user.id)
+    @date = Date.today
     
     week_stats
   end
@@ -60,10 +61,18 @@ class StatisticsController < ApplicationController
     render :update do |page|
       page.replace_html "weekly_graph", :partial => "weekly_graph"
       page.replace_html "prev_link", link_to_remote("&laquo; Previous week", :url => { :action => "time_for_week", :start_day => @last_monday, :user_id => @user.id })
-      page.replace_html "next_link", link_to_remote("&laquo; Previous week", :url => { :action => "time_for_week", :start_day => @next_monday, :user_id => @user.id })
+      page.replace_html "next_link", link_to_remote("&laquo; Next week", :url => { :action => "time_for_week", :start_day => @next_monday, :user_id => @user.id })
     end
   end
 
+  def time_for_day
+    @user = User.find(params[:user_id])
+    @date = Date.parse(params[:date])
+    @worked_on_tasks = Change.tasks_for_day_user(@date, @user.id)
+    render :update do |page|
+      page.replace_html "day_stats", :partial => "day_stats"
+    end
+  end
   # => creates an xml for displaying time tracking for this week
   # def xml_user_this_week
   #   @user = User.find(params[:user_id])

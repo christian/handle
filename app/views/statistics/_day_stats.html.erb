@@ -1,0 +1,37 @@
+    <h3><%= @date == Date.today ? "Today," : "On " %> <a href="#" id="select_work_day" class="sel_date"><%= @date.strftime("%b %d, %Y") %> </a>- <span class="added"><%= humanized_duration(@user.time_spent_per_day(@date)) %></span></h3>
+    Tasks that <strong><%= @user.name %></strong> worked on <em><%= @date.strftime("%b %d, %Y") %></em>
+    <ul>
+      <% for task in @worked_on_tasks %>
+        <% unless task.nil? %>
+          <li><%= link_to task.title, task %></li>
+        <% end %>
+      <% end %>
+    </ul>
+    
+    <script type="text/javascript" charset="utf-8">
+      $('#select_work_day').datePicker(
+    	  {
+    	    startDate:'01/01/1996', 
+    	    endDate: (new Date()).asString()
+    	  }
+      ).bind('dateSelected', select_date);
+
+      $('.sel_date').datePicker().bind('click',	function() {
+  				$(this).dpDisplay();
+  				this.blur();
+  				return false;
+  			}
+  		).bind('dateSelected', select_date);
+
+      function select_date(e, selectedDate, $td)	{
+      	// alert(selected);
+
+      	date = selectedDate.getFullYear() + "-" + (selectedDate.getMonth() + 1) + "-" + selectedDate.getDate();
+      	$.ajax({
+          type: "GET",
+          url: "<%= statistics_user_time_day_path(@user.id) %>",
+          data: {"date": date},
+          dataType: "script"
+        });
+      }
+    </script>

@@ -6,17 +6,11 @@
 <div class="span-18 last">
   <h2><%= @user.name %>'s activity</h2>
 
-  <div class="span-9">
-    <h3>Today - <span class="added"><%= humanized_duration(@user.time_spent_per_day) %></span></h3>
-    Tasks that cristi worked on today
-    <ul>
-      <% for task in @worked_on_tasks %>
-        <li><%= link_to task.title, task %></li>
-      <% end %>
-    </ul>
+  <div class="span-8 border" id="day_stats">
+    <%= render :partial => 'day_stats' %>
   </div>  
   
-  <div class="span-9 last">
+  <div class="prepend-1 span-9 last">
     <h3>This week</h3>
       <span id="prev_link"><%= link_to_remote "&laquo; Previous week", :url => { :action => "time_for_week", :start_day => @last_monday, :user_id => @user.id }%></span>&nbsp; &nbsp; &nbsp;
       <span id="next_link"></span>
@@ -45,7 +39,8 @@
       <%
        @active = @user.opened_tasks_count_for_project(project.id)
        @closed = @user.closed_tasks_count_for_project(project.id)
-       @percent_completed = @active == 0 ? 0 : @closed * 100 / @active
+       @total = @user.total_tasks_count_for_project(project.id)
+       @percent_completed = @active == 0 ? 0 : @closed * 100 / @total
       %>
       <td><%= @active %></td>
       <td><%= @closed %></td>
@@ -66,13 +61,13 @@
   
   <%  form_remote_tag :url => {:action => :statistics_for_dates} do %>
 
-    <div class="span-4">
-      <%= label_tag :from_date, "From" %><a class="dp-choose-date" title="Choose date" href="#">Choose date</a> <br />
-      <%= text_field_tag :from_date, nil, :id => "from_date", :class=> "date-pick dp-applied text" %>
+    <div class="span-5">
+      <%#= label_tag :from_date, "From" %>
+      <%= text_field_tag :from_date, nil, :id => "from_date", :class=> "date-pick dp-applied " %>
     </div>
-    <div class="span-4">
-      <%= label_tag :from_date, "Until" %><a class="dp-choose-date" title="Choose date" href="#">Choose date</a> <br />
-      <%= text_field_tag :from_date, nil, :id => "until_date", :class=> "date-pick dp-applied text", :size => 10  %>
+    <div class="span-5">
+      <%#= label_tag :from_date, "Until" %>
+      <%= text_field_tag :from_date, nil, :id => "until_date", :class=> "date-pick dp-applied" %>
     </div>
     
     <%= submit_tag "Show" %>
@@ -87,4 +82,58 @@
 
 </div>
 
+<script type="text/javascript" charset="utf-8">
+//Plugin to add text to an input field that disappears on focus 
+  jQuery.fn.inputFieldText = function(string) {          
+      this.each(function() { 
+          $(this).val(string); 
+          $(this).focus(function(){ 
+              if ($(this).val() == string){ 
+                  $(this).val('');
+                  $(this).css("color","#000"); 
+              } 
+          }); 
+          $(this).blur(function(){ 
+              if ($(this).val() == '' ){ 
+                  $(this).val(string); 
+                  $(this).css("color","#aaa"); 
+              } 
+          });     
+      }); 
+  }
+  
+  $(function()
+  {
+    $('#from_date').css("color", "#aaa").inputFieldText('From');
+    $('#until_date').css("color", "#aaa").inputFieldText('Until');
+  	$('.date-pick').datePicker({startDate:'01/01/1996'});
+    
+  	// $('.date-pick').dpSetStartDate('01/01/2008');
+  	$('#select_work_day').datePicker(
+  	  {
+  	    startDate:'01/01/1996', 
+  	    endDate: (new Date()).asString()
+  	  }
+    ).bind('dateSelected', select_date);
+    
+    $('.sel_date').datePicker().bind('click',	function() {
+				$(this).dpDisplay();
+				this.blur();
+				return false;
+			}
+		).bind('dateSelected', select_date);
+    
+    function select_date(e, selectedDate, $td)	{
+    	// alert(selected);
+    	
+    	date = selectedDate.getFullYear() + "-" + (selectedDate.getMonth() + 1) + "-" + selectedDate.getDate();
+    	$.ajax({
+        type: "GET",
+        url: "<%= statistics_user_time_day_path(@user.id) %>",
+        data: {"date": date},
+        dataType: "script"
+      });
+    }
+  });
+</script>
 

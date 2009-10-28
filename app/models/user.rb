@@ -35,6 +35,10 @@ class User < ActiveRecord::Base
     tasks(:conditions => ['status = "Active"']).count
   end
   
+  def total_tasks_count_for_project(proj_id)
+    tasks.count(:conditions => ['project_id = ?', proj_id])
+  end
+  
   def time_spent_per_day(day=Date.today)
     changes.for_day_equals(day).inject(0) {|sum, change| sum + change.minutes }
   end
