@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
   def collaboratores
     if current_project.nil?
       current_project = projects.first
-      self.save
+      self.update_attributes(current_project_id => projects.first.id)
     end
     current_project.users.collect{ |u| [u.name, u.id]}
   end
