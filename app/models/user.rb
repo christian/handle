@@ -11,11 +11,13 @@ class User < ActiveRecord::Base
   belongs_to :current_project, :class_name => "Project", :foreign_key => "current_project_id"
   
   def collaboratores
-    if current_project.nil?
-      current_project = projects.first
-      self.update_attributes(current_project_id => projects.first.id)
-    end
-    current_project.users.collect{ |u| [u.name, u.id]}
+#    if current_project.nil?
+#      current_project = projects.first
+#      self.update_attributes(current_project_id => projects.first.id)
+#    end
+#    current_project.users.collect{ |u| [u.name, u.id]}
+    #TODO NEED TO FIX THIS
+    User.all.collect{ |u| [u.name, u.id]}
   end
   
   # refactor as bellow
