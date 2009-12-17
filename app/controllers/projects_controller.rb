@@ -1,9 +1,11 @@
 class ProjectsController < ApplicationController
+  before_filter :check_is_superadmin, :only => [:new, :edit, :create, :update, :destroy]
+  
   def index
-    @projects = Project.all
+    @projects = Project.all_project_user_works_for(current_user.id)
   end
   def show
-    @project = Project.find(params[:id])
+    @project = Project.all_project_user_works_for(current_user.id).find(params[:id])
     @contributors = @project.users
   end
   def new

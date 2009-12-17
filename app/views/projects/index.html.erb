@@ -18,12 +18,15 @@
     </td>
     <td><%= link_to 'View tasks', tasks_path(:project_id => project.id) %></td>
     <td><%= link_to 'Show', project %></td>
-    <td><%= link_to 'Edit', edit_project_path(project) %></td>
-    <td><%= link_to 'Destroy', project, :confirm => 'Are you sure?', :method => :delete %></td>
+    <% if current_user.is_superadmin %>
+      <td><%= link_to 'Edit', edit_project_path(project) %></td>
+      <td><%= link_to 'Destroy', project, :confirm => 'Are you sure?', :method => :delete %></td>
+    <% end %>
   </tr>
 <% end %>
 </table>
 
 <br />
-
-<%= link_to 'New project', new_project_path, :class => "button" %>
+<% if current_user.is_superadmin %>
+  <%= link_to 'New project', new_project_path, :class => "button" %>
+<% end %>

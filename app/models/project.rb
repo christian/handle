@@ -12,6 +12,21 @@ class Project < ActiveRecord::Base
   
   after_save :save_contributors
   
+  def self.ids_all_projects_user_works_for(current_user_id)
+    u = User.find(current_user_id)
+    if u.is_superadmin
+      return Project.all.collect(&:id)
+    else
+      return u.projects(:select => :id).collect(&:id).uniq
+    end
+  end
+  
+  named_scope :all_project_user_works_for, lambda { |current_user_id| {
+    :conditions => ["id in (?)", self.ids_all_projects_user_works_for(current_user_id)]
+    }
+  }
+  
+  
   def self.projects_select
     self.all.collect {|p| [p.name, p.id]}
   end

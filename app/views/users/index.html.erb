@@ -14,13 +14,16 @@
     <td><%=h user.name %></td>
     <td><%=h user.username %></td>
     <td><%=h user.email %></td>
-    <td><%= link_to 'Roles', '' %></td>
     <td><%= link_to 'Tasks', user_tasks_path(user.id) %></td>
     <td><%= link_to 'Show', user %></td>
-    <td><%= link_to 'Edit', edit_user_path(user) %></td>
-    <td><%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
+    <% if current_user.is_superadmin %>
+      <td><%= link_to 'Edit', edit_user_path(user) %></td>
+      <td><%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
+    <% end %>
   </tr>
 <% end %>
 </table>
 
-<%= link_to 'New user', new_user_path, :class => "button"  %>
+<% if current_user.is_superadmin %>
+  <%= link_to 'New user', new_user_path, :class => "button"  %>
+<% end %>

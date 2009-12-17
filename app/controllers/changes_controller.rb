@@ -8,7 +8,7 @@ class ChangesController < ApplicationController
   
   def new
     @change = @task.changes.new
-    @users = current_user.collaboratores
+    @users = current_user.current_project_collaborators
     respond_to do |format|
       format.js {render :partial => 'changes/new', :change => @change} 
     end

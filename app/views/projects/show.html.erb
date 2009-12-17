@@ -16,5 +16,7 @@
 
 <hr />
 
-<%= link_to 'Edit', edit_project_path(@project) %> |
+<% if current_user.is_superadmin %>
+  <%= link_to 'Edit', edit_project_path(@project) %> |
+<% end %>
 <%= link_to 'Back to projects index', projects_path %>

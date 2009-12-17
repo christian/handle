@@ -1,3 +1,5 @@
+<div class="span-12">
+  <h3>General info</h3>
   <p>
     <%= f.label :name %><br />
     <%= f.text_field :name, :class => 'text' %>
@@ -10,6 +12,8 @@
     <%= f.label :email %><br />
     <%= f.text_field :email, :class => 'text' %>
   </p>
+
+
   <% if @user.openid_identifier.blank? %>
     <p>
       <%= f.label :password %><br />
@@ -22,13 +26,42 @@
     <p>
       <%= f.submit 'Submit' %>
     </p>
-  
-    <h2>Or user OpenID</h2>
   <% end %>
+  <br />
+  <p>Or use open ID</p>
+  <br />
   <p>
-    <%= f.label :openid_identifier, "Openid URL" %>
+    <%= f.label :openid_identifier, "Openid URL" %><br />
     <%= f.text_field :openid_identifier, :class => 'text' %>
   </p>
+</div>
+
+<div class="span-12 last">
+  <h3>Permissions:</h3>
+  
   <p>
-    <%= f.submit 'Submit' %>
+    <%= f.label :is_superadmin %>
+    <%= f.check_box :is_superadmin %>
+  </p>
+  <p>
+    <%= f.label :is_member %>
+    <%= f.check_box :is_member %>
+  </p>
+</div>
+
+<div class="span-12 last">
+  <h3>Projects:</h3>
+  <p>
+    <% for proj in Project.all %>
+      <%= check_box_tag 'user[projects_ids][]', proj.id.to_s, @user.projects.collect(&:id).include?(proj.id) %> <%= proj.name %><br />
+    <% end %>
+  </p>
+</div>
+
+
+<div class="clear" /> 
+<hr />
+
+  <p>
+    <%= f.submit 'Update' %>
   </p>

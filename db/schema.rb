@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091001115609) do
+ActiveRecord::Schema.define(:version => 20091217143630) do
 
   create_table "changes", :force => true do |t|
     t.text     "comment"
@@ -99,6 +99,8 @@ ActiveRecord::Schema.define(:version => 20091001115609) do
     t.datetime "updated_at"
     t.integer  "current_project_id"
     t.string   "openid_identifier"
+    t.boolean  "is_superadmin"
+    t.boolean  "is_member",          :default => true
   end
 
   create_table "watchings", :force => true do |t|

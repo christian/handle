@@ -1,10 +1,7 @@
-<h2>Editing user <%= @user.name %></h2>
+<h2><%= link_to 'Users', users_path %> &raquo; Editing user <%= @user.name %></h2>
 
 <% form_for(@user) do |f| %>
   <%= f.error_messages %>
 
   <%= render :partial => 'form_fields', :locals => {:f => f} %>
 <% end %>
-
-<%= link_to 'Show', @user %> |
-<%= link_to 'Back', users_path %>

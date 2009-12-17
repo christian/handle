@@ -1,9 +1,11 @@
 class UsersController < ApplicationController
+  before_filter :check_is_superadmin, :only => [:new, :edit, :create, :update, :destroy]
+  
   def index
-    @users = User.all
+    @users = User.all_collaborators(current_user.id)
   end
   def show
-    @user = User.find(params[:id])
+    @user =  User.all_collaborators(current_user.id).find(params[:id])
   end
   def new
     @user = User.new
@@ -39,4 +41,5 @@ class UsersController < ApplicationController
     @user.destroy
     redirect_to users_path
   end
+  
 end

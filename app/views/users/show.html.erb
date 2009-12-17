@@ -16,8 +16,27 @@
 </p>
 
 <p>
+  <b>Is superadmin:</b>
+  <%=h @user.is_superadmin %>
+</p>
+
+<p>
+  <b>Is member:</b>
+  <%=h @user.is_member %>
+</p>
+
+<h3>Projects</h3>
+<ul>
+  <% for p in current_user.projects %>
+    <li><%= p.name %></li>
+  <% end %>
+</ul>
+
+<p>
   Todo: view cristi's tasks. etc.
 </p>
 
-<%= link_to 'Edit', edit_user_path(@user) %> |
+<% if current_user.is_superadmin %>
+  <%= link_to 'Edit', edit_user_path(@user) %> |
+<% end %>
 <%= link_to 'Back to users', users_path %>

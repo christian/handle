@@ -87,8 +87,6 @@ class TasksController < ApplicationController
     @task = Task.new
     @users = current_project.users
     @users_select = @users.collect{ |u| [u.name, u.id] }
-    @selected_index_user = 0
-    @users_select.each_with_index { |u,i| (@selected_index_user = i+1) if u[1] == current_user.id }
     
     respond_to do |format|
       format.js {render :partial => 'new_task', :task => @task} 
