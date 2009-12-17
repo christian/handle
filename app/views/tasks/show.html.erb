@@ -59,7 +59,7 @@
               cell_attrs = {:class => 'day'}
               @task.changes.each do |change|
                 if change.for_day.mday == d.mday && change.for_day.month == d.month
-                  cell_text = link_to ("#{change.for_day.mday}", "##{change.for_day}")
+                  cell_text = link_to("#{change.for_day.mday}", "##{change.for_day}")
                   cell_attrs[:class] = 'specialDay'
                 end
               end

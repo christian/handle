@@ -31,7 +31,6 @@ class ApplicationController < ActionController::Base
   
   
   def current_project
-    # amend this
     @project ||= (current_user.current_project || current_user.projects.first)    
   end
   
@@ -41,22 +40,5 @@ class ApplicationController < ActionController::Base
   
   def projects_collection
     projects = Hash[*current_user.projects.all.collect{|p| [p.name, p.id]}.flatten]
-    unless current_user.current_project.nil?
-      current_project_id = current_user.projects.first.id 
-      projects.keys.each_with_index do |val,index|
-        @select_index = index if val == current_user.current_project.name
-        session[:current_project_select_index] = @select_index
-      end
-    else
-      @select_index = current_user.projects.first.id
-      session[:current_project_select_index] = @select_index
-    end
-    projects
   end
-  
-  # def current_project
-  #   if defined?(@current_user)
-  #     return @current_user.current_project 
-  #   end
-  # end
 end

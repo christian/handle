@@ -40,7 +40,7 @@
         <div class="span-4 last" style="background-color: #75CC28; color: white; border-bottom: solid 6px #5B9F1D;">
           <div style="padding: 7px; text-align: right; height: 42px;">
             Hi <%= current_user.username %>!<br />
-          <%= link_to "Logout", logout_path %>
+          <%= link_to "Preferences", logout_path %> | <%= link_to "Logout", logout_path %>
           </div>
         </div>
       <% end %>

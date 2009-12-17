@@ -1,7 +1,7 @@
 <div class="span-10 last">
   <div class="span-5">
     <%= f.label :project_id, 'Project' %>
-    <%= select_tag 'task[project_id]', options_for_select(projects_collection, session[:current_project_select_index].to_i + 1)# ,
+    <%= select_tag 'task[project_id]', options_for_select(projects_collection, current_user.current_project_id)# ,
     #       {:onchange => "#{remote_function(:url  => "#{get_tasks_tasks_path}",
     #                                        :method => :get,
     #                                        :with => "'project_id='+ $(\"\#project\").val()"

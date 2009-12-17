@@ -1,8 +1,7 @@
 
 <style type="text/css" media="screen">
   .change_comment {
-    font-size: 1.5em;
-    text-indent: 1.5em;
+    font-size: 1.2em;
     padding:8px;
     color: #002F00;
   }
@@ -12,7 +11,9 @@
 <p>
   <span class="quiet"><i><%= change.created_at.to_s(:long) %></i></span>, <strong><%= change.user.name %></strong>:
   <p class="change_comment loud">
-    <span style="color: #7F1F23;" class="alt"><%= change.comment %></span>
+    <span style="color: #7F1F23;" >
+    <pre><%= change.comment %></pre>
+    </span>
     <p><%= change.task_changes %></p>
   </p>
 </p>
