@@ -48,11 +48,11 @@ class User < ActiveRecord::Base
   
   def current_project_collaborators
     # shows the collaborators on the current project as a hash
-    if current_project.nil?
+    if self.current_project.nil?
       current_project = projects.first
       self.update_attributes(current_project_id => projects.first.id)
     end
-    current_project.users.collect{ |u| [u.name, u.id]}
+    self.current_project.users.collect{ |u| [u.name, u.id]}
   end
   
   # refactor as bellow

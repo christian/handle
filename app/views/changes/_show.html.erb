@@ -12,7 +12,7 @@
   <span class="quiet"><i><%= change.created_at.to_s(:long) %></i></span>, <strong><%= change.user.name %></strong>:
   <p class="change_comment loud">
     <span style="color: #7F1F23;" >
-    <pre><%= change.comment %></pre>
+    <%= change.comment %>
     </span>
     <p><%= change.task_changes %></p>
   </p>
