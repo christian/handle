@@ -113,10 +113,10 @@ class TasksController < ApplicationController
     session[:tasks_priority] ||= Task::PRIORITIES.collect{ |p| p[1].to_s }
     session[:tasks_priority] = params[:tasks_priority] unless params[:tasks_priority].nil?
 
-    session[:tasks_status] ||= Task::STATUSES.delete("Closed")
+    session[:tasks_status] ||= Task::STATUSES.dup.delete("Closed")
     session[:tasks_status] = params[:tasks_status] unless params[:tasks_status].nil?
 
-    session[:tasks_resolution] ||= Task::RESOLUTIONS.delete("Completed")
+    session[:tasks_resolution] ||= Task::RESOLUTIONS.dup.delete("Completed")
     session[:tasks_resolution] = params[:tasks_resolution] unless params[:tasks_resolution].nil?
     
     session[:tasks_order] ||= Task::ORDER[2]
