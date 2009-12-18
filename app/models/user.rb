@@ -50,7 +50,7 @@ class User < ActiveRecord::Base
     # shows the collaborators on the current project as a hash
     if self.current_project.nil?
       current_project = projects.first
-      self.update_attributes(current_project_id => projects.first.id)
+      self.update_attributes(:current_project_id => projects.first.id)
     end
     self.current_project.users.collect{ |u| [u.name, u.id]}
   end
