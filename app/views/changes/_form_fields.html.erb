@@ -38,7 +38,8 @@
 <div class="4 last">  
   <p>
     <%= f.label :reassing_user_id, "Reassign to" %><br />
-    <%= f.select :reassing_user_id, @users %>
+    <%#= f.select :reassing_user_id, @users %>
+    <%= select_tag 'change[reassing_user_id]', options_for_select(users_collection, current_user.id) %>
   </p>
 
   <% f.fields_for :task do |task_form| %>

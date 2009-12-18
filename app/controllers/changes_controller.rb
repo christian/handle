@@ -1,6 +1,6 @@
 class ChangesController < ApplicationController
   before_filter :get_task
-  helper_method :current_project
+  helper_method :current_project, :users_collection
   
   def index
     @changes = Change.all

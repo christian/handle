@@ -42,6 +42,10 @@ class ApplicationController < ActionController::Base
     projects = Hash[*current_user.projects.all.collect{|p| [p.name, p.id]}.flatten]
   end
   
+  def users_collection
+    users = Hash[*current_project.users.all.collect{|u| [u.name, u.id]}.flatten]
+  end
+  
   def check_is_superadmin
     unless current_user.is_superadmin
       render :text => "Not allowed."
