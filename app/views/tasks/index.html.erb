@@ -16,7 +16,17 @@
   <%= render :partial => "shared/notice" %>
   
   <div class="span-17">
-    <h2><%= @tasks_for %> tasks</h2>
+    <h2>
+      <% if params[:project_id] %>
+        <%= link_to "My tasks", tasks_path, :class => "quiet" %>
+        &nbsp;&nbsp;|&nbsp;&nbsp;
+        Project tasks
+      <% else %>
+        My tasks 
+        &nbsp;&nbsp;|&nbsp;&nbsp;
+        <%= link_to "Project tasks", tasks_path(:project_id => current_project.id), :class => "quiet" %> 
+      <% end %>
+    </h2>
   </div>
   <div class="span-3 last">
     <%= link_to '&nbsp; New task &nbsp; ', '/tasks/new?height=640&width=550&inlineId=hiddenModalContent', :class => 'button thickbox', :title => 'Add new task' %>

@@ -4,9 +4,9 @@ class TasksController < ApplicationController
   
   def filter_tasks
     @user_of_tasks = params[:user_id] ? params[:user_id] : current_user.id
-    unless params[:project_id]
-      # view a certain's users tasks
-      @tasks_for = params[:user_id].nil? ? "Your" : User.find(params[:user_id]).name 
+    if params[:project_id].nil?
+      # view certain users tasks
+      @tasks_for = params[:user_id].nil? ? "My" : User.find(params[:user_id]).name 
       @tasks = current_project.tasks.assignee_id_equals(@user_of_tasks).
                               kind_equals(session[:tasks_kind]).
                               priority_equals(session[:tasks_priority]).
@@ -15,7 +15,7 @@ class TasksController < ApplicationController
                               order(session[:tasks_order], session[:tasks_order_type]).
                               paginate(:per_page => 10, :page => params[:page])
     else
-      # view a certain's project tasks
+      # view certain project tasks
       @project = Project.find(params[:project_id])
       @tasks_for = @project.name
       @tasks = @project.tasks.kind_equals(session[:tasks_kind]).
@@ -25,6 +25,7 @@ class TasksController < ApplicationController
                               order(session[:tasks_order], session[:tasks_order_type]).
                               paginate(:per_page => 10, :page => params[:page])
     end
+
   end
   
   def index
@@ -113,10 +114,10 @@ class TasksController < ApplicationController
     session[:tasks_priority] ||= Task::PRIORITIES.collect{ |p| p[1].to_s }
     session[:tasks_priority] = params[:tasks_priority] unless params[:tasks_priority].nil?
 
-    session[:tasks_status] ||= Task::STATUSES.dup.delete("Closed")
+    session[:tasks_status] ||= Task::STATUSES.dup.delete("Active")
     session[:tasks_status] = params[:tasks_status] unless params[:tasks_status].nil?
 
-    session[:tasks_resolution] ||= Task::RESOLUTIONS.dup.delete("Completed")
+    session[:tasks_resolution] ||= Task::RESOLUTIONS.dup.delete("In progress")
     session[:tasks_resolution] = params[:tasks_resolution] unless params[:tasks_resolution].nil?
     
     session[:tasks_order] ||= Task::ORDER[2]

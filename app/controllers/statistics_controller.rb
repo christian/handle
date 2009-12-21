@@ -9,27 +9,49 @@ class StatisticsController < ApplicationController
       @select_index = i if current_project.id == p.id
     end
     
-    @users = User.all
+    if current_user.is_superadmin
+      @users = User.all
+    else
+      @users = User.all_collaborators(current_user.id)
+    end
   end
 
   def users
-    @users = User.all
+    if current_user.is_superadmin
+      @users = User.all
+    else
+      @users = User.all_collaborators(current_user.id)
+    end
   end
 
   def projects
-    @projects = Project.all
+    if current_user.is_superadmin
+      @projects = Project.all
+    else
+      @projects = current_user.projects
+    end
   end
 
   def project_detail
-    @projects = Project.all
-    @project = Project.find(params[:project_id])
+    if current_user.is_superadmin
+      @projects = Project.all
+      @project = Project.find(params[:project_id])
+    else
+      @projects = current_user.projects
+      @project = current_user.projects.find(params[:project_id])
+    end
     
     @users = @project.users
   end
   
   def user_detail
-    @users = User.all
-    @user = User.find(params[:user_id])
+    if current_user.is_superadmin
+      @users = User.all
+      @user = User.find(params[:user_id])
+    else
+      @users = User.all_collaborators(current_user.id)
+      @user = User.all_collaborators(current_user.id).find(params[:user_id])
+    end
     @projects = @user.projects
     @worked_on_tasks = Change.tasks_for_day_user(Date.today, @user.id)
     @date = Date.today
