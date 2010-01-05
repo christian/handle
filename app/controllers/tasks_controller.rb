@@ -38,14 +38,16 @@ class TasksController < ApplicationController
   end
   
   def get_tasks
-    @current_project = Project.find_by_id(params[:project_id])
-    current_user.update_attributes(:current_project_id => @current_project.id)
-    session[:current_project_select_index] = current_user.id
-    @tasks = @current_project.tasks.find_all_by_assignee_id(current_user.id).paginate(:per_page => 10, :page => params[:page])
+    if params[:project_id] == "-1"
+      current_user.update_attributes(:current_project_id => -1)
+      @tasks = Task.find_all_by_assignee_id(current_user.id).paginate(:per_page => 10, :page => params[:page])
+    else
+      @current_project = Project.find_by_id(params[:project_id])
+      current_user.update_attributes(:current_project_id => @current_project.id)
+      @tasks = @current_project.tasks.find_all_by_assignee_id(current_user.id).paginate(:per_page => 10, :page => params[:page])
+    end
     render :update do |page|
       page.replace_html 'tasks_list', :partial => 'tasks_list', :locals =>{:tasks => @tasks}
-      # set the current_project in user model
-      # set the current_project in combo box
     end
   end
   
