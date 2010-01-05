@@ -8,9 +8,15 @@ class RFilesController < ApplicationController
     @r_files = current_project.files.all
   end
   def get_files
-    @current_project = Project.find_by_id(params[:project_id])
-    current_user.update_attributes(:current_project_id => @current_project.id)
-    @files = @current_project.files
+    if params[:project_id] == "-1"
+      current_user.update_attributes(:current_project_id => -1)
+      @files = @current_user.projects.collect(&:files)
+    else
+      @current_project = Project.find_by_id(params[:project_id])
+      current_user.update_attributes(:current_project_id => @current_project.id)
+      @files = @current_project.files
+    end
+    
     render :update do |page|
       page.replace_html 'files_list', :partial => 'files_list', :locals => {:files => @files}
       # set the current_project in user model

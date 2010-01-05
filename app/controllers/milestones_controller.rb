@@ -27,9 +27,15 @@ class MilestonesController < ApplicationController
     @shown_month = Date.civil(@year, @month)
     @event_strips = Milestone.event_strips_for_month(@shown_month)
     
-    @current_project = Project.find_by_id(params[:project_id])
-    current_user.update_attributes(:current_project_id => @current_project.id) 
-    @milestones = @current_project.milestones
+    if params[:project_id] == "-1"
+      current_user.update_attributes(:current_project_id => -1)
+      @milestones = current_user.projects.collect(&:milestones)
+    else
+      @current_project = Project.find_by_id(params[:project_id])
+      current_user.update_attributes(:current_project_id => @current_project.id) 
+      @milestones = @current_project.milestones
+    end
+    
     render :update do |page|
       page.replace_html 'milestones_list', :partial => 'milestones_list', :locals =>{:milestones => @milestones}
     end
