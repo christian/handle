@@ -1,0 +1,50 @@
+<h3>Hi!</h3>
+
+<p>
+  A new task on project <strong><%= @task.project.name %></strong> has been created and assigned to you. <br /> 
+  Check it out here: <%= link_to @task.title, url_for(:controller => 'tasks', :action => 'show', :id => @task.id, :only_path => false) %>.
+</p>
+
+<p>
+  <strong>Assigned by:</strong><br />
+  <%= @task.opener.name %>
+</p>
+
+<p>
+  <strong>Description:</strong><br />
+  <%= @task.description %>
+</p>
+
+<table>
+  <tr>
+    <td>Kind:&nbsp;&nbsp;</td>
+    <td style="width: 48%;"><%= @task.kind %></td>
+  </tr>
+  <tr>
+    <td>Status:</td>
+    <td><strong><%=h @task.status %></strong>
+  </td>
+
+  <tr>
+    <td>Estimated time:</td>
+    <td><%=humanized_duration(@task.estimated_time) %></td>
+  </tr>
+  
+  <tr>
+    <td>Spent time:</td>
+    <td><%=humanized_duration(@task.time_spent) %></td>
+  </tr>
+
+  <tr>
+    <td>Priority:</td>
+    <td><%= "*" * @task.priority %></td>
+  </tr>
+
+  <tr>
+    <td>Resolution:</td>
+    <td><%= @task.resolution %></td>
+  </tr>
+  </tr>
+</table>
+
+Cheers!

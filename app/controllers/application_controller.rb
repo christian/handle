@@ -2,6 +2,7 @@
 # Likewise, all the methods added will be available for all controllers.
 
 class ApplicationController < ActionController::Base
+  before_filter :set_host_for_email
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
@@ -50,5 +51,8 @@ class ApplicationController < ActionController::Base
     unless current_user.is_superadmin
       render :text => "Not allowed."
     end
+  end
+  def set_host_for_email
+    ActionMailer::Base.default_url_options[:host] = request.host_with_port
   end
 end

@@ -97,15 +97,26 @@ class TasksController < ApplicationController
   def create
     @task = Task.new(params[:task])
     if @task.save
-      flash[:notice] = 'Task was successfully created.'
+      send_email('create_a_new_task', @task.asignee, "New task created: #{@task.project.name} : #{@task.title}", @task)
+      flash[:notice] = "Task was successfully created. Email sent to #{@task.asignee.name}."
       redirect_to(@task)
     else
-      #render :action => "new_task"
-      redirect_to "/changes/new?height=540&width=520&inlineId=hiddenModalContent&task_id=37"
+      #render :action => "new"
+      render :update do |page|
+        page << "alert('why?'); #{@task.errors.each {|e| e}}"
+      end
+      #redirect_to "/changes/new?height=540&width=520&inlineId=hiddenModalContent&task_id=37"
     end
   end
 
   private
+  
+  def send_email(email_kind, recipient, subject, task = nil)
+    Emailer.send(:"deliver_#{email_kind}", recipient, subject, task)
+    
+    return if request.xhr?
+    flash[:notice] = "Messages succesfully sent"
+  end
 
   def set_filter_session_vars
     session[:tasks_kind] ||= Task::KINDS  # what if there are no projects with ceratain attributes here

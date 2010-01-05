@@ -10,7 +10,7 @@ class Task < ActiveRecord::Base
   has_many :changes
   
   validates_presence_of :title
-  validates_uniqueness_of :title, :on => :create, :message => "must be unique"  
+#  validates_uniqueness_of :title, :on => :create, :message => "must be unique"  
   
   attr_accessor :estimated_days
   attr_accessor :estimated_hours

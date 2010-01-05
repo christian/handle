@@ -13,6 +13,17 @@ class Emailer < ActionMailer::Base
     @headers = {}
   end
   
+  def create_a_new_task(recipient, subject, task)
+    @subject = subject
+    @recipients = recipient
+    @from = 'handle@destravel-002.vm.brightbox.net'
+    @sent_on = Time.now
+    
+    @body["task"] = task
+    
+    @headers = {}
+  end
+  
   private
   def humanized_duration(duration)
     return if duration.nil?
