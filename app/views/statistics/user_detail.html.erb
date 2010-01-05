@@ -41,7 +41,7 @@
        @closed = @user.closed_tasks_count_for_project(project.id)
        @total = @user.total_tasks_count_for_project(project.id)
        @percent_completed = (@active == 0 ? 0 : @closed) * 100 / @total
-       @percent_completed = 100 if @closed > @active && active == 0
+       @percent_completed = 100 if @closed > @active && @active == 0
       %>
       <td><%= @active %></td>
       <td><%= @closed %></td>
