@@ -51,13 +51,17 @@
       <td><%= @active %></td>
       <td><%= @closed %></td>
       <td>
-        <div class="meter-wrap">
-            <div class="meter-value" style="background-color: #75cc28; width: <%= @percent_completed.to_i %>%;">
-                <div class="meter-text">
-                    <%= @percent_completed %>%
-                </div>
-            </div>
-        </div>
+        <% if @active == 0 && @percent_completed == 0 %>
+        -
+        <% else %>
+          <div class="meter-wrap">
+              <div class="meter-value" style="background-color: #75cc28; width: <%= @percent_completed.to_i %>%;">
+                  <div class="meter-text">
+                      <%= @percent_completed %>%
+                  </div>
+              </div>
+          </div>
+        <% end %>
       </td>
     </tr>
     <% end %>
