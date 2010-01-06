@@ -15,7 +15,7 @@ class Emailer < ActionMailer::Base
   
   def create_a_new_task(recipient, subject, task)
     @subject = subject
-    @recipients = recipient
+    @recipients = recipient.email
     @from = 'handle@destravel-002.vm.brightbox.net'
     @sent_on = Time.now
     

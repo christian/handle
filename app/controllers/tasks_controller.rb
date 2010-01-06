@@ -40,11 +40,24 @@ class TasksController < ApplicationController
   def get_tasks
     if params[:project_id] == "-1"
       current_user.update_attributes(:current_project_id => -1)
-      @tasks = Task.find_all_by_assignee_id(current_user.id).paginate(:per_page => 10, :page => params[:page])
+      @tasks = Task.assignee_id_equals(current_user.id).
+                          kind_equals(session[:tasks_kind]).
+                          priority_equals(session[:tasks_priority]).
+                          status_equals(session[:tasks_status]).
+                          resolution_equals(session[:tasks_resolution]).
+                          order(session[:tasks_order], session[:tasks_order_type]).
+                          paginate(:per_page => 10, :page => params[:page])
     else
       @current_project = Project.find_by_id(params[:project_id])
       current_user.update_attributes(:current_project_id => @current_project.id)
-      @tasks = @current_project.tasks.find_all_by_assignee_id(current_user.id).paginate(:per_page => 10, :page => params[:page])
+      @tasks = @current_project.tasks.assignee_id_equals(current_user.id).
+                                 kind_equals(session[:tasks_kind]).
+                                 priority_equals(session[:tasks_priority]).
+                                 status_equals(session[:tasks_status]).
+                                 resolution_equals(session[:tasks_resolution]).
+                                 order(session[:tasks_order], session[:tasks_order_type]).
+                                 paginate(:per_page => 10, :page => params[:page])
+      #raise @tasks.inspect
     end
     render :update do |page|
       page.replace_html 'tasks_list', :partial => 'tasks_list', :locals =>{:tasks => @tasks}
