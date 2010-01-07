@@ -8,6 +8,10 @@
       data: $("form").serialize() 
     });
   };
+  
+  $(function() {
+    $('#search_task').css("color", "#aaa").inputFieldText('task id or keywords');
+  })
 </script>
 
 <%= javascript_include_tag 'pagination' %>
@@ -24,7 +28,7 @@
       <% else %>
         My tasks 
         &nbsp;&nbsp;|&nbsp;&nbsp;
-        <%= link_to "Project tasks", tasks_path(:project_id => current_project.id), :class => "quiet" %> 
+        <%= link_to "Project tasks", tasks_path(:project_id => current_project.id), :class => "quiet", :id => "project_tasks_link" %> 
       <% end %>
     </h2>
   </div>
@@ -42,8 +46,16 @@
 
   <div style="background-color: #EEEEEE; padding: 7px;">
     <% form_tag :url => '/tasks', :method => "GET" do %>
-      Order
       <p>
+        Search <br />
+        <%= text_field_tag :search, "", :id => "search_task", :size => 11 %>
+        <%= submit_tag "Go" %>
+      </p>
+      
+      <hr />
+      
+      <p>
+        Order<br />
         <%= select_tag :tasks_order, options_for_select(Task::ORDER), {:style => "width: 85px;", :onchange => "filter_tasks();" } %>
         <%= select_tag :tasks_order_type, options_for_select(Task::ORDER_TYPE), {:style => "width: 45px;", :onchange => "filter_tasks();" } %>
       </p>

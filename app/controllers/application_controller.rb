@@ -12,6 +12,29 @@ class ApplicationController < ActionController::Base
   
   protected
   
+  #TODO refactor the next three methods 
+  def send_email_task_was_changed(task, change)
+    wachers_emails = task.watchers.collect(&:email) # (:conditions => ["id IS NOT ?", current_user.id]).
+    project = task.project
+    send_change_email('anounce_user_as_a_watcher', wachers_emails, "Updated task: #{project.name} : #{@task.title}", task, change)
+  end
+  
+  # this runs when a task is created
+  def send_email(email_kind, recipient, subject, task = nil)
+    Emailer.send(:"deliver_#{email_kind}", recipient, subject, task)
+    return if request.xhr?
+    flash[:notice] = "Messages succesfully sent"
+  end
+  
+  def send_change_email(email_kind, recipients, subject, task = nil, change = nil)
+    recipients.each do |recipient|
+      Emailer.send(:"deliver_#{email_kind}", recipient, subject, task, change)
+    end
+    return if request.xhr?
+    flash[:notice] = "Messages succesfully sent"
+  end
+  
+  
   private
   
   def login_required
@@ -53,6 +76,7 @@ class ApplicationController < ActionController::Base
       render :text => "Not allowed."
     end
   end
+  
   def set_host_for_email
     ActionMailer::Base.default_url_options[:host] = request.host_with_port
   end

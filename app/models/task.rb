@@ -10,7 +10,7 @@ class Task < ActiveRecord::Base
   has_many :changes
   
   validates_presence_of :title
-#  validates_uniqueness_of :title, :on => :create, :message => "must be unique"  
+  validates_uniqueness_of :title, :on => :create, :message => "must be unique"  
   
   attr_accessor :estimated_days
   attr_accessor :estimated_hours
@@ -19,7 +19,7 @@ class Task < ActiveRecord::Base
   PRIORITIES  = [['Blocker', 5], ['High', 4], ['Medium', 3], ['Low', 2], ['Whishlist', 1]]
   STATUSES    = %w(Active Closed)
   KINDS       = %w(Bug Feature Story)
-  RESOLUTIONS = ['In progress', 'Completed']
+  RESOLUTIONS = ['In progress', 'Completed', 'Duplicate']
   
   ORDER       = ['title', 'priority', 'status', 'resolution', 'kind']
   ORDER_TYPE  = ['asc', 'desc']

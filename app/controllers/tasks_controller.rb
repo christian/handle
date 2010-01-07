@@ -61,6 +61,7 @@ class TasksController < ApplicationController
     end
     render :update do |page|
       page.replace_html 'tasks_list', :partial => 'tasks_list', :locals =>{:tasks => @tasks}
+      page << '$("#project_tasks_link").attr("href", "/tasks?project_id=' + params[:project_id] + '")'
     end
   end
   
@@ -85,11 +86,19 @@ class TasksController < ApplicationController
   end
   
   def close
-    filter_tasks
-    @task = Task.find(params[:task_id])
-    @task.update_attributes(:status => :close)
-    render :update do |page|
-      page.replace_html 'tasks_list', :partial => {:tasks => @tasks}
+    @task = Task.find(params[:id])
+    @change = Change.new(:user_id => current_user.id,
+                         :for_day => Date.today,
+                         :task_changes => "status@@#{@task.status}>>Closed||
+                                           resolution@@#{@task.resolution}>>Completed||")
+    @change.task = @task
+    
+    if @task.update_attributes(:status => :close) && @change.save()
+      send_email_task_was_changed(@task, @change)
+      filter_tasks
+      render :update do |page|
+        page.replace_html 'tasks_list', :partial => 'tasks_list', :locals => {:tasks => @tasks}
+      end
     end
   end
   
@@ -126,13 +135,6 @@ class TasksController < ApplicationController
 
   private
   
-  def send_email(email_kind, recipient, subject, task = nil)
-    Emailer.send(:"deliver_#{email_kind}", recipient, subject, task)
-    
-    return if request.xhr?
-    flash[:notice] = "Messages succesfully sent"
-  end
-
   def set_filter_session_vars
     session[:tasks_kind] ||= Task::KINDS  # what if there are no projects with ceratain attributes here
     session[:tasks_kind] = params[:tasks_kind] unless params[:tasks_kind].nil?
