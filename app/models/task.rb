@@ -24,6 +24,14 @@ class Task < ActiveRecord::Base
   ORDER       = ['title', 'priority', 'status', 'resolution', 'kind']
   ORDER_TYPE  = ['asc', 'desc']
   
+  define_index do
+     # fields
+     indexes title, :sortable => true
+     
+     # attributes
+     has assignee_id #, opener_id, project_id, created_at
+  end
+  
   named_scope :order, lambda { |order, order_type| {
       :order => "#{order} #{order_type}"
     }

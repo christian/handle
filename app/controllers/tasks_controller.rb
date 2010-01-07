@@ -3,6 +3,19 @@ class TasksController < ApplicationController
   helper_method :projects_collection, :current_project
   
   def filter_tasks
+    # handle search
+    if !params[:search].nil? && params[:search] != "id or keywords + ENTER"
+      if params[:search] == ""
+        @tasks = []
+      end
+      if params[:search] =~ /^\d+$/
+        @tasks = current_user.tasks.id_equals(params[:search].to_i).paginate(:per_page => 10, :page => params[:page])
+      else
+        @tasks = Task.search(params[:search], :with => {:assignee_id => current_user.id}).paginate(:per_page => 10, :page => params[:page])
+      end
+      return
+    end
+    
     @user_of_tasks = params[:user_id] ? params[:user_id] : current_user.id
     if params[:project_id].nil?
       # view certain users tasks
@@ -57,8 +70,8 @@ class TasksController < ApplicationController
                                  resolution_equals(session[:tasks_resolution]).
                                  order(session[:tasks_order], session[:tasks_order_type]).
                                  paginate(:per_page => 10, :page => params[:page])
-      #raise @tasks.inspect
     end
+    
     render :update do |page|
       page.replace_html 'tasks_list', :partial => 'tasks_list', :locals =>{:tasks => @tasks}
       page << '$("#project_tasks_link").attr("href", "/tasks?project_id=' + params[:project_id] + '")'

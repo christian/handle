@@ -8,9 +8,35 @@
       data: $("form").serialize() 
     });
   };
-  
+
+  jQuery.fn.inputFieldText = function(string) {          
+      this.each(function() { 
+          $(this).val(string); 
+          $(this).focus(function(){ 
+              if ($(this).val() == string){ 
+                  $(this).val('');
+                  $(this).css("color","#000"); 
+              } 
+          }); 
+          $(this).blur(function(){ 
+              if ($(this).val() == '' ){ 
+                  $(this).val(string); 
+                  $(this).css("color","#aaa"); 
+                  filter_tasks();
+              } 
+          });
+      }); 
+  }
+
   $(function() {
-    $('#search_task').css("color", "#aaa").inputFieldText('task id or keywords');
+    $("#search_task").css("color", "#aaa").inputFieldText('id or keywords + ENTER');
+    $("#search_task").bind('keypress', function(e) {
+      var code = e.keyCode || e.which;
+      if(code == 13) { //Enter keycode
+         filter_tasks();
+         return false;
+       }
+    });
   })
 </script>
 
@@ -48,8 +74,8 @@
     <% form_tag :url => '/tasks', :method => "GET" do %>
       <p>
         Search <br />
-        <%= text_field_tag :search, "", :id => "search_task", :size => 11 %>
-        <%= submit_tag "Go" %>
+        <%= text_field_tag :search, "", :id => "search_task", :size => 17 %>
+        <%#= submit_tag "Go" %>
       </p>
       
       <hr />
