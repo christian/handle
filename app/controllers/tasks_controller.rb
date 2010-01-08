@@ -9,9 +9,11 @@ class TasksController < ApplicationController
         @tasks = []
       end
       if params[:search] =~ /^\d+$/
-        @tasks = current_user.tasks.id_equals(params[:search].to_i).paginate(:per_page => 10, :page => params[:page])
+        @tasks = Task.all(:conditions => ["id = ? AND project_id IN (?)", params[:search].to_i, current_user.projects.collect(&:id)]).paginate(:per_page => 10, :page => params[:page])
       else
-        @tasks = Task.search(params[:search], :with => {:assignee_id => current_user.id}).paginate(:per_page => 10, :page => params[:page])
+        # @tasks = Task.search(params[:search], :with => {:assignee_id => current_user.id})
+        @tasks = Task.search(params[:search], :with => {:project_id => current_user.projects.collect(&:id)}).paginate(:per_page => 10, :page => params[:page])
+        # @tasks = @tasks
       end
       return
     end

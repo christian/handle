@@ -29,7 +29,7 @@ class Task < ActiveRecord::Base
      indexes title, :sortable => true
      
      # attributes
-     has assignee_id #, opener_id, project_id, created_at
+     has assignee_id, project_id#, created_at
   end
   
   named_scope :order, lambda { |order, order_type| {

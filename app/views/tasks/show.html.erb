@@ -2,12 +2,11 @@
 
 
 <div class="span-24 last">
-  <div class="span-18">
+  <div class="span-21">
     <h2><%= link_to 'Tasks', tasks_path %> &raquo; #<%= @task.id %> <%= @task.title %> </h2>
   </div>
-  <div class="span-6 last" style="text-align: right;">
-    <span class="quiet">Created: <span class="alt"><%= @task.created_at.to_s(:long) %></span></span><br />
-    <span class="quiet">Last updated: <dpan class="alt"><%= @task.updated_at.to_s(:long) %></dpan></span>
+  <div class="span-3 last">
+    <%= link_to '&nbsp; New task &nbsp; ', '/tasks/new?height=640&width=550&inlineId=hiddenModalContent', :class => 'button thickbox', :title => 'Add new task' %>
   </div>
 </div>
 
@@ -17,8 +16,16 @@
     <div class="span-5 box">    
         <table style="margin: -10px;">
           <tr>
+            <td>Created:</td>
+            <td><span class="small"><%= @task.created_at.to_s(:long) %></span></td>
+          </tr>
+          <tr>
+            <td>Last updated:</td>
+            <td><span class="small"><%= @task.updated_at.to_s(:long) %></span></td>
+          </tr>
+          <tr>
             <td>Kind:&nbsp;&nbsp;</td>
-            <td style="width: 48%;"><span class="<%= @task.kind %>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+            <td style="width:48%;"><span class="<%= @task.kind %>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
           </tr>
           <tr>
             <td>Status:</td>
@@ -73,9 +80,9 @@
     <%= render :partial => "shared/notice" %>
         
     <h3><%= @task.title %></h3>
-    <p>
+    <pre style="font-family:Arial, Helvetica, sans-serif; text-indent: -1.7em;">
       <%=h @task.description %>
-    </p>
+    </pre>
 
     <hr />
   

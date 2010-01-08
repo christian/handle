@@ -9,12 +9,13 @@
 
 <div class="<%= cycle "comment_box_1", "comment_box_2" %>">
 <p>
-  <span class="quiet"><i><%= change.created_at.to_s(:long) %></i></span>, <strong><%= change.user.name %></strong>:
-  <p class="change_comment loud">
-    <span style="color: #7F1F23;" >
-    <%= change.comment %>
-    </span>
-    <p><%= change.task_changes %></p>
+  <span class="quiet"><i><%= change.created_at.to_s(:long) %></i></span>, 
+  <strong><%= change.user.name %></strong>:
+  <p class="change_comment">
+    <pre style="font-family:Arial, Helvetica, sans-serif; text-indent: -1.7em; margin-top: -22px; margin-left: 20px;">
+      <%= change.comment %>
+    </pre>
+    <p style="background-color: #eeeeee;"><%= change.task_changes %></p>
   </p>
 </p>
 
