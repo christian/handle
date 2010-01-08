@@ -108,7 +108,7 @@ class TasksController < ApplicationController
                                            resolution@@#{@task.resolution}>>Completed||")
     @change.task = @task
     
-    if @task.update_attributes(:status => :close) && @change.save()
+    if @task.update_attributes(:status => "Closed") && @change.save()
       send_email_task_was_changed(@task, @change)
       filter_tasks
       render :update do |page|
