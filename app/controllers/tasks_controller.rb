@@ -128,8 +128,12 @@ class TasksController < ApplicationController
     @users = current_project.users
     @users_select = @users.collect{ |u| [u.name, u.id] }
     
-    respond_to do |format|
-      format.js {render :partial => 'new_task', :task => @task} 
+    if request.xhr?
+      respond_to do |format|
+        format.js {render :partial => 'new_task', :task => @task} 
+      end
+    else
+      
     end
   end
 
