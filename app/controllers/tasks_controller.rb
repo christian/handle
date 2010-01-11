@@ -129,11 +129,18 @@ class TasksController < ApplicationController
     @users_select = @users.collect{ |u| [u.name, u.id] }
     
     if request.xhr?
-      respond_to do |format|
-        format.js {render :partial => 'new_task', :task => @task} 
+      # respond_to do |format|
+      #   format.js {render :partial => 'new_task', :task => @task} 
+      # end
+      render :update do |page|
+        page.replace_html "new_task", :partial => "new_task", 
+                                      :locals => {:task => @task, 
+                                                  :users => @users,
+                                                  :users_select => @users_select}
+                                      
       end
     else
-      
+      redirect_to :action => :index
     end
   end
 
@@ -142,13 +149,23 @@ class TasksController < ApplicationController
     if @task.save
       send_email('create_a_new_task', @task.asignee, "New task created: #{@task.project.name} : #{@task.title}", @task)
       flash[:notice] = "Task was successfully created. Email sent to #{@task.asignee.name}."
-      redirect_to(@task)
-    else
-      #render :action => "new"
-      render :update do |page|
-        page << "alert('why?'); #{@task.errors.each {|e| e}}"
+      if params[:add_another] == "1"
+        render :update do |page|
+          page << "$('#form :input').val(\"\");"
+          page.hide "error_messages"
+          page.replace_html "task_notice", :partial => "shared/notice"
+          page.show "task_notice"
+        end
+      else
+        render :update do |page|
+          page.redirect_to @task
+        end
       end
-      #redirect_to "/changes/new?height=540&width=520&inlineId=hiddenModalContent&task_id=37"
+    else
+      render :update do |page|
+        page.replace_html "error_messages", error_messages_for('task', :header_tag => 'h3')
+        page.show "error_messages"
+      end
     end
   end
 

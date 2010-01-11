@@ -1,21 +1,32 @@
-<div class="span-10 last">
-  <div class="span-5">
-    <%= f.label :project_id, 'Project' %>
-    <%= select_tag 'task[project_id]', options_for_select(projects_collection, current_user.current_project_id)# ,
-    #       {:onchange => "#{remote_function(:url  => "#{get_tasks_tasks_path}",
-    #                                        :method => :get,
-    #                                        :with => "'project_id='+ $(\"\#project\").val()"
-    #                                       )
-    #                       }"
-    #       } 
-    %>
-  </div>
-  <div class="span-5 last" id="users_for_project">
-    <%= render :partial => 'users_for_project_select' %>
-  </div>
+<div class="span-20 last">
+  <div class="span-10">
+    <div class="span-5">
+      <%= f.label :project_id, 'Project' %>
+      <%= select_tag 'task[project_id]', options_for_select(projects_collection, current_user.current_project_id)# ,
+      #       {:onchange => "#{remote_function(:url  => "#{get_tasks_tasks_path}",
+      #                                        :method => :get,
+      #                                        :with => "'project_id='+ $(\"\#project\").val()"
+      #                                       )
+      #                       }"
+      #       } 
+      %>
+    </div>
+    <div class="span-5 last" id="users_for_project">
+      <%= render :partial => 'users_for_project_select' %>
+    </div>
 
-  <%= f.hidden_field :opener_id, :value => current_user.id %>
-  
+    <%= f.hidden_field :opener_id, :value => current_user.id %>
+
+    
+    <div class="span-10 last">
+      <br />
+      <p>
+        <%= f.label :title %><br />
+        <%= f.text_field :title, :class => 'title' %>
+      </p>
+    </div>
+    
+    
     <div class="span-2">
     <p>
       <%= f.label :kind %><br />
@@ -28,6 +39,7 @@
       <%= f.select :status, Task::STATUSES %>
     </p>
     </div>
+
     <div class="span-3">
     <p>
       <%= f.label :resolution %><br />
@@ -41,16 +53,9 @@
     </p>
     </div>
     
-    <p>
-      <%= f.label :title %><br />
-      <%= f.text_field :title, :class => 'text' %>
-    </p>
-    <p>
-      <%= f.label :description %><br />
-      <%= f.text_area :description %>
-    </p>
     
-    <div class="span-9">
+    
+    <div class="span-10 last">
       <div class="span-2">
         <p><br /><strong>Estimated:</strong></p>
       </div>
@@ -67,4 +72,22 @@
         <%= f.text_field :estimated_minutes, :class => 'text' %>
       </p></div>
     </div>
+    
+    
+  </div>
+  
+  
+  
+  
+  <div class="span-10 last">
+    <p>
+      <%= f.label :description %><br />
+      <%= f.text_area :description %>
+    </p>
+  </div>
+  
+
+
+
+  
 </div>

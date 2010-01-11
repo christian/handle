@@ -1,13 +1,72 @@
-<% form_for(@task, :update => {:failure => "error_messages"}) do |f| %>
-  <!-- <div id="error_messages" class="error"> -->
-    <%= f.error_messages %>
-  <!-- </div> -->
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    $("#cancel_button").click(function() {
+      $("#new_task").html("");
+      return false;
+    })
+    
+    function create_task_button_handler() {
+      $.ajax({
+        type: "POST",
+        url: "<%= user_tasks_path(current_user, @task) %>",
+        dataType: "script",
+        data: $("form").serialize()
+      })
+      return false;
+    }
+    
+    $("#create_task_button").click(function() {
+      $.ajax({
+        type: "POST",
+        url: "<%= user_tasks_path(current_user, @task) %>",
+        dataType: "script",
+        data: $("form").serialize()
+      })
+      return false;
+    })
+    
+    $("#save_add_another").click(function() {
+      params = $("form").serialize() + "&add_another=1";
+      $.ajax({
+        type: "POST",
+        url: "<%= user_tasks_path(current_user, @task) %>",
+        dataType: "script",
+        data: params
+      })
+      return false;
+    })
+    
+    
+    jQuery.fn.delay = function(time,func){
+        return this.each(function(){
+            setTimeout(func,time);
+        });
+    };
 
+    $(function(){
+      $('#task_notice').delay(2000, function(){$('#task_notice').fadeOut()})
+    });
+    
+  })
+</script>
+
+<% form_for(@task, :update => {:failure => "error_messages"}, :html => {:id => 'new_task_form'}) do |f| %>
+  <div id="error_messages" class="error" style="display: none;"></div>
+  <div id="task_notice"></div>
+  
   <%= render :partial => 'form_fields', :locals => {:f => f} %>
   
-  <hr />
+  <!-- <hr /> -->
   
   <p>
-    <%= f.submit 'Create' %>
+    <%= link_to '&nbsp; Save &nbsp; ', "", :id => 'create_task_button', 
+                                            :class => 'button positive', 
+                                            :title => 'Create task' %> 
+    <%= link_to '&nbsp; Save and add another &nbsp; ', "", :id => 'save_add_another', 
+                                            :class => 'button positive', 
+                                            :title => 'Add new task' %>
+    <%= link_to "&nbsp; Cancel &nbsp;", "", :class => 'button negative', :id => 'cancel_button', :title => 'Cancel task creation' %>
   </p>
+  
+  <hr />  
 <% end %>

@@ -63,7 +63,7 @@ class ApplicationController < ActionController::Base
   end
   
   def projects_collection
-    projects = Hash[*current_user.projects.all.collect{|p| [p.name, p.id]}.flatten]
+    projects = Hash[*current_user.projects(:order => "name asc").all.collect{|p| [p.name, p.id]}.flatten]
     projects.merge!({"All projects" => -1})
   end
   
