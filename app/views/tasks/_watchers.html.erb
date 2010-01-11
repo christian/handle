@@ -1,6 +1,12 @@
+<style type="text/css" media="screen">
+  ul.no_bullet {
+    list-style-type: none;
+  }
+</style>
+
     <strong>Watchers</strong>
     <br />
-    <ul>
+    <ul class="no_bullet">
       <% for watcher in watchers %>
         <li>
           <% if watcher.id == current_user.id %>
@@ -12,7 +18,7 @@
       <% end %>
     </ul>
     <strong>Project Contributors</strong>
-    <ul>
+    <ul class="no_bullet">
       <% for contributor in contributors %>
         <li><%= link_to_remote '<span class="ss_sprite ss_arrow_up" style="margin-left:-10px;"></span>', :url => "add_watcher?watcher_id=#{contributor.id}&id=#{task.id}", :method => "post", :title => "Follow this task." %> <%= contributor.name %></li>
       <% end %>

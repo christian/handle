@@ -17,12 +17,19 @@ module ApplicationHelper
   def menu
     m = '<ul class="tabs">'
     # ['text on tab +  visual effects', 'path', 'controller for hightlight']
-    menu = [['<span class="ss_sprite ss_layout_edit ">&nbsp; Tasks</span>', tasks_path, 'tasks'],
-          ['<span class="ss_sprite ss_folder_page ">&nbsp; Files</span>', r_files_path, 'r_files'],
-          ['<span class="ss_sprite ss_calendar ">&nbsp; Milestones</span>', milestones_path, 'milestones'],
-          ['<span class="ss_sprite ss_briefcase">&nbsp; Projects</span>', projects_path, 'projects'],
-          ['<span class="ss_sprite ss_group">&nbsp; Users</span>', users_path, 'users'],
-          ['<span class="ss_sprite ss_chart_bar">&nbsp; Statistics</span>', statistics_from_until_path(Date.today.strftime("%Y-%m-%d"), Date.today.strftime("%Y-%m-%d")), 'statistics']]
+    
+    # <span class="ss_sprite ss_layout_edit ">&nbsp; Tasks</span>
+    # <span class="ss_sprite ss_folder_page ">&nbsp; Files</span>
+    # <span class="ss_sprite ss_calendar ">&nbsp; Milestones</span>
+    # <span class="ss_sprite ss_briefcase">&nbsp; Projects</span>
+    # <span class="ss_sprite ss_group">&nbsp; Users</span>
+    # <span class="ss_sprite ss_chart_bar">&nbsp; Statistics</span>
+    menu = [['&nbsp; Tasks &nbsp;', tasks_path, 'tasks'],
+            ['&nbsp; Files &nbsp;', r_files_path, 'r_files'],
+            ['&nbsp; Milestones &nbsp;', milestones_path, 'milestones'],
+            ['&nbsp; Projects &nbsp;', projects_path, 'projects'],
+            ['&nbsp; Users &nbsp;', users_path, 'users'],
+            ['&nbsp; Statistics &nbsp;', statistics_from_until_path(Date.today.strftime("%Y-%m-%d"), Date.today.strftime("%Y-%m-%d")), 'statistics']]
     menu.each do |menu_item|
       m += ' <li>' +  link_to(menu_item.first, menu_item[1], :class => (controller.controller_name == menu_item[2].downcase ? 'selected' : '')) + '</li>'
     end

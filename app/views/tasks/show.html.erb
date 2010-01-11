@@ -15,7 +15,7 @@
     <h2><%= link_to 'Tasks', tasks_path %> &raquo; #<%= @task.id %> <%= @task.title %> </h2>
   </div>
   <div class="span-3 last">
-    <%= link_to '&nbsp; New task &nbsp; ', '/tasks/new?height=640&width=550&inlineId=hiddenModalContent', :class => 'button thickbox', :title => 'Add new task' %>
+    <%= link_to '&nbsp; New task &nbsp; ', '/tasks/new?height=640&width=550&inlineId=hiddenModalContent', :class => 'button positive thickbox', :style=>"margin-left: 12px;", :title => 'Add new task' %>
   </div>
 </div>
 
@@ -126,18 +126,9 @@
   </div>
 </div>
 
-
-
-
 <div class="span-4 last">
-  <div style="background-color: #EEEEEE; padding: 7px; border: solid 1px #cccccc;" id="watchers">
+  <div style="background-color: #EFFFFF1; padding: 7px; border: solid 1px #5B9F1D;" id="watchers">
     <%= render :partial => 'watchers', :locals => {:watchers => @watchers, :contributors => @contributors, :task => @task} %>
   </div>
 </div>
-
-
-
-
-
-
 

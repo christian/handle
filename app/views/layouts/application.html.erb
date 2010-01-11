@@ -34,17 +34,16 @@
   <body>
     <div class="container">
       <% unless current_user.nil? %>
-        <div class="span-20">
-          <h1 style="border-bottom: solid 6px #75CC28; background-color: #02539F;  color:white; padding: 10px;">handle 
+        <div class="span-24 last"><!-- background-color: #02539F;  border-bottom: solid 6px #75CC28; -->
+          <h1 style="background-color: #5B9F1D; color: white; padding: 10px;">handle 
             <span class="alt" style="color: #002A4F; font-size: small;">v0.1 (beta)</span></h1>
-          
-        </div>
-        <div class="span-4 last" style="background-color: #75CC28; color: white; border-bottom: solid 6px #5B9F1D;">
+        </div><!-- border-bottom: solid 6px #5B9F1D; -->
+        <!--<div class="span-4 last" style="background-color: #75CC28; color: white; "> 
           <div style="padding: 7px; text-align: right; height: 42px;">
             Hi <%= current_user.username %>!<br />
           <%#= link_to "Preferences", logout_path %> <%= link_to "Logout", logout_path %>
           </div>
-        </div>
+        </div> -->
       <% end %>
       
       <div class="span-24">

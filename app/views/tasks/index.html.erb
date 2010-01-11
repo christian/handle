@@ -43,7 +43,7 @@
 
 <%= javascript_include_tag 'pagination' %>
 
-<div class="span-20 border">
+<div class="span-20">
   <%= render :partial => "shared/notice" %>
   
   <div class="span-17">
@@ -63,7 +63,7 @@
     <%#= link_to '&nbsp; New task &nbsp; ', '/tasks/new?height=640&width=550&inlineId=hiddenModalContent', :class => 'button thickbox', :title => 'Add new task' %>
     <%= link_to_remote '&nbsp; New task &nbsp; ', :url => {:controller => "tasks", :action => "new"}, 
                                                   :method => "get", 
-                                                  :html => {:id => 'new_task_button', :class => 'button', :title => 'Add new task'} %>
+                                                  :html => {:id => 'new_task_button', :class => 'button positive', :style =>"margin-left: 12px;", :title => 'Add new task'} %>
   </div>
   
   <div class="span-20 last" id="new_task">
@@ -77,7 +77,7 @@
 <div class="span-4 last">
   <%= render :partial => 'shared/current_project_select', :locals => {:url => get_tasks_tasks_path} %>
 
-  <div style="background-color: #EEEEEE; padding: 7px;">
+  <div style="border: solid 1px #5B9F1D; padding: 7px; "><!-- background-color: #EFFFF1; -->
     <% form_tag :url => '/tasks', :method => "GET" do %>
       <p>
         Search <br />
@@ -85,34 +85,40 @@
         <%#= submit_tag "Go" %>
       </p>
       
-      <hr />
+      <!-- <br /> -->
       
-      <p>
+      <!-- <p>
         Order<br />
         <%= select_tag :tasks_order, options_for_select(Task::ORDER), {:style => "width: 85px;", :onchange => "filter_tasks();" } %>
         <%= select_tag :tasks_order_type, options_for_select(Task::ORDER_TYPE), {:style => "width: 45px;", :onchange => "filter_tasks();" } %>
-      </p>
+      </p> -->
       
-      <hr />
+      <br />
       
       <p>   
       <% Task::STATUSES.each do |status| %>
         <%= check_box_tag "tasks_status[]",    status,      session[:tasks_status].include?(status), {:onclick => "filter_tasks();"} %> <%= status %><br />
       <% end %>
       </p>    
-      <hr />
+      
+      <br />
+      
       <p>    
       <% Task::KINDS.each do |kind| %>
         <%= check_box_tag "tasks_kind[]",      kind,        session[:tasks_kind].include?(kind), {:onclick => "filter_tasks();"} %> <%= kind %><br />
       <% end %>
       </p>  
-      <hr />
+      
+      <br />
+      
       <p>    
       <% Task::RESOLUTIONS.each do |resolution| %>
         <%= check_box_tag "tasks_resolution[]", resolution, session[:tasks_resolution].include?(resolution), {:onclick => "filter_tasks();"} %> <%= resolution %><br />
       <% end %>
       </p>  
-      <hr />
+      
+      <br />
+      
       <p>
       <% Task::PRIORITIES.each do |priority| %>
         <%= check_box_tag "tasks_priority[]", priority[1], session[:tasks_priority].include?(priority[1].to_s), {:onclick => "filter_tasks();"} %> <%= priority[0] %><br />
