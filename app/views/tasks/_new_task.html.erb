@@ -10,7 +10,7 @@
         type: "POST",
         url: "<%= user_tasks_path(current_user, @task) %>",
         dataType: "script",
-        data: $("form").serialize()
+        data: $("form").serialize(),
       })
       return false;
     }
@@ -44,7 +44,7 @@
     };
 
     $(function(){
-      $('#task_notice').delay(2000, function(){$('#task_notice').fadeOut()})
+      $('#task_notice').delay(500, function(){$('#task_notice').fadeOut()})
     });
     
   })
@@ -58,7 +58,7 @@
   
   <!-- <hr /> -->
   
-  <p>
+  <div class="span-20 last" style=" margin-top: -20px;">
     <%= link_to '&nbsp; Save &nbsp; ', "", :id => 'create_task_button', 
                                             :class => 'button positive', 
                                             :title => 'Create task' %> 
@@ -66,7 +66,7 @@
                                             :class => 'button positive', 
                                             :title => 'Add new task' %>
     <%= link_to "&nbsp; Cancel &nbsp;", "", :class => 'button negative', :id => 'cancel_button', :title => 'Cancel task creation' %>
-  </p>
+  </div>
   
   <hr />  
 <% end %>

@@ -29,6 +29,7 @@ class ChangesController < ApplicationController
     @change.task_id = params[:task_id]
     @change.user_id = current_user.id
     @task = Task.find(params[:task_id])
+    @task.touch
     
     @change.task_changes = get_task_changes(@task.attributes, params[:change][:task_attributes])
     

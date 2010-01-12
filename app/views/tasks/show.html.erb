@@ -1,3 +1,17 @@
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    $("#task_details_link").click(function() {
+      $("#task_details_table").toggle();
+      el = $("#image");
+      if (el.attr("src") == "/images/bullet_toggle_plus.png"){
+        el.attr("src", "/images/bullet_toggle_minus.png")
+      } else {
+        el.attr("src", "/images/bullet_toggle_plus.png")
+      }
+      return false;
+    })
+  })
+</script>
 <style type="text/css" media="screen">
   pre {
     white-space: -moz-pre-wrap; /* Mozilla, supported since 1999 */
@@ -14,88 +28,19 @@
   <div class="span-21">
     <h2><%= link_to 'Tasks', tasks_path %> &raquo; #<%= @task.id %> <%= @task.title %> </h2>
   </div>
-  <div class="span-3 last">
-    <%= link_to '&nbsp; New task &nbsp; ', '/tasks/new?height=640&width=550&inlineId=hiddenModalContent', :class => 'button positive thickbox', :style=>"margin-left: 12px;", :title => 'Add new task' %>
-  </div>
 </div>
 
-<div class="span-20">
-  <div class="span-6">
-    
-    <div class="span-5 box">    
-        <table style="margin: -10px;">
-          <tr>
-            <td>Created:</td>
-            <td><span class="small"><%= @task.created_at.to_s(:long) %></span></td>
-          </tr>
-          <tr>
-            <td>Last updated:</td>
-            <td><span class="small"><%= @task.updated_at.to_s(:long) %></span></td>
-          </tr>
-          <tr>
-            <td>Kind:&nbsp;&nbsp;</td>
-            <td style="width:48%;"><span class="<%= @task.kind %>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
-          </tr>
-          <tr>
-            <td>Status:</td>
-            <td><strong><span class="<%=h @task.status %>"><%=h @task.status %></span></strong>
-          </td>
-    
-          <tr>
-            <td>Estimated time:</td>
-            <td><%=humanized_duration(@task.estimated_time) %></td>
-          </tr>
-          
-          <tr>
-            <td>Spent time:</td>
-            <td><%=humanized_duration(@task.time_spent) %></td>
-          </tr>
-
-          <tr>
-            <td>Priority:</td>
-            <td><%= "<span class=\"ss_sprite ss_bullet_red\" style=\"margin-left: -11px;\"></span>" * @task.priority %></td>
-          </tr>
-
-          <tr>
-            <td>Resolution:</td>
-            <td class="small quiet"><% if @task.resolution == "In progress"%>
-                  <span class="ss_sprite ss_cog"></span>
-                <% else %>
-                  <span class="ss_sprite ss_tick"></span>
-                <% end %>&nbsp;<%= @task.resolution %>
-            </td>
-          </tr>
-          </tr>
-        </table>
-    </div>    
-    
-    <div class="span-5 last">
-      <%= calendar_task do |d|
-              cell_text = "#{d.mday}"
-              cell_attrs = {:class => 'day'}
-              @task.changes.each do |change|
-                if change.for_day.mday == d.mday && change.for_day.month == d.month
-                  cell_text = link_to("#{change.for_day.mday}", "##{change.for_day}")
-                  cell_attrs[:class] = 'specialDay'
-                end
-              end
-              [cell_text, cell_attrs]
-            end %>
-    </div>    
-        
-  </div>
-
-  <div class="span-14 last"> 
+<div class="span-18">
+  <div class="span-18 last"> 
     <%= render :partial => "shared/notice" %>
         
-    <h3><%= @task.title %></h3>
     <pre style="font-family:Arial, Helvetica, sans-serif; text-indent: -1.7em;">
-      <%=h @task.description %>
+      <%= @task.description %>
     </pre>
 
     <hr />
   
-    <div class="span-11"><h3>Changes </h3></div>
+    <div class="span-15"><h3>Changes </h3></div>
     <span style="padding-left: 25px;"><%= link_to 'Add change',  "/changes/new?height=540&width=520&inlineId=hiddenModalContent&task_id=#{@task.id}" , :class => 'thickbox ss_sprite ss_time_add', :title => 'Change task' %>
     </span>
     
@@ -126,9 +71,80 @@
   </div>
 </div>
 
-<div class="span-4 last">
-  <div style="background-color: #EFFFFF1; padding: 7px; border: solid 1px #5B9F1D;" id="watchers">
-    <%= render :partial => 'watchers', :locals => {:watchers => @watchers, :contributors => @contributors, :task => @task} %>
+<div class="span-6 last">
+  <div class="span-5 box">
+    
+    <div class="span-5">
+      <div style="float:left;"><img id="image" src="/images/bullet_toggle_plus.png" /> </div>
+      <div style="margin-top: 10px;"><%= link_to "<strong>Task details</strong>", "", :id => "task_details_link" %></div>
+    </div>      
+    
+      <table style="display: none;" id="task_details_table">
+        <tr>
+          <td>Created:</td>
+          <td><span class="small"><%= @task.created_at.to_s(:long) %></span></td>
+        </tr>
+        <tr>
+          <td>Last updated:</td>
+          <td><span class="small"><%= @task.updated_at.to_s(:long) %></span></td>
+        </tr>
+        <tr>
+          <td>Kind:&nbsp;&nbsp;</td>
+          <td style="width:48%;"><span class="<%= @task.kind %>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+        </tr>
+        <tr>
+          <td>Status:</td>
+          <td><strong><span class="<%=h @task.status %>"><%=h @task.status %></span></strong>
+        </td>
+  
+        <tr>
+          <td>Estimated time:</td>
+          <td><%=humanized_duration(@task.estimated_time) %></td>
+        </tr>
+        
+        <tr>
+          <td>Spent time:</td>
+          <td><%=humanized_duration(@task.time_spent) %></td>
+        </tr>
+
+        <tr>
+          <td>Priority:</td>
+          <td><%= "<span class=\"ss_sprite ss_bullet_red\" style=\"margin-left: -11px;\"></span>" * @task.priority %></td>
+        </tr>
+
+        <tr>
+          <td>Resolution:</td>
+          <td class="small quiet"><% if @task.resolution == "In progress"%>
+                <span class="ss_sprite ss_cog"></span>
+              <% else %>
+                <span class="ss_sprite ss_tick"></span>
+              <% end %>&nbsp;<%= @task.resolution %>
+          </td>
+        </tr>
+        </tr>
+      </table>
+  </div>    
+  
+  <div class="span-5 box last">
+      <%= render :partial => 'watchers', :locals => {:watchers => @watchers, :contributors => @contributors, :task => @task} %>
   </div>
+  
+  <div class="span-5 last">
+    <%= calendar_task do |d|
+            cell_text = "#{d.mday}"
+            cell_attrs = {:class => 'day'}
+            @task.changes.each do |change|
+              if change.for_day.mday == d.mday && change.for_day.month == d.month
+                cell_text = link_to("#{change.for_day.mday}", "##{change.for_day}")
+                cell_attrs[:class] = 'specialDay'
+              end
+            end
+            [cell_text, cell_attrs]
+          end %>
+  </div>    
+      
 </div>
+
+
+
 

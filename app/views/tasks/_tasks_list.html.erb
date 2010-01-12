@@ -5,10 +5,10 @@
 <% else %>
     <table>
       <tr>
-        <th>Kind</th>
-        <th>Task</th>
-        <th>Opened by</th>
-        <th>Assigned to</th>
+        <th><%= link_to "Kind", "", :id => "kind", :class => "sort_link" %></th>
+        <th><%= link_to "Task", "", :id => "title", :class => "sort_link" %></th>
+        <th>Last change</th>
+        <th>Assignment</th>
         <th>Priority</th>
         <th>Status</th>
         <th>Resolution</th>
@@ -16,19 +16,23 @@
 
     <% @tasks.each do |task| %>
       <tr class="<%= cycle('even', '') %>">
-        <td style="width: 8%;"><div class="<%= task.kind %>">&nbsp;</div></td>
-        <td><%= "##{task.id}" %> <strong><%=link_to task.title, task %></strong><br />
-        <span class="quiet small">Last change <%= time_ago_in_words(task.updated_at) %> ago</span>
+        <td style="width: 8%; height: 40px;"><div class="<%= task.kind %>">&nbsp;</div></td>
+        <td><%= "##{task.id}" %> <strong><%=link_to task.title, task %></strong><br /></td>
+        <td style="width: 12%;">
+          <span class="quiet small"><%= time_ago_in_words(task.updated_at) %> ago</span>
         </td>
-        <td style="width: 10%;">
-          <%=link_to task.opener.name, task.asignee, :class => "small quiet" %>
-        </td>
-        <td style="width: 11%;">
-          <%= link_to task.asignee.name, task.asignee, :class => "small quiet" %>
+        <td style="width: 13%;">
+          <div style="float:left; padding-top:10px;">
+            <img src="/images/arrow_rotate_anticlockwise.png" /img>
+          </div>
+          <div>
+            <%=link_to task.opener.name, task.asignee, :class => "small quiet" %><br />
+            <%= link_to task.asignee.name, task.asignee, :class => "small quiet" %>
+          </div>
           <!-- Estimated: <%=humanized_duration(task.estimated_time) %><br />
           Spent: <%=humanized_duration task.time_spent %> -->
         </td>
-        <td style="width: 5%;"><%= "<span class=\"ss_sprite ss_bullet_red\" style=\"margin-left: -11px;\"></span>" * task.priority %></td>
+        <td style="width: 5%; text-align: center;"><%= "<span class=\"ss_sprite ss_bullet_red\" style=\"margin-left: -11px;\"></span>" * task.priority %></td>
         <td style="width: 5%;"><strong class="<%=h task.status %>"><%=h task.status %></strong></td>
         <td style="width: 8%; text-align: center;">
           <% if task.resolution == "In progress"%>

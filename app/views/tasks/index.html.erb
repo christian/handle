@@ -29,7 +29,7 @@
   }
 
   $(function() {
-    $("#search_task").css("color", "#aaa").inputFieldText('id or keywords + ENTER');
+    $("#search_task").css("color", "#aaa").inputFieldText('Search: id or keywords + ENTER');
     $("#search_task").bind('keypress', function(e) {
       var code = e.keyCode || e.which;
       if(code == 13) { //Enter keycode
@@ -37,6 +37,37 @@
          return false;
        }
     });
+    
+    $(".sort_link").click(function() {
+      sort_by = $(this).attr('id');
+      $("#tasks_order").val(sort_by);
+      sort_type = $("#tasks_order_type").val();
+      if (sort_type == "asc"){
+        $("#tasks_order_type").val("desc");
+      } else {
+        $("#tasks_order_type").val("asc");
+      }
+      filter_tasks();
+      return false;
+    })
+    
+    $("#new_task_button").click(function() {
+      $.ajax({
+        type: "GET",
+        url: "<%= new_user_task_path(current_user) %>",
+        dataType: "script",
+        data: $("form").serialize(),
+        // success: function(data, textStatus) {
+        //   tinyMCE.init({
+        //     heme_advanced_toolbar_location : "top",
+        //     mode : "textareas",
+        //     theme : "advanced",
+        //     theme_advanced_toolbar_align : "left"
+        //   })
+        // }
+      })
+      return false;
+    })
   })
 
 </script>
@@ -47,24 +78,11 @@
   <%= render :partial => "shared/notice" %>
   
   <div class="span-17">
-    <h2>
-      <% if params[:project_id] %>
-        <%= link_to "My tasks", tasks_path, :class => "quiet" %>
-        &nbsp;&nbsp;|&nbsp;&nbsp;
-        Project tasks
-      <% else %>
-        My tasks 
-        &nbsp;&nbsp;|&nbsp;&nbsp;
-        <%= link_to "Project tasks", tasks_path(:project_id => current_project.id), :class => "quiet", :id => "project_tasks_link" %> 
-      <% end %>
-    </h2>
+    <%= text_field_tag :search, "", :id => "search_task", :size => 17, :class => "title", :style => "margin-top: 0px;" %>
   </div>
-  <div class="span-3 last">
-    <%#= link_to '&nbsp; New task &nbsp; ', '/tasks/new?height=640&width=550&inlineId=hiddenModalContent', :class => 'button thickbox', :title => 'Add new task' %>
-    <%= link_to_remote '&nbsp; New task &nbsp; ', :url => {:controller => "tasks", :action => "new"}, 
-                                                  :method => "get", 
-                                                  :html => {:id => 'new_task_button', :class => 'button positive', :style =>"margin-left: 12px;", :title => 'Add new task'} %>
-  </div>
+  <div class="span-3 last" style="text-align: right;">
+     <%= link_to '<span class="ss_sprite ss_add">&nbsp; New task &nbsp; </span>', "", :id => 'new_task_button', :class => 'button', :style =>"margin-right: -12px; margin-top: 0px;", :title => 'Add new task' %>
+   </div>
   
   <div class="span-20 last" id="new_task">
   </div>
@@ -77,53 +95,65 @@
 <div class="span-4 last">
   <%= render :partial => 'shared/current_project_select', :locals => {:url => get_tasks_tasks_path} %>
 
-  <div style="border: solid 1px #5B9F1D; padding: 7px; "><!-- background-color: #EFFFF1; -->
+  <div style=" padding: 0px; background: #5B9F1D; "><!-- border-left: solid 1px #5B9F1D; -->
+    <ul class="vtabs">
+      <% if params[:project_id] %>
+        <li><%= link_to "My tasks", tasks_path %></li>
+        <li><%= link_to "Project tasks", "", :class=>"selected" %></li>
+      <% else %>
+        <li><%= link_to "My tasks", "", :class=>"selected" %></li>
+        <li><%= link_to "Project tasks", tasks_path(:project_id => current_project.id) %></li>
+      <% end %>
+    </ul>
+  </div>
+  
+  <div style="background-color:#E6EFC2;border:1px solid #C6D880;color:#529214; padding: 7px; padding-top:none;">
+    Only tasks which are
+  </div>
+  <div style="border: solid 1px #C6D880; border-top:none;padding: 0px; "><!--  -->
     <% form_tag :url => '/tasks', :method => "GET" do %>
-      <p>
-        Search <br />
-        <%= text_field_tag :search, "", :id => "search_task", :size => 17 %>
-        <%#= submit_tag "Go" %>
-      </p>
-      
-      <!-- <br /> -->
       
       <!-- <p>
         Order<br />
         <%= select_tag :tasks_order, options_for_select(Task::ORDER), {:style => "width: 85px;", :onchange => "filter_tasks();" } %>
         <%= select_tag :tasks_order_type, options_for_select(Task::ORDER_TYPE), {:style => "width: 45px;", :onchange => "filter_tasks();" } %>
       </p> -->
+      <%= hidden_field_tag "tasks_order", "asc" %>
+      <%= hidden_field_tag "tasks_order_type", "updated_at" %>
       
       <br />
       
-      <p>   
+      <div style="margin-left: 20px;">   
       <% Task::STATUSES.each do |status| %>
         <%= check_box_tag "tasks_status[]",    status,      session[:tasks_status].include?(status), {:onclick => "filter_tasks();"} %> <%= status %><br />
       <% end %>
-      </p>    
+      </div>    
       
       <br />
       
-      <p>    
+      <div style="margin-left: 20px;">    
       <% Task::KINDS.each do |kind| %>
         <%= check_box_tag "tasks_kind[]",      kind,        session[:tasks_kind].include?(kind), {:onclick => "filter_tasks();"} %> <%= kind %><br />
       <% end %>
-      </p>  
+      </div>  
       
       <br />
       
-      <p>    
+      <div style="margin-left: 20px;">    
       <% Task::RESOLUTIONS.each do |resolution| %>
         <%= check_box_tag "tasks_resolution[]", resolution, session[:tasks_resolution].include?(resolution), {:onclick => "filter_tasks();"} %> <%= resolution %><br />
       <% end %>
-      </p>  
+      </div>  
       
       <br />
       
-      <p>
+      <div style="margin-left: 20px;">
       <% Task::PRIORITIES.each do |priority| %>
         <%= check_box_tag "tasks_priority[]", priority[1], session[:tasks_priority].include?(priority[1].to_s), {:onclick => "filter_tasks();"} %> <%= priority[0] %><br />
       <% end %>
-      </p>
+      </div>
+      
+      <br />
     <% end %>
     
     <!-- you have: x tasks total

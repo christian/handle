@@ -11,9 +11,7 @@ class TasksController < ApplicationController
       if params[:search] =~ /^\d+$/
         @tasks = Task.all(:conditions => ["id = ? AND project_id IN (?)", params[:search].to_i, current_user.projects.collect(&:id)]).paginate(:per_page => 10, :page => params[:page])
       else
-        # @tasks = Task.search(params[:search], :with => {:assignee_id => current_user.id})
         @tasks = Task.search(params[:search], :with => {:project_id => current_user.projects.collect(&:id)}).paginate(:per_page => 10, :page => params[:page])
-        # @tasks = @tasks
       end
       return
     end
@@ -29,6 +27,16 @@ class TasksController < ApplicationController
                               resolution_equals(session[:tasks_resolution]).
                               order(session[:tasks_order], session[:tasks_order_type]).
                               paginate(:per_page => 10, :page => params[:page])
+    # all projects view
+    elsif params[:project_id] == "-1" 
+      current_user.update_attributes(:current_project_id => -1)
+      @tasks = Task.assignee_id_equals(current_user.id).
+                    kind_equals(session[:tasks_kind]).
+                    priority_equals(session[:tasks_priority]).
+                    status_equals(session[:tasks_status]).
+                    resolution_equals(session[:tasks_resolution]).
+                    order(session[:tasks_order], session[:tasks_order_type]).
+                    paginate(:per_page => 10, :page => params[:page])
     else
       # view certain project tasks
       @project = Project.find(params[:project_id])
@@ -53,27 +61,7 @@ class TasksController < ApplicationController
   end
   
   def get_tasks
-    if params[:project_id] == "-1"
-      current_user.update_attributes(:current_project_id => -1)
-      @tasks = Task.assignee_id_equals(current_user.id).
-                          kind_equals(session[:tasks_kind]).
-                          priority_equals(session[:tasks_priority]).
-                          status_equals(session[:tasks_status]).
-                          resolution_equals(session[:tasks_resolution]).
-                          order(session[:tasks_order], session[:tasks_order_type]).
-                          paginate(:per_page => 10, :page => params[:page])
-    else
-      @current_project = Project.find_by_id(params[:project_id])
-      current_user.update_attributes(:current_project_id => @current_project.id)
-      @tasks = @current_project.tasks.assignee_id_equals(current_user.id).
-                                 kind_equals(session[:tasks_kind]).
-                                 priority_equals(session[:tasks_priority]).
-                                 status_equals(session[:tasks_status]).
-                                 resolution_equals(session[:tasks_resolution]).
-                                 order(session[:tasks_order], session[:tasks_order_type]).
-                                 paginate(:per_page => 10, :page => params[:page])
-    end
-    
+    filter_tasks
     render :update do |page|
       page.replace_html 'tasks_list', :partial => 'tasks_list', :locals =>{:tasks => @tasks}
       page << '$("#project_tasks_link").attr("href", "/tasks?project_id=' + params[:project_id] + '")'
@@ -123,11 +111,14 @@ class TasksController < ApplicationController
     @contributors = current_project.users#.delete(@watchers)
   end
 
-  def new
+  def init_new_task
     @task = Task.new
     @users = current_project.users
     @users_select = @users.collect{ |u| [u.name, u.id] }
-    
+  end
+
+  def new
+    init_new_task    
     if request.xhr?
       # respond_to do |format|
       #   format.js {render :partial => 'new_task', :task => @task} 
@@ -144,17 +135,25 @@ class TasksController < ApplicationController
     end
   end
 
+  #TODO: refactor to use RJS
   def create
     @task = Task.new(params[:task])
     if @task.save
       send_email('create_a_new_task', @task.asignee, "New task created: #{@task.project.name} : #{@task.title}", @task)
       flash[:notice] = "Task was successfully created. Email sent to #{@task.asignee.name}."
       if params[:add_another] == "1"
+        init_new_task
+        filter_tasks
         render :update do |page|
-          page << "$('#form :input').val(\"\");"
+          page << "$('form :input').val(\"\");"
           page.hide "error_messages"
           page.replace_html "task_notice", :partial => "shared/notice"
           page.show "task_notice"
+          page.replace_html 'tasks_list', :partial => 'tasks_list', :locals =>{:tasks => @tasks}
+          page.replace_html "new_task", :partial => "new_task", 
+                                        :locals => {:task => @task, 
+                                                    :users => @users,
+                                                    :users_select => @users_select}
         end
       else
         render :update do |page|

@@ -2,9 +2,9 @@
 module ApplicationHelper
   def humanized_duration(duration)
     return if duration.nil?
-    days    = duration / 1440
-    hours   = (duration - (days * 1440)) / 60
-    minutes = duration - (days * 1440 + hours * 60)
+    days    = duration / 480
+    hours   = (duration - (days * 480)) / 60
+    minutes = duration - (days * 480 + hours * 60)
     days    = (days == 0) ? nil : "#{days} d"  
     hours   = (hours == 0) ? nil : "#{hours} h" 
     minutes = (minutes == 0) ? nil : "#{minutes} m" 
@@ -16,14 +16,6 @@ module ApplicationHelper
   
   def menu
     m = '<ul class="tabs">'
-    # ['text on tab +  visual effects', 'path', 'controller for hightlight']
-    
-    # <span class="ss_sprite ss_layout_edit ">&nbsp; Tasks</span>
-    # <span class="ss_sprite ss_folder_page ">&nbsp; Files</span>
-    # <span class="ss_sprite ss_calendar ">&nbsp; Milestones</span>
-    # <span class="ss_sprite ss_briefcase">&nbsp; Projects</span>
-    # <span class="ss_sprite ss_group">&nbsp; Users</span>
-    # <span class="ss_sprite ss_chart_bar">&nbsp; Statistics</span>
     menu = [['&nbsp; Tasks &nbsp;', tasks_path, 'tasks'],
             ['&nbsp; Files &nbsp;', r_files_path, 'r_files'],
             ['&nbsp; Milestones &nbsp;', milestones_path, 'milestones'],
