@@ -1,0 +1,1 @@
+page.replace_html "users_for_project", :partial => "tasks/users_for_project_select"

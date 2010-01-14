@@ -1,22 +1,29 @@
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    $("#task_project_id").change(function () {
+      var project_id = $(this).val();
+      
+      $.ajax({
+        url: "/projects/" + project_id + "/get_users_for_project",
+        type: "GET",
+        dataType: "script"
+      })
+      
+    })
+  })
+</script>
+
 <div class="span-20 last">
   <div class="span-10">
     <div class="span-5">
       <%= f.label :project_id, 'Project' %>
-      <%= select_tag 'task[project_id]', options_for_select(projects_collection, current_user.current_project_id)# ,
-      #       {:onchange => "#{remote_function(:url  => "#{get_tasks_tasks_path}",
-      #                                        :method => :get,
-      #                                        :with => "'project_id='+ $(\"\#project\").val()"
-      #                                       )
-      #                       }"
-      #       } 
-      %>
+      <%= select_tag 'task[project_id]', options_for_select(projects_collection, current_user.current_project_id) %>
     </div>
     <div class="span-5 last" id="users_for_project">
       <%= render :partial => 'users_for_project_select' %>
     </div>
-
+    
     <%= f.hidden_field :opener_id, :value => current_user.id %>
-
     
     <div class="span-10 last">
       <br />
@@ -25,7 +32,6 @@
         <%= f.text_field :title, :class => 'title' %>
       </p>
     </div>
-    
     
     <div class="span-2">
     <p>
@@ -39,7 +45,7 @@
       <%= f.select :status, Task::STATUSES %>
     </p>
     </div>
-
+    
     <div class="span-3">
     <p>
       <%= f.label :resolution %><br />
@@ -52,8 +58,6 @@
       <%= f.select :priority, options_for_select(Task::PRIORITIES, :selected => 3)  %>
     </p>
     </div>
-    
-    
     
     <div class="span-10 last">
       <div class="span-2">
@@ -73,11 +77,7 @@
       </p></div>
     </div>
     
-    
   </div>
-  
-  
-  
   
   <div class="span-10 last">
     <p>
@@ -85,9 +85,5 @@
       <%= f.text_area :description %>
     </p>
   </div>
-  
 
-
-
-  
 </div>

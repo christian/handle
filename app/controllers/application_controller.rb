@@ -65,6 +65,7 @@ class ApplicationController < ActionController::Base
   def projects_collection
     projects = Hash[*current_user.projects(:order => "name asc").all.collect{|p| [p.name, p.id]}.flatten]
     projects.merge!({"All projects" => -1})
+    projects.keys.sort_by {|key| key.downcase.to_s}.map {|key| [key, projects[key]]}
   end
   
   def users_collection

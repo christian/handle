@@ -6,7 +6,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :changes, :except => [:show, :edit]
 
-  map.resources :projects
+  map.resources :projects, :member => {:get_users_for_project => :get}
 
   map.login 'login', :controller => 'user_sessions', :action => 'new'
   map.logout 'logout', :controller => 'user_sessions', :action => 'destroy'

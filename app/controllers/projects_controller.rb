@@ -39,4 +39,8 @@ class ProjectsController < ApplicationController
     @project.destroy
     redirect_to(projects_url)
   end
+  def get_users_for_project
+    @project = current_user.projects.find(params[:id])
+    @users_select = @project.users.collect{ |u| [u.name, u.id] }
+  end
 end

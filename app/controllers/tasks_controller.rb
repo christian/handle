@@ -2,6 +2,7 @@ class TasksController < ApplicationController
   before_filter :login_required, :current_project, :set_filter_session_vars#, :projects_collection
   helper_method :projects_collection, :current_project
   
+  #TODO muuust refactor ; get an entity to which to apply all the filters
   def filter_tasks
     # handle search
     if !params[:search].nil? && params[:search] != "id or keywords + ENTER"
@@ -17,11 +18,18 @@ class TasksController < ApplicationController
     end
     
     @user_of_tasks = params[:user_id] ? params[:user_id] : current_user.id
-    if params[:project_id].nil?
-      # view certain users tasks
+    if params[:project_id].nil? 
+      # view certain users tasks or my tasks
       @tasks_for = params[:user_id].nil? ? "My" : User.find(params[:user_id]).name 
-      @tasks = current_project.tasks.assignee_id_equals(@user_of_tasks).
-                              kind_equals(session[:tasks_kind]).
+      #raise current_user.current_project_id.inspect
+      
+      if current_user.current_project_id == -1
+        what_tasks = Task.assignee_id_equals(current_user.id)
+      else
+        what_tasks = @project.tasks.assignee_id_equals(current_user.id)
+      end
+      
+      @tasks = what_tasks.kind_equals(session[:tasks_kind]).
                               priority_equals(session[:tasks_priority]).
                               status_equals(session[:tasks_status]).
                               resolution_equals(session[:tasks_resolution]).
@@ -62,6 +70,7 @@ class TasksController < ApplicationController
   
   def get_tasks
     filter_tasks
+    current_user.update_attributes(:current_project_id => params[:project_id])
     render :update do |page|
       page.replace_html 'tasks_list', :partial => 'tasks_list', :locals =>{:tasks => @tasks}
       page << '$("#project_tasks_link").attr("href", "/tasks?project_id=' + params[:project_id] + '")'
@@ -120,9 +129,6 @@ class TasksController < ApplicationController
   def new
     init_new_task    
     if request.xhr?
-      # respond_to do |format|
-      #   format.js {render :partial => 'new_task', :task => @task} 
-      # end
       render :update do |page|
         page.replace_html "new_task", :partial => "new_task", 
                                       :locals => {:task => @task, 
@@ -134,7 +140,7 @@ class TasksController < ApplicationController
       redirect_to :action => :index
     end
   end
-
+  
   #TODO: refactor to use RJS
   def create
     @task = Task.new(params[:task])
@@ -143,7 +149,7 @@ class TasksController < ApplicationController
       flash[:notice] = "Task was successfully created. Email sent to #{@task.asignee.name}."
       if params[:add_another] == "1"
         init_new_task
-        filter_tasks
+#        filter_tasks
         render :update do |page|
           page << "$('form :input').val(\"\");"
           page.hide "error_messages"

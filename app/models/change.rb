@@ -1,4 +1,6 @@
 class Change < ActiveRecord::Base
+  default_scope :order => 'for_day'
+
   belongs_to :user
   belongs_to :task
   
