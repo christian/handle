@@ -301,7 +301,13 @@ a.negative:active {background-color:#d12f19;border:1px solid #d12f19;color:#fff;
 
 /* vertical tabs */
 
-/* tabs */
+.vtabs {}
+.vtabs li {list-style-type: none; line-height: 2em;}
+.vtabs li a {font-weight: bold; text-decoration: none; color: #bbb;}
+.vtabs li ul li {line-height: 1.4em; margin-right: -18px;}
+.vtabs li ul li a {font-weight: normal; color: #333;}
+.vtabs li a.selected {color: #00467F;}
+/*
 .vtabs {height:1%;margin:0 0 .75em 0;min-height:auto;overflow:auto;padding-top: 23px;padding-bottom: 20px;}
 .vtabs li {border-bottom:none;float:left;line-height:1.5;list-style-type:none;margin:0 .25em 0 0;padding:0;padding-bottom: 3px;}
 .vtabs li a {width: 80px;background:#8DBF5F;color:#eee;cursor:pointer;display:block;float:left;font-weight:bold;padding:.30em .66em .50em .66em;}
@@ -310,7 +316,7 @@ a.negative:active {background-color:#d12f19;border:1px solid #d12f19;color:#fff;
 .vtabs li a:focus, .tabs li a:hover {color:#00467F;outline:none;}
 .vtabs li a.selected:focus, .tabs li a.selected:hover {color:#222;}
 .vtabs li.label {border:none;font-weight:bold;line-height:1.5;margin-right:.5em;padding:.25em .33em .25em .33em;}
-
+*/
 
 /* tabs */
 .tabs {padding-left: 20px; background:#5B9F1D;height:1%;margin:0 0 .75em 0;min-height:auto;overflow:auto;}

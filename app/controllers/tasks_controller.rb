@@ -18,15 +18,23 @@ class TasksController < ApplicationController
     end
     
     @user_of_tasks = params[:user_id] ? params[:user_id] : current_user.id
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     if params[:project_id].nil? 
-      # view certain users tasks or my tasks
-      @tasks_for = params[:user_id].nil? ? "My" : User.find(params[:user_id]).name 
-      #raise current_user.current_project_id.inspect
-      
+      # view certain users tasks or my tasks (no matter the project)
+      @tasks_for_user_id = params[:user_id].nil? ? current_user.id : params[:user_id].to_i
       if current_user.current_project_id == -1
-        what_tasks = Task.assignee_id_equals(current_user.id)
+        what_tasks = Task.assignee_id_equals(@tasks_for_user_id)
       else
-        what_tasks = @project.tasks.assignee_id_equals(current_user.id)
+        what_tasks = @project.tasks.assignee_id_equals(@tasks_for_user_id)
       end
       
       @tasks = what_tasks.kind_equals(session[:tasks_kind]).
@@ -37,8 +45,11 @@ class TasksController < ApplicationController
                               paginate(:per_page => 10, :page => params[:page])
     # all projects view
     elsif params[:project_id] == "-1" 
-      current_user.update_attributes(:current_project_id => -1)
-      @tasks = Task.assignee_id_equals(current_user.id).
+      # view all my tasks or all tasks of one of my mates
+      #@tasks_for = params[:user_id].nil? ? "My" : User.find(params[:user_id]).name 
+      @tasks_for_id = params[:user_id].nil? ? current_user.id : params[:user_id]
+      
+      @tasks = Task.assignee_id_equals(@tasks_for_id).
                     kind_equals(session[:tasks_kind]).
                     priority_equals(session[:tasks_priority]).
                     status_equals(session[:tasks_status]).
@@ -46,9 +57,9 @@ class TasksController < ApplicationController
                     order(session[:tasks_order], session[:tasks_order_type]).
                     paginate(:per_page => 10, :page => params[:page])
     else
-      # view certain project tasks
+      # view certain project tasks 
       @project = Project.find(params[:project_id])
-      @tasks_for = @project.name
+      #@tasks_for = @project.name
       @tasks = @project.tasks.kind_equals(session[:tasks_kind]).
                               priority_equals(session[:tasks_priority]).
                               status_equals(session[:tasks_status]).
@@ -70,10 +81,10 @@ class TasksController < ApplicationController
   
   def get_tasks
     filter_tasks
-    current_user.update_attributes(:current_project_id => params[:project_id])
+    current_user.update_attributes(:current_project_id => params[:project_id]) unless params[:project_id].nil?
     render :update do |page|
       page.replace_html 'tasks_list', :partial => 'tasks_list', :locals =>{:tasks => @tasks}
-      page << '$("#project_tasks_link").attr("href", "/tasks?project_id=' + params[:project_id] + '")'
+      page.replace_html "mates_list", :partial => "tasks/mates", :locals => {:users => users_collection}
     end
   end
   

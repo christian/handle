@@ -1,7 +1,7 @@
 <div class="prepend-8 span-8 append-8 last">
   <% form_for @user_session do |f| -%>
     <fieldset>
-    <legend>Login</legend>
+    <legend>  Login on handle </legend>
     <% if flash[:error] %>
     <div class="error">
       <%= flash[:error] %>
@@ -18,12 +18,12 @@
     </p>
     <%= f.submit "Login", :disable_with => 'Loging in...' %>
     
-    <h2>Or use OpenID</h2>
+    <!-- <h2>Or use OpenID</h2>
     <p>
-      <%= f.label :openid_identifier, "Openid URL" %>
-      <%= f.text_field :openid_identifier, :class => 'text' %>
+      <%#= f.label :openid_identifier, "Openid URL" %>
+      <%#= f.text_field :openid_identifier, :class => 'text' %>
     </p>
-    <%= f.submit 'Login', :disable_with => 'Loging with OpenID...' %>
+    <%#= f.submit 'Login', :disable_with => 'Loging with OpenID...' %> -->
     
     </fieldset>
   <% end -%>

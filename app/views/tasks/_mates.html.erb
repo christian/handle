@@ -1,0 +1,5 @@
+  <ul id="show_mates" style="display: none; font-weight: normal;">
+    <% users.each do |k, v| %>
+    <li><%= link_to k, tasks_path(:user_id => v), :id => "get_tasks_user_#{v}" %></li>
+    <% end %>
+  </ul>

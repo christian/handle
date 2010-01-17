@@ -31,20 +31,21 @@
      </script>
   </head>
   
-  <body>
-    <div class="container">
+  <body style="border-top: solid #white 5px;">
+    <div class="container" >
       <% unless current_user.nil? %>
-        <div class="span-20" style="background-color: #5B9F1D; color: white; "><!-- background-color: #02539F;  border-bottom: solid 6px #75CC28; -->
-          <div class="span-20 push-1 last" style="margin-left: 20px;" >Logged in as <%= current_user.username %>. <%= link_to "Logout", logout_path %></div>
-          <div class="span-20 last" style="margin-bottom: -10px;">
+        <div class="span-24" style="padding-top:5px;background-color: #5B9F1D; color: white; "><!-- background-color: #02539F;  border-bottom: solid 6px #75CC28; -->
+          <div style="float:left;"><img src="/images/logo.png" style="height: 64px;" /></div>
+          
+          <div class="span-14" style="margin-top: 38px; margin-bottom: -9px; padding-left: 7px;">
           <% unless current_user.nil? %>
             <%= menu %>
           <% end %>
           </div>
-          </div>
+        </div>
         
-        <div class="span-4 last" style="text-align:right; background-color: #5B9F1D;">
-            <img src="/images/logo.png" style="height: 64px;padding-left: 30px;" class="pull-1">
+        <div class="span-4 last push-20" style="padding-top: 5px; text-align:right; background-color: #5B9F1D; color: white; position: absolute;">
+            Logged in as <%= current_user.username %>. <%= link_to "Logout", logout_path %>&nbsp;&nbsp;
         </div>
         
         <!-- border-bottom: solid 6px #5B9F1D; -->

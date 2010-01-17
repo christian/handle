@@ -1,5 +1,5 @@
 class ChangesController < ApplicationController
-  before_filter :get_task
+  before_filter :get_task, :except => :update
   helper_method :current_project, :users_collection
   
   def index
@@ -38,6 +38,14 @@ class ChangesController < ApplicationController
       redirect_to :back
     else
       render :action => "new"
+    end
+  end
+  
+  def update
+    @change = current_user.changes.find(params[:id])
+    @change.update_attributes(params[:change])
+    render :update do |page|
+      page.replace_html "for_day_change_#{@change.id}", @change.for_day.to_s(:long)
     end
   end
   

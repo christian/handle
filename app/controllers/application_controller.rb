@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
 
   # Scrub sensitive parameters from your log
   filter_parameter_logging :password, :password_confirmation
-  helper_method :current_user#, :current_project
+  helper_method :current_user, :users_collection#, :current_project
   
   protected
   
@@ -55,7 +55,7 @@ class ApplicationController < ActionController::Base
   
   
   def current_project
-    @project ||= (current_user.current_project || current_user.projects.first)    
+    @project ||= (current_user.current_project || current_user.projects.first)
   end
   
   def current_project=(project)
@@ -63,13 +63,18 @@ class ApplicationController < ActionController::Base
   end
   
   def projects_collection
-    projects = Hash[*current_user.projects(:order => "name asc").all.collect{|p| [p.name, p.id]}.flatten]
+    projects = Hash[*current_user.projects.all.collect{|p| [p.name, p.id]}.flatten]
     projects.merge!({"All projects" => -1})
     projects.keys.sort_by {|key| key.downcase.to_s}.map {|key| [key, projects[key]]}
   end
   
   def users_collection
-    users = Hash[*current_project.users.all.collect{|u| [u.name, u.id]}.flatten]
+    if current_user.current_project_id == -1
+      users = Hash[*User.all_collaborators(current_user.id).collect{|u| [u.name, u.id]}.flatten]
+    else
+      users = Hash[*current_project.users.all.collect{|u| [u.name, u.id]}.flatten]
+    end
+    return users
   end
   
   def check_is_superadmin

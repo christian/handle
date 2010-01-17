@@ -68,48 +68,87 @@
       })
       return false;
     })
+    
+    $("#team_mates_tasks_link").click(function() {
+      $("#show_mates").show();
+      $("#my_tasks_link").attr("class", "");
+      $("#project_tasks_link").attr("class", "");
+      $(this).attr("class", "selected");
+      $.ajax({
+        url: "/projects/" + $("#project").val() + "/get_users_for_project?mates=true", // not very wise , nor clean
+        type: "GET",
+        dataType: "script",
+        success: function() {
+          $("#show_mates").show();
+          $("a[id^=get_tasks_user_]").click(get_tasks_user_listener);
+          return false;
+        }
+      })
+      return false;
+    })
+    
+    $("#my_tasks_link").click(function() {
+      $("#show_mates").hide();
+      $("#project_tasks_link").attr("class", "");
+      $("#team_mates_tasks_link").attr("class", "");
+      $(this).attr("class", "selected");
+      $.ajax({
+        url: "/tasks/get_tasks?user_id=" + <%= current_user.id %>,
+        type: "GET",
+        dataType: "script"
+      })
+      return false;
+    })
+    
+    $("#project_tasks_link").click(function() {
+      $("#show_mates").hide();
+      $("#my_tasks_link").attr("class", "");
+      $("#team_mates_tasks_link").attr("class", "");
+      $(this).attr("class", "selected");
+      $.ajax({
+        url: "/tasks/get_tasks?project_id=" + $("#project").val(),
+        type: "GET",
+        dataType: "script"
+      })
+      return false;
+    })
+    
+    var get_tasks_user_listener = function() {
+      user_id = $(this).attr("id").split("get_tasks_user_")[1];
+      $.ajax({
+        url: "/tasks/get_tasks?user_id=" + user_id,
+        type: "GET",
+        dataType: "script",
+        success: function() {
+          $("#show_mates").show();
+        }
+      })
+      return false;
+    };
+    // $("#team_mates_tasks_link").blur(function() {
+    //   $("#show_mates").hide();
+    // })
+    
   })
 
 </script>
 
-<%= javascript_include_tag 'pagination' %>
-
-<div class="span-20">
-  <%= render :partial => "shared/notice" %>
-  
-  <div class="span-17">
-    <%= text_field_tag :search, "", :id => "search_task", :size => 17, :class => "title", :style => "margin-top: 0px;" %>
-  </div>
-  <div class="span-3 last" style="text-align: right;">
-     <%= link_to '<span class="ss_sprite ss_add">&nbsp; New task &nbsp; </span>', "", :id => 'new_task_button', :class => 'button positive', :style =>"margin-right: -12px; margin-top: 0px;", :title => 'Add new task' %>
-   </div>
-  
-  <div class="span-20 last" id="new_task">
-  </div>
-  
-  <div class="span-20 last" id="tasks_list">
-    <%= render :partial => 'tasks_list', :locals => {:tasks => @tasks} %>
-  </div>
-</div>
-
-<div class="span-4 last">
+<div class="span-4">
   <%= render :partial => 'shared/current_project_select', :locals => {:url => get_tasks_tasks_path} %>
-
-  <div style=" padding: 0px; background: #5B9F1D; "><!-- border-left: solid 1px #5B9F1D; -->
-    <ul class="vtabs">
-      <% if params[:project_id] %>
-        <li><%= link_to "My tasks", tasks_path %></li>
-        <li><%= link_to "Project tasks", "", :class=>"selected" %></li>
-        <!-- <li><%= link_to "Teammates tasks", "", :class=>"selected" %></li> -->
-      <% else %>
-        <li><%= link_to "My tasks", "", :class=>"selected" %></li>
-        <li><%= link_to "Project tasks", tasks_path(:project_id => current_project.id) %></li>
-        <!-- <li><%= link_to "Teammates tasks", "", :class=>"selected" %></li> -->
-      <% end %>
+  <div style="padding: 0px; padding-top: 10px;border: solid 1px #ddd; text-align:right;">
+    
+    <ul class="vtabs"> 
+        <li><%= link_to "My tasks", "", :id => "my_tasks_link", :class=>"selected" %></li>
+        <li><%= link_to "Teammates tasks", "", :id => "team_mates_tasks_link" %></li>
+        <li style="font-weight: normal;" id="mates_list">
+          <%= render :partial => 'mates', :locals => {:users => users_collection} %>
+        </li>
+        <li><%= link_to "Project tasks", tasks_path(:project_id => current_project.id), :id => "project_tasks_link" %></li>
     </ul>
+    
   </div>
   
-  <div style="background-color:#f2f2f2;border:1px solid #ddd;color:#529214; padding: 7px; padding-top:none;">
+  <div style="background-color: #5B9F1D; color: white; padding: 7px;">
     <strong>Show tasks which are</strong>
   </div>
   <div style="border: solid 1px #ddd; border-top:none;padding: 0px; "><!--  -->
@@ -158,8 +197,23 @@
       <br />
     <% end %>
     
-    <!-- you have: x tasks total
-    and y opened -->
+  </div>
+</div>
+
+<div class="span-20 last">
+  <%= render :partial => "shared/notice" %>
+  
+  <div class="span-3">
+     <%= link_to '<span class="ss_sprite ss_add">&nbsp; New task &nbsp; </span>', "", :id => 'new_task_button', :class => 'button positive', :style =>"margin-right: -12px; margin-top: 0px;", :title => 'Add new task' %>
+ </div>
+  <div class="span-17 last"  style="text-align: right;">
+    <%= text_field_tag :search, "", :id => "search_task", :size => 17, :class => "title", :style => "margin-top: 0px;" %>
   </div>
   
+  <div class="span-20 last" id="new_task">
+  </div>
+  
+  <div class="span-20 last" id="tasks_list">
+    <%= render :partial => 'tasks_list', :locals => {:tasks => @tasks} %>
+  </div>
 </div>
