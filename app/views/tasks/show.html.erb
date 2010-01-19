@@ -35,7 +35,9 @@
     <%= render :partial => "shared/notice" %>
     
     <div class="quiet">
-      Milestone: <%= @task.milestone.name %>
+      <% unless @task.milestone.nil? %>
+        Milestone: <%= @task.milestone.name %>
+        <% end %>
     </div>
     
     <pre style="font-family:Arial, Helvetica, sans-serif; text-indent: -1.7em;">
