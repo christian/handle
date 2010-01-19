@@ -1,5 +1,6 @@
 class ProjectsController < ApplicationController
   before_filter :check_is_superadmin, :only => [:new, :edit, :create, :update, :destroy]
+  helper_method :current_project
   
   def index
     @projects = Project.all_project_user_works_for(current_user.id)
@@ -11,6 +12,7 @@ class ProjectsController < ApplicationController
   def new
     @project = Project.new
     @users = User.all
+    @milestones = @project.milestones.build
   end
   def edit
     @project = Project.find(params[:id])

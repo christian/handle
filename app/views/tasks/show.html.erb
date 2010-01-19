@@ -33,7 +33,11 @@
 <div class="span-18">
   <div class="span-18 last"> 
     <%= render :partial => "shared/notice" %>
-        
+    
+    <div class="quiet">
+      Milestone: <%= @task.milestone.name %>
+    </div>
+    
     <pre style="font-family:Arial, Helvetica, sans-serif; text-indent: -1.7em;">
       <%= @task.description %>
     </pre>
@@ -121,7 +125,27 @@
               <% end %>&nbsp;<%= @task.resolution %>
           </td>
         </tr>
+        <!-- </tr> -->
+        <tr>
+          <td>Billable:</td>
+          <td><%= @task.billable %></td>
         </tr>
+        
+        <tr>
+          <td>Start date:</td>
+          <td><%= @task.start_date.to_s(:short) %></td>
+        </tr>
+        
+        <tr>
+          <td>End date:</td>
+          <td><%= @task.end_date.to_s(:short) %></td>
+        </tr>
+        
+        <tr>
+          <td>Purchase order:</td>
+          <td><%= @task.purchase_order %></td>
+        </tr>
+        
       </table>
   </div>    
   

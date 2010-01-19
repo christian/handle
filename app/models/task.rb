@@ -4,6 +4,7 @@ class Task < ActiveRecord::Base
   belongs_to :project
   belongs_to :asignee, :class_name => "User", :foreign_key => "assignee_id"
   belongs_to :opener, :class_name => "User", :foreign_key => "opener_id"
+  belongs_to :milestone
   
   has_many :watchings
   has_many :watchers, :through => :watchings, :source => :user 
@@ -38,7 +39,20 @@ class Task < ActiveRecord::Base
   }
   
   after_save :add_watchers
-  before_save :convert_time_spent_to_minutes
+  before_save :convert_time_spent_to_minutes#, :convert_dates
+  
+  # def start_date
+  #   Date.parse(read_attribute(:start_date))
+  # end
+  # 
+  # def end_date
+  #   Date.parse(read_attribute(:end_date))
+  # end
+  
+  # def convert_dates
+  #   self.start_date = Date.parse(read_attribute(:start_date))
+  #   self.end_date = Date.parse(read_attribute(:end_date))
+  # end
   
   def time_spent
     changes.collect(&:minutes).sum

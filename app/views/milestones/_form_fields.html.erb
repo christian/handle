@@ -18,7 +18,10 @@
     <%= f.date_select :end_at %>
   </p>
   <p>
-    <%= f.label :project_id, "Select project" %>
-    <%= f.select :project_id, Project.all.collect {|p| [p.name, p.id]} %>
+    <% unless current_project.id.nil? %>
+      <%= f.hidden_field :project_id, :value => current_project.id %>
+    <% end %>
+    <%#= f.label :project_id, "Select project" %>
+    <%#= f.select :project_id, Project.all.collect {|p| [p.name, p.id]} %>
   </p>
 </div>

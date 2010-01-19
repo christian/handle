@@ -7,7 +7,7 @@ $(function() {
   $("span[id^=for_day_change_]").datePicker().click(function(){
     change_id = $(this).attr('id').split("for_day_change_")[1];
     $(this).dpDisplay();
-  this.blur();
+    this.blur();
   }).bind('dateSelected', select_date);
 
   function select_date(e, selectedDate, $td) {

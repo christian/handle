@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091217143630) do
+ActiveRecord::Schema.define(:version => 20100119161423) do
 
   create_table "changes", :force => true do |t|
     t.text     "comment"
@@ -86,6 +86,11 @@ ActiveRecord::Schema.define(:version => 20091217143630) do
     t.integer  "opener_id"
     t.integer  "assignee_id"
     t.integer  "estimated_time"
+    t.boolean  "billable",       :default => false
+    t.date     "start_date"
+    t.date     "end_date"
+    t.string   "purchase_order"
+    t.integer  "milestone_id"
   end
 
   create_table "users", :force => true do |t|
