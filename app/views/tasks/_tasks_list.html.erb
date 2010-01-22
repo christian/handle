@@ -18,7 +18,7 @@
       <tr class="<%= cycle('even', '') %>">
         <td style="width: 8%; height: 40px;"><div class="<%= task.kind %>">&nbsp;</div></td>
         <td><%= "##{task.id}" %> <strong><%=link_to task.title, task %></strong><br />
-          <span class="small quiet">Project: <%= task.project.name %></span>
+          <span class="small quiet">Project: <%= task.project.name if task.project %></span>
         </td>
         <td style="width: 12%;">
           <span class="quiet small"><%= time_ago_in_words(task.updated_at) %> ago</span>

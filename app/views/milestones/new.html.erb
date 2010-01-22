@@ -1,12 +1,26 @@
-<h2>New milestone</h2>
+<div class="span-4">
+  <%= render :partial => 'shared/current_project_select', :locals => {:url => get_milestones_milestones_path} %>
+</div>
 
-<% form_for(@milestone) do |f| %>
-  <%= f.error_messages %>
-
-  <%= render :partial => 'form_fields', :locals => {:f => f} %>
+<div class="span-20 last">
+  <div class="span-16">
+    <h2><%= link_to "Milestones for " + current_project_name, milestones_path %> &raquo; New milestone</h1>
+  </div>
+  <div class="span-4 last">
+    <div style="text-align: right;"><%= link_to '<span class="ss_sprite ss_add"><strong>New milestone</strong></span>', new_milestone_path, :class => 'button positive' %>  </div>
+  </div>
   
-  <hr />
-  <p>
-    <%= f.submit 'Create milestone' %>
-  </p>
-<% end %>
+  <div class="span-20 last" id="milestones_list">  
+    <% form_for(@milestone) do |f| %>
+      <%= f.error_messages %>
+
+      <%= render :partial => 'form_fields', :locals => {:f => f} %>
+
+      <hr />
+      <p>
+        <%= f.submit 'Create milestone' %>
+      </p>
+    <% end %>
+  </div>
+</div>
+

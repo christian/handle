@@ -1,19 +1,44 @@
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    $("a[id^=milestone_]").click(function() {
+      id = $(this).attr("id").split("milestone_")[1];
+      $("#details_" + id).toggle();
+      if ($("#plus_" + id) == "+") {
+        $("#plus_" + id).html("-")
+      } else {
+        $("#plus_" + id).html("+")
+      }
+      
+      return false;
+    });
+  });
+</script>
 <% unless milestones.empty? %>
-    Add toggle show/hide fo each milestone detail
     <% milestones.each do |milestone| %>  
-        <div class="span-15" style="background-color: #E5ECF9;">
-          <h3 style="margin-top: 9px; margin-bottom: 9px; margin-left: 10px;"><a name="milestone_<%= milestone.id %>"><%=h milestone.name %></a></h3>
+    <div class="span-20 last" style="border-bottom: 1px solid #ddd;  padding-right: 0px;">
+      <div class="span-18"><span id="plus_<%= milestone.id %>">+</span> <%= link_to milestone.name, "", :id => "milestone_" + milestone.id.to_s %><br />
+        <div style="padding-left: 10px;" class="quiet"><%= milestone.start_at.to_s(:short) %> - <%= milestone.end_at.to_s(:short) %>
         </div>
-        <div class="span-5 last">
-          <strong>Starts: </strong><%=h milestone.start_at.to_s(:long) %><br />
-          <strong>Ends:</strong> <%=h milestone.end_at.to_s(:long) %>
-        </div>
-        <div class="19 last" style="padding-top: 10px;" >
-          <p><br /><br /><%= milestone.description %></p>
-          <%= link_to '<span class="ss_sprite ss_page_white_edit"></span>', edit_milestone_path(milestone) %>
-          <%= link_to '<span class="ss_sprite ss_delete"></span>', milestone, :confirm => 'Are you sure?', :method => :delete %>
-        </div>
-        <br /><br />
+      </div>
+      <div class="span-2 last" stlye="text-align:right;"><%= link_to '<span class="small">Edit</span>', edit_milestone_path(milestone) %> | 
+      <%= link_to '<span class="small">Delete</span>', milestone, :confirm => 'Are you sure?', :method => :delete %>
+      </div>
+      
+      <div class="span-20" id="details_<%= milestone.id.to_s %>" style="display: none;margin-top: 10px; margin-bottom:10px;">
+        <p>
+          <strong>Description:</strong> <%= milestone.description %>
+        </p>
+        <p>
+          <strong>Tasks:</strong>
+          <ul>
+            <% milestone.tasks.each do |task| %>
+              <li><%= task.title %>, <span class="quiet">Assigned to</span> <strong><%= task.asignee.name %></strong>. <span class="quiet">Period:</span> <%= task.start_date %>, <%= task.end_date %></li>
+            <% end %>
+          </ul>
+        </p>
+      </div>
+      
+    </div>
     <% end %>
 <% else %>
   <br />

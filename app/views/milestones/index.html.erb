@@ -115,12 +115,16 @@
   }
 </style>
 
-<div class="span-20 border">
+<div class="span-4">
+  <%= render :partial => 'shared/current_project_select', :locals => {:url => get_milestones_milestones_path} %>
+</div>
+
+<div class="span-20 last">
   <div class="span-16">
-    <h2>Milestones</h1>
+    <h2>Milestones for <%= current_project_name %></h1>
   </div>
   <div class="span-4 last">
-    <%= link_to '<span class="ss_sprite ss_add"><strong>New milestone</strong></span>', new_milestone_path, :class => 'button positive' %>  
+    <div style="text-align: right;"><%= link_to '<span class="ss_sprite ss_add"><strong>New milestone</strong></span>', new_milestone_path, :class => 'button positive' %>  </div>
   </div>
   
   <div class="span-20 last" id="milestones_list">  
@@ -131,29 +135,4 @@
   </div>
 </div>
 
-
-<div class="span-4 last">
-  <%= render :partial => 'shared/current_project_select', :locals => {:url => get_milestones_milestones_path} %>
-</div>
-
-
-<!-- <div id="milestones_chart" class='chart'>
-  <strong>Text displayed when the user doesn't have Flash. You might want to display a simple table with the population, search engines and visitor without flash would love that.</strong>
-  <p> To see this page properly, you need to upgrade your Flash Player, please visit the Adobe web site</p>
-</div>
-<script type="text/javascript">
-  // <![CDATA[    
-  var so = new SWFObject("/graphs/amcolumn/amcolumn.swf", "population_chart", "750", "380", "1", "#FFFFFF");
-  so.addVariable("path", "/graphs/amcolumn/");
-  so.addVariable("settings_file", escape("/graphs/amcolumn/amcolumn_milestones_settings.xml"));
-  so.addVariable("data_file", escape("<%= xml_month_milestones_path %>")); 
-  so.addVariable("preloader_color", "#FFFFFF");
-  so.write("milestones_chart");
-  // ]]>
-</script> -->
-
-
-<!-- <br />
-
-<%= link_to '<span class="ss_sprite ss_add"><strong>New milestone</strong></span>', new_milestone_path, :class => 'button' %> -->
 

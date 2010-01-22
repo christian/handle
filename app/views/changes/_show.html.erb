@@ -1,14 +1,15 @@
 <script type="text/javascript" charset="utf-8">
 $(function() {
   // change for day 
-  $(".dp-choose-date").remove();
   var change_id;
 
-  $("span[id^=for_day_change_]").datePicker().click(function(){
+  $("span[id^=for_day_change_]").datePicker({startDate:'01/01/1996'}).click(function(){
     change_id = $(this).attr('id').split("for_day_change_")[1];
     $(this).dpDisplay();
     this.blur();
   }).bind('dateSelected', select_date);
+
+  $(".dp-choose-date").remove();
 
   function select_date(e, selectedDate, $td) {
     date = selectedDate.getFullYear() + "-" + (selectedDate.getMonth() + 1) + "-" + selectedDate.getDate();
@@ -21,21 +22,22 @@ $(function() {
   }
 
   // change time spent
-  var a = 0
-  $("span[id^=time_spent_]").datePicker().click( function() { /// SOMETHIGN HAPPENS TWO TIMES HERE AND I DON"T KNOW WHY"
-    if (a == 0) {
-      a = a + 1;
-
-      change_id = $(this).attr('id').split("time_spent_")[1];
-      time_spent = $("#time_spent_" + change_id).html();
-      var ts = time_spent.split(" ");
-      alert(ts[1])
-      time_spent = ts[1] + "d" + ts[3] + "h" + ts[5] + "m";
-      $("#time_spent_" + change_id).html('<input type="text" name="change[time_spent]" value="' + time_spent + '"');
-    }
-  })
+  // var a = 0
+  // $("span[id^=time_spent_]").datePicker({startDate:'1996-01-01'}).click( function() { /// SOMETHIGN HAPPENS TWO TIMES HERE AND I DON"T KNOW WHY"
+  //   if (a == 0) {
+  //     a = a + 1;
+  // 
+  //     change_id = $(this).attr('id').split("time_spent_")[1];
+  //     time_spent = $("#time_spent_" + change_id).html();
+  //     var ts = time_spent.split(" ");
+  //     alert(ts[1])
+  //     time_spent = ts[1] + "d" + ts[3] + "h" + ts[5] + "m";
+  //     $("#time_spent_" + change_id).html('<input type="text" name="change[time_spent]" value="' + time_spent + '"');
+  //   }
+  // })
 })
 </script>
+
 
 <style type="text/css" media="screen">
   .change_comment {
@@ -71,6 +73,6 @@ $(function() {
   </p>
 <% end %>
 
-<span id="for_day_change_<%= change.id %>" class="quiet small">On <%= change.for_day.to_s(:long) %><br /></span>
+<div style="text-align:right;" id="<% if change.user == current_user %>for_day_change_<% else %>for_day_other<% end%><%= change.id %>" class="quiet small">On <%= change.for_day.to_s(:long) %><br /></div>
 
 </div>

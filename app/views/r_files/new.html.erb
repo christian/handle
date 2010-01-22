@@ -1,13 +1,28 @@
-<h2>New file</h2>
+<div class="span-4">
+  <%= render :partial => 'shared/current_project_select', :locals => {:url => get_files_r_files_path} %>
+</div>
 
-<% form_for(@r_file, :html => { :multipart => true }) do |f| %>
-  <%= f.error_messages %>
+<div class="span-20 last">
+  <div class="span-16">
+    <h2><%= link_to "Files for " + current_project_name, r_files_path %> &raquo; New file</h1>
+  </div>
+  <div class="span-4 last">
+    <div style="text-align: right;"><%= link_to '<span class="ss_sprite ss_add"><strong>New file</strong></span>', new_r_file_path, :class => 'button positive' %>  </div>
+  </div>
+  
+  <div class="span-20 last">
+    <div id="files_list">
+      <% form_for(@r_file, :html => { :multipart => true }) do |f| %>
+        <%= f.error_messages %>
 
-  <%= render :partial => 'form_fields', :locals => {:f => f} %>
-  <br />
-  <p>
-    <%= f.submit 'Create' %>
-  </p>
-<% end %>
+        <%= render :partial => 'form_fields', :locals => {:f => f} %>
+        <br />
+        <p>
+          <%= f.submit 'Upload file' %>
+        </p>
+      <% end %>
+      <%= link_to 'Back to files', r_files_path %>
+    </div>
+  </div>
+</div>
 
-<%= link_to 'Back', r_files_path %>

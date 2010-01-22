@@ -1,4 +1,12 @@
-<div class="span-12">  
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    Date.format = 'yyyy-mm-dd';
+
+    $("#milestone_start_at").datePicker();
+    $("#milestone_end_at").datePicker();
+  })
+</script>
+<div class="span-12 last">  
   <p>
     <%= f.label :name %><br />
     <%= f.text_field :name, :class => "text" %>
@@ -11,11 +19,11 @@
 <div class="span-12 last">  
   <p>
     <%= f.label :start_at %><br />
-    <%= f.date_select :start_at %>
+    <%= f.text_field :start_at ,:class => "text", :style => "width: 100px;"  %>
   </p>
   <p>
     <%= f.label :end_at %><br />
-    <%= f.date_select :end_at %>
+    <%= f.text_field :end_at, :class => "text", :style => "width: 100px;"  %>
   </p>
   <p>
     <% unless current_project.id.nil? %>

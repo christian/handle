@@ -1,12 +1,25 @@
-<div class="span-20">
-  <h2>Files</h2>
+<div class="span-4">
+  <%= render :partial => 'shared/current_project_select', :locals => {:url => get_files_r_files_path} %>
+</div>
 
-  <div class="span-6 border">
+<div class="span-20 last">
+  <div class="span-16">
+    <h2>Files for <%= current_project_name %></h1>
+  </div>
+  <div class="span-4 last">
+    <div style="text-align: right;"><%= link_to '<span class="ss_sprite ss_add"><strong>New file</strong></span>', new_r_file_path, :class => 'button positive' %>  </div>
+  </div>
+  
+  <% if @r_files.empty? %>
+    <div class="notice span-20 last">
+      No files uploaded.
+    </div>
+  <% else %>
+  <div class="span-20 last">
     <div style="text-align: right;" id="files_list">
       <%= render :partial => 'files_list', :locals => {:files => @r_files} %>
     </div>
   </div>
+  <% end %>
+</div>
 
-  <div class="span-4 last">
-    <%= render :partial => 'shared/current_project_select', :locals => {:url => get_files_r_files_path} %>
-  </div>

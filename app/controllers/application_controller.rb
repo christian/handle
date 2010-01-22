@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
 
   # Scrub sensitive parameters from your log
   filter_parameter_logging :password, :password_confirmation
-  helper_method :current_user, :users_collection#, :current_project
+  helper_method :current_user, :users_collection, :current_project_name#, :current_project
   
   protected
   
@@ -85,5 +85,13 @@ class ApplicationController < ActionController::Base
   
   def set_host_for_email
     ActionMailer::Base.default_url_options[:host] = request.host_with_port
+  end
+  
+  def current_project_name
+    if current_user.current_project_id == -1 
+      return "All projects"
+    else
+      return Project.find(current_user.current_project_id, :select => "name").name
+    end
   end
 end

@@ -2,11 +2,11 @@
   $(function() {
     $("#task_details_link").click(function() {
       $("#task_details_table").toggle();
-      el = $("#image");
-      if (el.attr("src") == "/images/bullet_toggle_plus.png"){
-        el.attr("src", "/images/bullet_toggle_minus.png")
+      el = $("#plus");
+      if (el.html() == "+ "){
+        el.html("- ")
       } else {
-        el.attr("src", "/images/bullet_toggle_plus.png")
+        el.html("+ ")
       }
       return false;
     })
@@ -37,7 +37,7 @@
     <div class="quiet">
       <% unless @task.milestone.nil? %>
         Milestone: <%= @task.milestone.name %>
-        <% end %>
+      <% end %>
     </div>
     
     <pre style="font-family:Arial, Helvetica, sans-serif; text-indent: -1.7em;">
@@ -81,8 +81,8 @@
   <div class="span-5 box">
     
     <div class="span-5">
-      <div style="float:left;"><img id="image" src="/images/bullet_toggle_plus.png" /> </div>
-      <div style="margin-top: 10px;"><%= link_to "<strong>Task details</strong>", "", :id => "task_details_link" %></div>
+      <span id="plus">+ </span>
+      <%= link_to "<strong>Task details</strong>", "", :id => "task_details_link" %>
     </div>      
     
       <table style="display: none;" id="task_details_table">
@@ -130,7 +130,7 @@
         <!-- </tr> -->
         <tr>
           <td>Billable:</td>
-          <td><%= @task.billable %></td>
+          <td><%= @task.billable == false ? "no" : "yes" %></td>
         </tr>
         
         <tr>

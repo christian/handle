@@ -19,7 +19,7 @@ class Change < ActiveRecord::Base
   # end
   
   def convert_time_spent_to_minutes
-    self.minutes = days.to_i * 1440 + hours.to_i * 60 + read_attribute(:minutes).to_i
+    self.minutes = days.to_i * 480 + hours.to_i * 60 + read_attribute(:minutes).to_i
   end
   
   def self.total_today # should be today for interval
