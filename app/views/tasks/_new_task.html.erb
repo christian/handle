@@ -36,17 +36,7 @@
       return false;
     })
     
-    
-    jQuery.fn.delay = function(time,func){
-        return this.each(function(){
-            setTimeout(func,time);
-        });
-    };
-
-    $(function(){
-      $('#task_notice').delay(500, function(){$('#task_notice').fadeOut()})
-    });
-    
+    $('#task_notice').delay(500, function(){$('#task_notice').fadeOut()})
   })
 </script>
 
@@ -65,7 +55,9 @@
     <%#= link_to '&nbsp; Save and add another &nbsp; ', "", :id => 'save_add_another', 
                                             :class => 'button positive', 
                                             :title => 'Add new task' %>
-    <%= link_to "&nbsp; Cancel &nbsp;", "", :class => 'button negative', :id => 'cancel_button', :title => 'Cancel task creation' %>
+    <%= link_to "&nbsp; Cancel &nbsp;", "", :class => 'button negative', 
+                                            :id => 'cancel_button', 
+                                            :title => 'Cancel task creation' %>
   </div>
   
   <hr />  

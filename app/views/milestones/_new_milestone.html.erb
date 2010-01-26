@@ -1,0 +1,36 @@
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    $("#cancel_button").click(function() {
+      $("#new_milestone").html("");
+      return false;
+    })
+    
+    $("#create_milestone_button").click(function() {
+      $.ajax({
+        type: "POST",
+        url: "<%= milestones_path(@milestone) %>",
+        dataType: "script",
+        data: $("form").serialize()
+      })
+      return false;
+    })
+  })
+</script>
+<% form_for(@milestone) do |f| %>
+  <div id="error_messages" class="error" style="display: none;"></div>
+
+  <%= render :partial => 'form_fields', :locals => {:f => f} %>
+
+  <hr />
+  <p>
+    <%= link_to '&nbsp; Create milestone &nbsp; ', "", :id => 'create_milestone_button', 
+                                            :class => 'button positive', 
+                                            :title => 'Create milestone' %> 
+    <%#= link_to '&nbsp; Save and add another &nbsp; ', "", :id => 'save_add_another', 
+                                            :class => 'button positive', 
+                                            :title => 'Add new task' %>
+    <%= link_to "&nbsp; Cancel &nbsp;", "", :class => 'button negative', 
+                                            :id => 'cancel_button', 
+                                            :title => 'Cancel milestone creation' %>
+  </p>
+<% end %>

@@ -1,5 +1,5 @@
 
-<style type="text/css" media="screen">
+<!-- <style type="text/css" media="screen">
   /*
     Calendar theme, based on Geoffrey Grosenbach http://nubyonrails.com
 
@@ -76,7 +76,7 @@
     /* background-color: #ffffdd; */
   }
   .today{
-  	background-color: #FEFF9F;
+    background-color: #FEFF9F;
   }
 
   .beginning_of_week {
@@ -113,7 +113,42 @@
     color:#ffffff; 
     text-decoration: none;
   }
-</style>
+</style> -->
+
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    $("a[id^=milestone_]").click(function() {
+      id = $(this).attr("id").split("milestone_")[1];
+      $("#details_" + id).toggle();
+      if ($("#plus_" + id).html() == "+") {
+        $("#plus_" + id).html("-")
+      } else {
+        $("#plus_" + id).html("+")
+      }
+      return false;
+    });
+    
+    $("#new_milestone_button").click(function() {
+      $.ajax({
+        type: "GET",
+        url: "<%= new_milestone_path %>",
+        dataType: "script",
+        data: $("form").serialize(),
+        // success: function(data, textStatus) {
+        //   tinyMCE.init({
+        //     heme_advanced_toolbar_location : "top",
+        //     mode : "textareas",
+        //     theme : "advanced",
+        //     theme_advanced_toolbar_align : "left"
+        //   })
+        // }
+      })
+      return false;
+    })
+    
+    $("#milestone_notice").delay(500, function(){$('#milestone_notice').fadeOut()})
+  })
+</script>
 
 <div class="span-4">
   <%= render :partial => 'shared/current_project_select', :locals => {:url => get_milestones_milestones_path} %>
@@ -124,7 +159,13 @@
     <h2>Milestones for <%= current_project_name %></h1>
   </div>
   <div class="span-4 last">
-    <div style="text-align: right;"><%= link_to '<span class="ss_sprite ss_add"><strong>New milestone</strong></span>', new_milestone_path, :class => 'button positive' %>  </div>
+    <div style="text-align: right;"><%= link_to '<span class="ss_sprite ss_add"><strong>New milestone</strong></span>', "", :id => "new_milestone_button", :class => 'button positive' %>  </div>
+  </div>
+  
+  <div class="span-20 last" id="new_milestone">
+  </div>
+  
+  <div class="span-20 last" id="milestone_notice">
   </div>
   
   <div class="span-20 last" id="milestones_list">  

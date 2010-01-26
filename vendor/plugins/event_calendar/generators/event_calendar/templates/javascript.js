@@ -8,3 +8,9 @@ function select_event(ele, selected) {
     else event.setStyle({ backgroundColor: ele.readAttribute("color") });
   });
 }
+
+jQuery.fn.delay = function(time,func){
+    return this.each(function(){
+        setTimeout(func,time);
+    });
+};

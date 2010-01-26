@@ -1,5 +1,53 @@
 <script type="text/javascript" charset="utf-8">
+  function click_time_spent_event_handler(object) {
+    if ($(this).children().length == 0) { // we have clicked on this already
+      id = $(this).attr("id").split("time_spent_")[1];
+      time_spent = $("#time_spent_" + id).html();
+      val = time_spent//.replace(/\s+/g, "")
+      $(this).html('<input id="change_text_time_spent_'+id+'" name="change[text_time_spent]" type="text" value="' + val + '" /><span class="quiet small">Enter amount then press ENTER.</span>');
+      $("#change_text_time_spent_"+id).focus();
+      $("#change_text_time_spent_"+id).blur(function() {
+        $(this).parent().html(val);
+      }).keyup(function(e) {
+        if(e.keyCode == 13) {
+          $.ajax({
+            type: "PUT",
+            url: "/changes/" + id,
+            data: {"change[text_time_spent]": $(this).val() },
+            dataType: "script"
+          })
+        }
+      });
+    }
+  }
+  function click_date_picker(){
+     change_id = $(this).attr('id').split("for_day_change_")[1];
+     $(this).dpDisplay();
+     this.blur();
+   }
+   
+  function select_date(e, selectedDate, $td) {
+    date = selectedDate.getFullYear() + "-" + (selectedDate.getMonth() + 1) + "-" + selectedDate.getDate();
+    $.ajax({
+      type: "PUT",
+      url: "/changes/" + change_id,
+      data: {"change[for_day]": date},
+      dataType: "script"
+    });
+  }
+  
   $(function() {
+    ////////////////////////////////////////////
+    // changes SHOW
+    ////////////////////////////////////////////
+   var change_id;
+   $("span[id^=for_day_change_]").datePicker({startDate:'01/01/1996'}).click(click_date_picker).bind('dateSelected', select_date);
+   $(".dp-choose-date").remove();
+   $("span[id^=time_spent_]").click(click_time_spent_event_handler);
+    // END changes SHOW ////////////////////////// 
+     
+
+
     $("#task_details_link").click(function() {
       $("#task_details_table").toggle();
       el = $("#plus");
@@ -10,6 +58,44 @@
       }
       return false;
     })
+    
+    $(".ss_time_add").click(function() {
+      $.ajax({
+        type: "GET",
+        url: "<%= new_change_path %>",
+        dataType: "script",
+        data: "task_id=<%= @task.id %>",
+        // success: function(data, textStatus) {
+        //   tinyMCE.init({
+        //     heme_advanced_toolbar_location : "top",
+        //     mode : "textareas",
+        //     theme : "advanced",
+        //     theme_advanced_toolbar_align : "left"
+        //   })
+        // }
+      })
+      return false;
+    })
+
+    var msie6 = $.browser == 'msie' && $.browser.version < 7;
+
+    if (!msie6) {
+      var top = $('#calendar').offset().top - parseFloat($('#calendar').css('margin-top').replace(/auto/, 0));
+      $(window).scroll(function (event) {
+        // what the y position of the scroll is
+        var y = $(this).scrollTop();
+
+        // whether that's below the form
+        if (y >= top) {
+          // if so, ad the fixed class
+          $('#calendar').addClass('fixed');
+        } else {
+          // otherwise remove it
+          $('#calendar').removeClass('fixed');
+        }
+      });
+    }  
+    
   })
 </script>
 <style type="text/css" media="screen">
@@ -19,6 +105,21 @@
     white-space: -o-pre-wrap; /* Opera */
     white-space: pre-wrap; /* CSS3 - Text module (Candidate Recommendation) http://www.w3.org/TR/css3-text/#white-space */
     word-wrap: break-word; /* IE 5.5+ */
+  }
+  
+  #calendarWrapper { /* required to avoid jumping */
+    right: 440px;
+    position: absolute;
+  }
+
+  #calendar.fixed {
+    position: fixed;
+    top: 0;
+  }
+  
+  #calendar {
+    position: absolute;
+    top: 0;
   }
 </style>
 <link rel="stylesheet" href="/stylesheets/calendar/red/style.css" type="text/css" media="screen">
@@ -45,31 +146,24 @@
     </pre>
 
     <hr />
-  
+
+    <div id="new_change"></div>
+        
     <div class="span-15"><h3>Changes </h3></div>
-    <span style="padding-left: 25px;"><%= link_to 'Add change',  "/changes/new?height=540&width=520&inlineId=hiddenModalContent&task_id=#{@task.id}" , :class => 'thickbox ss_sprite ss_time_add', :title => 'Change task' %>
+
+    <span style="padding-left: 25px;">
+      <%= link_to 'Add change',  "" , :class => 'ss_sprite ss_time_add', :title => 'Change task' %>
     </span>
     
-    <% @task.changes.group_by(&:for_day).each do |day, changes| %>
-    <p>
-      <div class="" style="color: #02539F;padding-bottom: 5px; margin-left: 10px;">
-        <strong>
-          <a style="text-decoration: none;" name="<%= day %>">Work on <%= day.to_s(:long) %>
-        </a>
-        </strong>
-      </div>
-      
-      <% for change in changes %>
-        <%= render :partial => "changes/show", :locals => {:change => change} %>
-      <% end %>
-    </p>
-    <% end %>
+    <div id="changes_list">
+      <%= render :partial => 'changes_list' %>
+    </div>
     
     <br />
     
     <% unless @task.changes.empty? %>
     <p style="text-align: right;">
-      <%= link_to 'Add change',  "/changes/new?height=540&width=520&inlineId=hiddenModalContent&task_id=#{@task.id}" , :class => 'thickbox ss_sprite ss_time_add', :title => 'Change task' %>
+      <%= link_to 'Add change',   "" , :class => 'ss_sprite ss_time_add', :title => 'Change task' %>
       <br />
     </p>
     <% end %>
@@ -156,19 +250,23 @@
   </div>
   
   <div class="span-5 last">
-    <%= calendar_task do |d|
-            cell_text = "#{d.mday}"
-            cell_attrs = {:class => 'day'}
-            @task.changes.each do |change|
-              if change.for_day.mday == d.mday && change.for_day.month == d.month
-                cell_text = link_to("#{change.for_day.mday}", "##{change.for_day}")
-                cell_attrs[:class] = 'specialDay'
+    <div id="calendarWrapper">  
+    <div id="calendar">
+      <%= calendar_task do |d|
+              cell_text = "#{d.mday}"
+              cell_attrs = {:class => 'day'}
+              @task.changes.each do |change|
+                if change.for_day.mday == d.mday && change.for_day.month == d.month
+                  cell_text = link_to("#{change.for_day.mday}", "##{change.for_day}")
+                  cell_attrs[:class] = 'specialDay'
+                end
               end
-            end
-            [cell_text, cell_attrs]
-          end %>
+              [cell_text, cell_attrs]
+            end %>
+    </div>
+    </div>
   </div>    
-      
+  
 </div>
 
 

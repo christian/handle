@@ -11,15 +11,6 @@ class MilestonesController < ApplicationController
     @shown_month = Date.civil(@year, @month)
     @event_strips = Milestone.event_strips_for_month(@shown_month)
   end
-  # def xml_month
-  #   @milestones = Hash.new
-  #   current_project.milestones.all(:order => "start_date").each do |milestone|
-  #     @milestones[milestone.title] = [milestone.start_date.day, milestone.end_date.day]
-  #   end
-  #   respond_to do |format|
-  #     format.xml {render :action => "xml_month.xml.builder", :layout => false}
-  #   end
-  # end
   def get_milestones
     @month = params[:month].nil? ? Time.now.month : params[:month].to_i 
     @year  = params[:year].nil? ? Time.now.year : params[:year].to_i 
@@ -45,6 +36,10 @@ class MilestonesController < ApplicationController
   end
   def new
     @milestone = current_project.milestones.new
+    render :update do |page|
+      page.replace_html "new_milestone", :partial => "new_milestone", 
+                                        :locals => {:milestone => @milestone }
+    end
   end
   def edit
     @milestone = current_project.milestones.find(params[:id])
@@ -52,10 +47,21 @@ class MilestonesController < ApplicationController
   def create
     @milestone = current_project.milestones.new(params[:milestone])
     if @milestone.save
-      flash[:notice] = 'Milestone succesfully created.'
-      redirect_to(@milestone)
+      render :update do |page|
+        flash[:notice] = 'Milestone succesfully created.'
+        @milestones = current_project.milestones
+        page.replace_html 'milestones_list', :partial => 'milestones_list', :locals =>{:milestones => @milestones}
+        page.hide "error_messages"
+        page.replace_html "milestone_notice", :partial => "shared/notice"
+        flash[:notice] = nil
+        page.show "milestone_notice"
+        page.replace_html "new_milestone", ""
+      end
     else
-      render :action => "new"
+      render :update do |page|
+        page.replace_html "error_messages", error_messages_for('milestone', :header_tag => 'h3')
+        page.show "error_messages"
+      end
     end
   end
   def update

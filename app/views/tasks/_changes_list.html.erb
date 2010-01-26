@@ -1,0 +1,14 @@
+      <% @task.changes.group_by(&:for_day).each do |day, changes| %>
+      <p>
+        <div class="" style="color: #02539F;padding-bottom: 5px; margin-left: 10px;">
+          <strong>
+            <a style="text-decoration: none;" name="<%= day %>">Work on <%= day.to_s(:long) %>
+          </a>
+          </strong>
+        </div>
+
+        <% for change in changes %>
+          <%= render :partial => "changes/show", :locals => {:change => change} %>
+        <% end %>
+      </p>
+      <% end %>

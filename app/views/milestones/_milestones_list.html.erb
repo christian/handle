@@ -1,18 +1,3 @@
-<script type="text/javascript" charset="utf-8">
-  $(function() {
-    $("a[id^=milestone_]").click(function() {
-      id = $(this).attr("id").split("milestone_")[1];
-      $("#details_" + id).toggle();
-      if ($("#plus_" + id) == "+") {
-        $("#plus_" + id).html("-")
-      } else {
-        $("#plus_" + id).html("+")
-      }
-      
-      return false;
-    });
-  });
-</script>
 <% unless milestones.empty? %>
     <% milestones.each do |milestone| %>  
     <div class="span-20 last" style="border-bottom: 1px solid #ddd;  padding-right: 0px;">

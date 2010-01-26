@@ -1,0 +1,46 @@
+<script type="text/javascript" charset="utf-8">
+  $("#cancel_button").click(function() {
+    $("#new_change").html("");
+    $("td[id^=add_time_]").html("");
+    return false;
+  })
+  
+  $("#create_change_button").click(function() {
+    $.ajax({
+      type: "POST",
+      url: "/changes",
+      dataType: "script",
+      data: $("form").serialize()
+    })
+    return false;
+  })
+</script>
+
+<div class="span-20 last">
+<h3>New change</h3>
+
+<% form_for(@change) do |f| %>
+  <div id="error_messages" class="error span-17 last" style="display: none;"></div>
+  <div id="change_notice"></div>
+
+  <div class="span-18 last">  
+    <%= render :partial => 'form_fields', :locals => {:f => f} %>
+  </div>  
+  
+  <div class="clear"></div>
+  <p>
+    <%= link_to '&nbsp; Create change &nbsp; ', "", :id => 'create_change_button', 
+                                            :class => 'button positive', 
+                                            :title => 'Create change' %> 
+    <%#= link_to '&nbsp; Save and add another &nbsp; ', "", :id => 'save_add_another', 
+                                            :class => 'button positive', 
+                                            :title => 'Add new task' %>
+    <%= link_to "&nbsp; Cancel &nbsp;", "", :class => 'button negative', 
+                                            :id => 'cancel_button', 
+                                            :title => 'Cancel change creation' %>
+  </p>
+<% end %>
+
+<hr />
+
+</div>

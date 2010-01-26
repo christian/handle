@@ -1,35 +1,35 @@
-<div class="span-10">  
+<script type="text/javascript" charset="utf-8">
+  $(function(){
+    Date.format = 'yyyy-mm-dd';
+    $("#change_for_day").datePicker({startDate:'01/01/1996'}).val(new Date().asString()).click(function(){
+      $(this).dpDisplay();
+      this.blur();
+    })
+    $("#change_text_time_spent").css("color", "#aaa").inputFieldText('Ex: 1d 14h 3m or 3h40m or 50m');
+  })
+</script>
+
+<div class="span-15">  
   <%= hidden_field_tag :task_id, @task.id %>
-  <div class="span-10 last">  
+  <div class="span-15 last" >  
     <p>
       <%= f.label :comment %><br />
-      <%= f.text_area :comment %>
+      <%= f.text_area :comment, :style=>"width: 550px; height:200px;" %>
     </p>
   </div>  
 
-  <div class="span-4" style="background-color: #eeeeee;"><h3 style="text-align:right;"><br /> Time spent &nbsp;</h3></div>
-  <div class="span-2">  
+  <div class="span-6">  
     <p>
-      <%= f.label :days %>
-      <%= f.text_field :days, :class => "text" %>
+      <%= f.label :text_time_spent, "Time spent"%>
+      <%= f.text_field :text_time_spent, :class => "text" %><br />
     </p>
   </div>  
-  <div class="span-2">  
-    <p>
-      <%= f.label :hours %>
-      <%= f.text_field :hours, :class => "text" %>
-    </p>
-  </div>  
-  <div class="span-2 last">
-    <p>
-      <%= f.label :minutes %>
-      <%= f.text_field :minutes, :class => "text" %>
-    </p>
-  </div>
 
-  <div class="span-4" style="background-color: #eeeeee;" ><h3 style="text-align:right;"><br /> On &nbsp;</h3></div>
   <div class="span-6 last">  
-    <%= f.date_select :for_day %>
+    <p>
+      <%= f.label :for_day, "For day"%><br />
+      <%= f.text_field :for_day, :class => "text", :style => "width: 100px;" %>
+    </p>
   </div>  
 
 <p>&nbsp;</p>

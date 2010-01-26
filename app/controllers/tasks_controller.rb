@@ -5,7 +5,7 @@ class TasksController < ApplicationController
   #TODO muuust refactor ; get an entity to which to apply all the filters
   def filter_tasks
     # handle search
-    if !params[:search].nil? && params[:search] != "id or keywords + ENTER"
+    if !params[:search].nil? && params[:search] != "" && params[:search] != "Search: id or keywords + ENTER"
       if params[:search] == ""
         @tasks = []
       end
@@ -17,56 +17,80 @@ class TasksController < ApplicationController
       return
     end
     
-    @user_of_tasks = params[:user_id] ? params[:user_id] : current_user.id
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    if params[:project_id].nil? 
-      # view certain users tasks or my tasks (no matter the project)
-      @tasks_for_user_id = params[:user_id].nil? ? current_user.id : params[:user_id].to_i
-      if current_user.current_project_id == -1
-        what_tasks = Task.assignee_id_equals(@tasks_for_user_id)
-      else
-        what_tasks = @project.tasks.assignee_id_equals(@tasks_for_user_id)
-      end
-      
-      @tasks = what_tasks.kind_equals(session[:tasks_kind]).
-                              priority_equals(session[:tasks_priority]).
-                              status_equals(session[:tasks_status]).
-                              resolution_equals(session[:tasks_resolution]).
-                              order(session[:tasks_order], session[:tasks_order_type]).
-                              paginate(:per_page => 10, :page => params[:page])
-    # all projects view
-    elsif params[:project_id] == "-1" 
-      # view all my tasks or all tasks of one of my mates
-      #@tasks_for = params[:user_id].nil? ? "My" : User.find(params[:user_id]).name 
-      @tasks_for_id = params[:user_id].nil? ? current_user.id : params[:user_id]
-      
-      @tasks = Task.assignee_id_equals(@tasks_for_id).
-                    kind_equals(session[:tasks_kind]).
-                    priority_equals(session[:tasks_priority]).
-                    status_equals(session[:tasks_status]).
-                    resolution_equals(session[:tasks_resolution]).
-                    order(session[:tasks_order], session[:tasks_order_type]).
-                    paginate(:per_page => 10, :page => params[:page])
+    # setup user
+    unless params[:user_id].nil?
+      session[:tasks_user_id] = params[:user_id]
     else
-      # view certain project tasks 
-      @project = Project.find(params[:project_id])
-      #@tasks_for = @project.name
-      @tasks = @project.tasks.kind_equals(session[:tasks_kind]).
-                              priority_equals(session[:tasks_priority]).
-                              status_equals(session[:tasks_status]).
-                              resolution_equals(session[:tasks_resolution]).
-                              order(session[:tasks_order], session[:tasks_order_type]).
-                              paginate(:per_page => 10, :page => params[:page])
+      if session[:tasks_user_id] == nil
+        session[:tasks_user_id] = current_user.id
+      end
     end
+    
+    if session[:tasks_user_id].to_i == -1 && current_user.current_project_id == -1
+      # show all tasks for all projects
+      what_tasks = Task.assignee_id_like_any(User.ids_all_collaborators(current_user.id))
+    elsif session[:tasks_user_id].to_i == -1 && current_user.current_project_id > 0
+      # show all tasks for one project
+      what_tasks = Task.project_id_equals(current_user.current_project_id)
+    elsif session[:tasks_user_id].to_i > 0 && current_user.current_project_id == -1
+      # show all tasks for one user
+      what_tasks = Task.assignee_id_equals(session[:tasks_user_id])
+    elsif session[:tasks_user_id].to_i > 0 && current_user.current_project_id > 0
+      # show all tasks for a user on one project
+      what_tasks = Task.assignee_id_equals(session[:tasks_user_id]).
+                        project_id_equals(current_user.current_project_id)
+    end
+    
+    @tasks = what_tasks.kind_equals(session[:tasks_kind]).
+                        priority_equals(session[:tasks_priority]).
+                        status_equals(session[:tasks_status]).
+                        resolution_equals(session[:tasks_resolution]).
+                        order(session[:tasks_order], session[:tasks_order_type]).
+                        paginate(:per_page => 10, :page => params[:page])
+    
+    # @user_of_tasks = params[:user_id] ? params[:user_id] : current_user.id
+    # 
+    # if params[:project_id].nil? 
+    #   # view certain users tasks or my tasks (no matter the project)
+    #   @tasks_for_user_id = params[:user_id].nil? ? current_user.id : params[:user_id].to_i
+    #   if current_user.current_project_id == -1
+    #     what_tasks = Task.assignee_id_equals(@tasks_for_user_id)
+    #   else
+    #     what_tasks = @project.tasks.assignee_id_equals(@tasks_for_user_id)
+    #   end
+    #   
+    #   @tasks = what_tasks.kind_equals(session[:tasks_kind]).
+    #                           priority_equals(session[:tasks_priority]).
+    #                           status_equals(session[:tasks_status]).
+    #                           resolution_equals(session[:tasks_resolution]).
+    #                           order(session[:tasks_order], session[:tasks_order_type]).
+    #                           paginate(:per_page => 10, :page => params[:page])
+    # # all projects view
+    # elsif params[:project_id] == "-1" 
+    #   # view all my tasks or all tasks of one of my mates
+    #   # @tasks_for = params[:user_id].nil? ? "My" : User.find(params[:user_id]).name 
+    #   @tasks_for_id = params[:user_id].nil? ? current_user.id : params[:user_id]
+    #   
+    #   @tasks = Task.assignee_id_equals(@tasks_for_id).
+    #                 kind_equals(session[:tasks_kind]).
+    #                 priority_equals(session[:tasks_priority]).
+    #                 status_equals(session[:tasks_status]).
+    #                 resolution_equals(session[:tasks_resolution]).
+    #                 order(session[:tasks_order], session[:tasks_order_type]).
+    #                 paginate(:per_page => 10, :page => params[:page])
+    # else
+    #   # view certain project tasks (all tasks or somebody's tasks)
+    #   @project = Project.find(params[:project_id])
+    #   
+    #   @tasks_for_id = params[:user_id].nil? ? current_user.id : params[:user_id]
+    #   
+    #   @tasks = @project.tasks.kind_equals(session[:tasks_kind]).
+    #                           priority_equals(session[:tasks_priority]).
+    #                           status_equals(session[:tasks_status]).
+    #                           resolution_equals(session[:tasks_resolution]).
+    #                           order(session[:tasks_order], session[:tasks_order_type]).
+    #                           paginate(:per_page => 10, :page => params[:page])
+    # end
 
   end
   
@@ -145,7 +169,6 @@ class TasksController < ApplicationController
                                       :locals => {:task => @task, 
                                                   :users => @users,
                                                   :users_select => @users_select}
-                                      
       end
     else
       redirect_to :action => :index

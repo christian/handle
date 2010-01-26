@@ -5,21 +5,47 @@ class Change < ActiveRecord::Base
   belongs_to :task
   
   attr_accessor :reassing_user_id
-  attr_accessor :days
-  attr_accessor :hours
+  attr_accessor :text_time_spent
 
   accepts_nested_attributes_for :task
   
   before_save :convert_time_spent_to_minutes
-  # after_save :reassign_to_user
-  # 
-  # def reassign_to_user
-  #   task.assignee_id = reassing_user_id
-  #   task.save
-  # end
+  
+  #validate 'valid_text_time_spent'
+  validates_presence_of :for_day
+  # validates_format_of /(\s)*([0-9]+d)?(\s)*([0-9]+h)?(\s)*/
   
   def convert_time_spent_to_minutes
-    self.minutes = days.to_i * 480 + hours.to_i * 60 + read_attribute(:minutes).to_i
+    unless text_time_spent.nil?
+      text_time_spent.gsub(",", "")
+      
+      i = 0
+      days = 0
+      hours = 0
+      mins = 0
+
+      nos = text_time_spent.scan(/\d+/)
+      kinds = text_time_spent.scan(/[dhm]+/)
+      if nos.length != kinds.length
+        self.minutes = 0
+        return
+      end
+
+      kinds.each_with_index do |kind, i|
+        case kind
+        when "d"
+          days = nos[i].to_i
+        when "h"
+          hours = nos[i].to_i
+        when "m"
+          mins = nos[i].to_i
+        end
+      end
+
+      self.minutes = days * 480 + hours * 60 + mins
+    else
+      self.minutes = 0
+    end
   end
   
   def self.total_today # should be today for interval
@@ -57,6 +83,24 @@ class Change < ActiveRecord::Base
         end
         changes += "</ul>"
         return changes
+      end
+    end
+  end
+  
+  protected
+  def validate
+    if text_time_spent != ""
+      kinds = text_time_spent.scan(/[dhm]+/)
+      possible_values = ["d","m","h"]
+      begin
+        if kinds.length < 1 && kinds.length > 3 then raise "1" end
+        0.upto(kinds.length - 1) do |i|
+          if !possible_values.include?(kinds[i])
+            raise "2"
+          end 
+        end
+      rescue Exception => ex
+        errors.add_to_base "Invalid time spent."
       end
     end
   end

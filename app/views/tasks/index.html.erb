@@ -5,28 +5,9 @@
       // url rails like
       url: "/tasks",
       dataType: "script", 
-      data: $("form").serialize() 
+      data: $("form").serialize() + "&search=" + $("#search_task").val()
     });
   };
-
-  jQuery.fn.inputFieldText = function(string) {          
-      this.each(function() { 
-          $(this).val(string); 
-          $(this).focus(function(){ 
-              if ($(this).val() == string){ 
-                  $(this).val('');
-                  $(this).css("color","#000"); 
-              } 
-          }); 
-          $(this).blur(function(){ 
-              if ($(this).val() == '' ){ 
-                  $(this).val(string); 
-                  $(this).css("color","#aaa"); 
-                  filter_tasks();
-              } 
-          });
-      }); 
-  }
 
   $(function() {
     $("#search_task").css("color", "#aaa").inputFieldText('Search: id or keywords + ENTER');
@@ -106,7 +87,7 @@
       $("#team_mates_tasks_link").attr("class", "");
       $(this).attr("class", "selected");
       $.ajax({
-        url: "/tasks/get_tasks?project_id=" + $("#project").val(),
+        url: "/tasks/get_tasks?project_id=" + $("#project").val() + "&user_id=-1",
         type: "GET",
         dataType: "script"
       })
@@ -207,7 +188,7 @@
      <%= link_to '<span class="ss_sprite ss_add">&nbsp; New task &nbsp; </span>', "", :id => 'new_task_button', :class => 'button positive', :style =>"margin-right: -12px; margin-top: 0px;", :title => 'Add new task' %>
  </div>
   <div class="span-17 last"  style="text-align: right;">
-    <%= text_field_tag :search, "", :id => "search_task", :size => 17, :class => "title", :style => "margin-top: 0px;" %>
+    <%= text_field_tag :search, "", :id => "search_task", :size => 17, :name => "search", :class => "title", :style => "margin-top: 0px;" %>
   </div>
   
   <div class="span-20 last" id="new_task">

@@ -1,17 +1,17 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
   def humanized_duration(duration)
-    return if duration.nil?
+    return "0m" if duration.nil? or duration == 0
     days    = duration / 480
     hours   = (duration - (days * 480)) / 60
     minutes = duration - (days * 480 + hours * 60)
-    days    = (days == 0) ? nil : "#{days} d"  
-    hours   = (hours == 0) ? nil : "#{hours} h" 
-    minutes = (minutes == 0) ? nil : "#{minutes} m" 
+    days    = (days == 0) ? nil : "#{days}d"  
+    hours   = (hours == 0) ? nil : "#{hours}h" 
+    minutes = (minutes == 0) ? nil : "#{minutes}m" 
     duration_array = [days, hours, minutes]
     duration_array.delete(nil)
-    return if duration_array.nil?
-    return duration_array.join(", ") 
+    return "0m" if duration_array.nil?
+    return duration_array.join(" ") 
   end
   
   def menu

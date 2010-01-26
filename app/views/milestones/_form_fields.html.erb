@@ -6,21 +6,22 @@
     $("#milestone_end_at").datePicker();
   })
 </script>
-<div class="span-12 last">  
+<div class="span-10">  
   <p>
     <%= f.label :name %><br />
     <%= f.text_field :name, :class => "text" %>
   </p>
   <p>
     <%= f.label :description %><br />
-    <%= f.text_area :description %>
+    <%= f.text_area :description, :value => "", :rows => "5", :style => "height: 100px;" %>
   </p>
 </div>  
-<div class="span-12 last">  
+<div class="span-10 last">  
   <p>
     <%= f.label :start_at %><br />
     <%= f.text_field :start_at ,:class => "text", :style => "width: 100px;"  %>
   </p>
+  <br />
   <p>
     <%= f.label :end_at %><br />
     <%= f.text_field :end_at, :class => "text", :style => "width: 100px;"  %>
@@ -28,8 +29,9 @@
   <p>
     <% unless current_project.id.nil? %>
       <%= f.hidden_field :project_id, :value => current_project.id %>
+    <% else %>
+      <%= f.label :project_id, "Select project" %>
+      <%= f.select :project_id, Project.all.collect {|p| [p.name, p.id]} %>
     <% end %>
-    <%#= f.label :project_id, "Select project" %>
-    <%#= f.select :project_id, Project.all.collect {|p| [p.name, p.id]} %>
   </p>
 </div>

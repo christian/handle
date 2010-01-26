@@ -1,3 +1,27 @@
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    $("a[id^=add_time_for_task_]").click( function(){
+      id = $(this).attr("id").split("add_time_for_task_")[1];
+      
+      $.ajax({
+        type: "GET",
+        url: "<%= new_change_path %>",
+        dataType: "script",
+        data: "type=index&task_id=" + id
+        //success: function(data, textStatus) {
+        //  $("#add_time_" + id).html(data);
+        //   tinyMCE.init({
+        //     heme_advanced_toolbar_location : "top",
+        //     mode : "textareas",
+        //     theme : "advanced",
+        //     theme_advanced_toolbar_align : "left"
+        //  })
+        //}
+      })
+      return false;
+    })
+  })
+</script>
 <% if tasks.empty? %>
   <div class="notice">
     No tasks.
@@ -31,8 +55,8 @@
             <%=link_to task.opener.name, task.asignee, :class => "small quiet" %><br />
             <%= link_to task.asignee.name, task.asignee, :class => "small quiet" %>
           </div>
-          <!-- Estimated: <%=humanized_duration(task.estimated_time) %><br />
-          Spent: <%=humanized_duration task.time_spent %> -->
+          <!-- Estimated: <%#=humanized_duration(task.estimated_time) %><br />
+          Spent: <%#=humanized_duration task.time_spent %> -->
         </td>
         <td style="width: 5%; text-align: center;"><%= "<span class=\"ss_sprite ss_bullet_red\" style=\"margin-left: -11px;\"></span>" * task.priority %></td>
         <td style="width: 5%;"><strong class="<%=h task.status %>"><%=h task.status %></strong></td>
@@ -43,9 +67,14 @@
             <span class="ss_sprite ss_tick"></span>
           <% end %><!-- <small><%= task.resolution %></small> -->
         </td>
-        <td style="width: 4%;"><%= link_to '',  "/changes/new?height=540&width=520&inlineId=hiddenModalContent&task_id=#{task.id}" , :class => 'thickbox ss_sprite ss_time_add', :title => 'Add time for task' %></td>
+        <td style="width: 4%;"><%= link_to '', '', :id => "add_time_for_task_#{task.id.to_s}", :class => 'ss_sprite ss_time_add', :title => 'Add time for task' %></td>
         <td style="width: 4%;"><%= link_to_remote '', {:url => close_task_path(task.id), :confirm => "This will mark the task as complete and close it. Continue ?"}, {:class => 'ss_sprite ss_cross', :title => 'Close task'} %></td>
       </tr>
+
+      <tr>
+        <td colspan="9" id="add_time_<%= task.id.to_s %>"> </td>
+      </tr>
+
     <% end %>
     </table>
 <% end %>
