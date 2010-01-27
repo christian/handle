@@ -1,7 +1,7 @@
 <script type="text/javascript" charset="utf-8">
   $(function(){
     Date.format = 'yyyy-mm-dd';
-    $("#change_for_day").datePicker({startDate:'01/01/1996'}).val(new Date().asString()).click(function(){
+    $("#change_for_day").datePicker({startDate:'1996-01-01'}).val(new Date().asString()).click(function(){
       $(this).dpDisplay();
       this.blur();
     })

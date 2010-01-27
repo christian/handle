@@ -40,8 +40,10 @@
     ////////////////////////////////////////////
     // changes SHOW
     ////////////////////////////////////////////
+   
    var change_id;
-   $("span[id^=for_day_change_]").datePicker({startDate:'01/01/1996'}).click(click_date_picker).bind('dateSelected', select_date);
+   Date.format = "yyyy-mm-dd";
+   $("span[id^=for_day_change_]").datePicker({startDate:'1996-01-01'}).click(click_date_picker).bind('dateSelected', select_date);
    $(".dp-choose-date").remove();
    $("span[id^=time_spent_]").click(click_time_spent_event_handler);
     // END changes SHOW ////////////////////////// 
