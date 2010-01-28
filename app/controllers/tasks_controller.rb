@@ -36,7 +36,6 @@ class TasksController < ApplicationController
       what_tasks = Task.assignee_id_equals(session[:tasks_user_id])
     elsif session[:tasks_user_id].to_i > 0 and current_user.current_project_id > 0
       # show all tasks for a user on one project
-      raise "here"
       what_tasks = Task.assignee_id_equals(session[:tasks_user_id]).
                         project_id_equals(current_user.current_project_id)
     else
