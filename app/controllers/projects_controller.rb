@@ -44,6 +44,7 @@ class ProjectsController < ApplicationController
   def get_users_for_project
     @project = current_user.projects.find(params[:id])
     @users_select = @project.users.collect{ |u| [u.name, u.id] }
+    #@users_select.delete([current_user.name, current_user.id])
     if params[:mates] == "true"
       render :update do |page|
         page.replace_html "mates_list", :partial => "tasks/mates", :locals => {:users => Hash[*@users_select.flatten]}
