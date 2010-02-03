@@ -61,8 +61,9 @@
         dataType: "script",
         success: function() {
           $("#show_mates").show();
+          // rebind on click event for mates
           $("a[id^=get_tasks_user_]").click(get_tasks_user_listener);
-          return false;
+          // return false;
         }
       })
       return false;
@@ -94,13 +95,18 @@
       return false;
     })
     
-    var get_tasks_user_listener = function() {
+    function get_tasks_user_listener() {
       user_id = $(this).attr("id").split("get_tasks_user_")[1];
+      elem = $(this);
+      $("a[id^=get_tasks_user_]").css({'font-weight' : 'normal'});
       $.ajax({
         url: "/tasks/get_tasks?user_id=" + user_id,
         type: "GET",
         dataType: "script",
         success: function() {
+          $("a[id=get_tasks_user_" + user_id + "]").css({'font-weight' : 'bold'});
+          // rebind on click event for mates
+          $("a[id^=get_tasks_user_]").click(get_tasks_user_listener);
           $("#show_mates").show();
         }
       })
@@ -124,7 +130,8 @@
         <li style="font-weight: normal;" id="mates_list">
           <%= render :partial => 'mates', :locals => {:users => users_collection} %>
         </li>
-        <li><%= link_to "Project tasks", tasks_path(:project_id => current_project.id), :id => "project_tasks_link" %></li>
+        <li><%= link_to "Project tasks", tasks_path(:project_id => current_user.current_project_id), :id => "project_tasks_link" %></li>
+        <!-- <% if current_user.current_project_id != -1 %>style="display:none;"<% end %> -->
     </ul>
     
   </div>

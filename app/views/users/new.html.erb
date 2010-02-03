@@ -4,7 +4,10 @@
   <%= f.error_messages %>
 
   <%= render :partial => 'form_fields', :locals => {:f => f} %>
-  
+
+  <p>
+    <%= f.submit 'Create user', :class => "button" %>
+  </p>
 <% end %>
 
 <%= link_to 'Back', users_path %>

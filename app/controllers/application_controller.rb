@@ -55,7 +55,10 @@ class ApplicationController < ActionController::Base
   
   
   def current_project
-    @project ||= (current_user.current_project || current_user.projects.first)
+    if current_user.current_project_id == nil
+      current_user.current_project_id = current_user.projects.first.id
+    end
+    @project = (current_user.current_project || current_user.projects.first)
   end
   
   def current_project=(project)

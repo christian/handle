@@ -25,9 +25,10 @@ class TasksController < ApplicationController
       end
     end
     
-    if session[:tasks_user_id].to_i == -1 and current_user.current_project_id == -1
+    if current_user.current_project_id == -1
       # show all tasks for all projects
-      what_tasks = Task.assignee_id_like_any(User.ids_all_collaborators(current_user.id))
+      session[:tasks_user_id] = current_user.id if session[:tasks_user_id] == "-1"
+      what_tasks = Task.assignee_id_like_any(User.ids_all_collaborators(session[:tasks_user_id]))
     elsif session[:tasks_user_id].to_i == -1 and current_user.current_project_id > 0
       # show all tasks for one project
       what_tasks = Task.project_id_equals(current_user.current_project_id)
@@ -63,11 +64,26 @@ class TasksController < ApplicationController
   end
   
   def get_tasks
-    filter_tasks
     current_user.update_attributes!(:current_project_id => params[:project_id]) unless params[:project_id].nil?
+    filter_tasks
     render :update do |page|
       page.replace_html 'tasks_list', :partial => 'tasks_list', :locals =>{:tasks => @tasks}
-      page.replace_html "mates_list", :partial => "tasks/mates", :locals => {:users => users_collection}
+      page << "m = $(\"#mates_list\").is(':visible');"
+      if params[:project_id] == "-1"
+        page.hide "project_tasks_link"
+        page.hide "team_mates_tasks_link"
+      else
+        page.show "project_tasks_link"
+        page.show "team_mates_tasks_link"
+        page.replace_html "mates_list", :partial => "tasks/mates", :locals => {:users => users_collection}
+        page << <<-js
+                 // kind of ugly :)
+                 if (m) {
+                    $("#mates_list").show();
+                 }
+              js
+        
+      end
     end
   end
   
