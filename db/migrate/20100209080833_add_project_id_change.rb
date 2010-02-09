@@ -3,8 +3,9 @@ class AddProjectIdChange < ActiveRecord::Migration
     add_column :changes, :project_id, :integer
     
     Change.all.each do |change|
+      change.text_time_spent = nil
       if change.task
-        change.update_attributes(:project_id => change.task.project_id)
+        change.update_attributes(:project_id => change.task.project.id)
       end
     end
   end
