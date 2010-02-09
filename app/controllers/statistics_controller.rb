@@ -8,7 +8,8 @@ class StatisticsController < ApplicationController
     @projects.each_with_index do |p, i|
       @select_index = i if current_project.id == p.id
     end
-    
+    @start_date = params[:from] || Date.today.strftime("%Y-%m-%d")
+    @end_date = params[:until] || Date.today.strftime("%Y-%m-%d")
     if current_user.is_superadmin
       @users = User.all
       @projects = Project.all

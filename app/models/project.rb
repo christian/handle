@@ -31,7 +31,11 @@ class Project < ActiveRecord::Base
   }
   
   def effort(start_date = nil, end_date = nil)
-    changes(:select => "minutes").collect(&:minutes).inject(0) {|sum, mins| sum + mins}
+    if start_date == end_date
+      changes(:select => "minutes").collect(&:minutes).inject(0) {|sum, mins| sum + mins}
+    else
+      changes(:select => "minutes").between_days(start_date, end_date).collect(&:minutes).inject(0) {|sum, mins| sum + mins}
+    end
   end
   
   def self.projects_select

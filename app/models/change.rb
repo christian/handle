@@ -16,6 +16,11 @@ class Change < ActiveRecord::Base
   validates_presence_of :for_day
   # validates_format_of /(\s)*([0-9]+d)?(\s)*([0-9]+h)?(\s)*/
   
+  named_scope :between_days, lambda { |start_date, end_date| {
+    :conditions => ['for_day between ? and ?', start_date, end_date]
+    }
+  }
+    
   def convert_time_spent_to_minutes
     return if text_time_spent == "nochange"
     if text_time_spent == "Ex: 1d 14h 3m or 3h40m or 50m"

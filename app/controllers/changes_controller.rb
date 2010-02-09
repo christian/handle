@@ -63,7 +63,11 @@ class ChangesController < ApplicationController
   
   def update
     @change = current_user.changes.find(params[:id])
+    if params[:change][:text_time_spent] == nil
+      params[:change][:text_time_spent] = "nochange"
+    end
     @change.update_attributes(params[:change])
+
     render :update do |page|
       page.replace_html "for_day_change_#{@change.id}", @change.for_day.to_s(:long)
       page.replace_html "time_spent_#{@change.id}", humanized_duration(@change.minutes)

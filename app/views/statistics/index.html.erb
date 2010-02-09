@@ -3,14 +3,16 @@
     $("#show_button").click(function(){
       date_from = $("#from_From_1i").val() + "-" + 
                   $("#from_From_2i").val() + "-" +
-                  $("#from_From_3i").val()
+                  $("#from_From_3i").val();
                    
       date_until =  $("#until_From_1i").val() + "-" + 
                     $("#until_From_2i").val() + "-" +
-                    $("#until_From_3i").val()
-                   
-      //alert(date_from + " => " + date_until)
-      $("#dates_form").attr("action", "/statistics/" + date_form + "/" + date_until)
+                    $("#until_From_3i").val();
+      var new_link = "/statistics/" + date_from + "/" + date_until
+      $("#dates_form").attr("action", new_link);
+      
+      $("#dates_form").submit();
+      return false;
     })
   })
 </script>
@@ -19,10 +21,13 @@
   <%= render :partial => "menu" %>
   
   <div style="text-align: center;">
-    <% form_tag({:action => 'index'}, {:id => "dates_form"}) do %>
-      From: <%= date_select :from, "From" %> Until: <%= date_select :until, "From" %> <%= submit_tag "Show", :id => "show_button" %>
+    <% form_tag({:action => statistics_from_until_path(@start_date, @end_date)}, {:id => "dates_form"}) do %>
+      From: <%= date_select :from, "From", :default => Date.parse(@start_date)  %> 
+      Until: <%= date_select :until, "From", :default => Date.parse(@end_date)  %> 
+      <%= link_to "Show", "", :id => "show_button" %>
     <% end %>
   </div>
+  <div class="clear"></div>
     
   <h2>Tasks</h2>
   
@@ -61,7 +66,7 @@
     <% for project in @projects %> 
       <tr class="<%= cycle('even', '') %>">
         <td style="width:20%;"><%= link_to project.name, statistics_project_detail_path(project.id) %></td>
-        <td><%= humanized_duration(project.effort) %></td>
+        <td><%= humanized_duration(project.effort(@start_date, @end_date)) %></td>
       </tr>
     <% end %>
   </table>
