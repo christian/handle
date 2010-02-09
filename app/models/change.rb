@@ -17,6 +17,7 @@ class Change < ActiveRecord::Base
   # validates_format_of /(\s)*([0-9]+d)?(\s)*([0-9]+h)?(\s)*/
   
   def convert_time_spent_to_minutes
+    return if text_time_spent == "nochange"
     if text_time_spent == "Ex: 1d 14h 3m or 3h40m or 50m"
       self.minutes = 0
       return
