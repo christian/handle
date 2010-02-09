@@ -5,6 +5,7 @@ class Project < ActiveRecord::Base
   has_many :users, :through => :memberships
   
   has_many :tasks, :dependent => :destroy
+  has_many :changes
   
   has_many :milestones
   accepts_nested_attributes_for :milestones
@@ -29,6 +30,9 @@ class Project < ActiveRecord::Base
     }
   }
   
+  def effort(start_date = nil, end_date = nil)
+    changes(:select => "minutes").collect(&:minutes).inject(0) {|sum, mins| sum + mins}
+  end
   
   def self.projects_select
     self.all.collect {|p| [p.name, p.id]}

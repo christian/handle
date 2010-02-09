@@ -41,7 +41,7 @@
         <th>Deadline passed</th>
     <% for user in @users %>
         <tr class="<%= cycle('even', '') %>">
-          <td><%= link_to user.name, statistics_user_detail_url(user) %></td>
+          <td style="width:20%;"><%= link_to user.name, statistics_user_detail_url(user) %></td>
           <td><%= humanized_duration(user.time_spent_per_day) %></td>
 
           <td><%= user.changes_today %></td>
@@ -51,5 +51,19 @@
         </tr>
     <% end %>
   </table>  
+  
+  <h2>Projects</h2>
+  <table>
+    <tr>
+      <th>Project</th>
+      <th>Effort</th>
+    </tr> 
+    <% for project in @projects %> 
+      <tr class="<%= cycle('even', '') %>">
+        <td style="width:20%;"><%= link_to project.name, statistics_project_detail_path(project.id) %></td>
+        <td><%= humanized_duration(project.effort) %></td>
+      </tr>
+    <% end %>
+  </table>
 </div>
 </div>

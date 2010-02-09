@@ -11,6 +11,7 @@
 
 <div class="span-15">  
   <%= hidden_field_tag :task_id, @task.id %>
+  <%= hidden_field_tag :project_id, @task.project.id %>
   <div class="span-15 last" >  
     <p>
       <%= f.label :comment %><br />

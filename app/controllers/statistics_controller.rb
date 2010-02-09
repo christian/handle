@@ -11,8 +11,10 @@ class StatisticsController < ApplicationController
     
     if current_user.is_superadmin
       @users = User.all
+      @projects = Project.all
     else
       @users = User.all_collaborators(current_user.id)
+      @projects = current_user.projects
     end
   end
 

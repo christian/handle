@@ -3,6 +3,7 @@ class Change < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :task
+  belongs_to :project
   
   attr_accessor :reassing_user_id
   attr_accessor :text_time_spent
