@@ -54,3 +54,4 @@ end
 
 ActionMailer::Base.delivery_method = :smtp
 ActionMailer::Base.default_content_type = "text/html"
+# ActiveRecord::Base.include_root_in_json = false 

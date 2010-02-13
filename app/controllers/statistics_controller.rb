@@ -136,18 +136,23 @@ class StatisticsController < ApplicationController
           "Person",
           "Time",
           "Comment",
+          "Billable",
+          "PO"
           ]
           @projects.each do |project|
             (@start_date..@end_date).each do |day|
               project.changes.for_day_with_tasks(day).group_by(&:task).each do |task, changes|
+                po = "PO: #{task.purchase_order}" unless task.purchase_order.nil?
                 changes.each do |change|
                   csv << [
                     project.name,
                     day,
-                    task.title + ". Billable: " + (task.billable == true ? "Yes" : "No") + ("PO: #{task.purchase_order}" if task.purchase_order),
+                    task.title,
                     change.user.name,
                     humanized_duration(change.minutes),
-                    change.comment
+                    change.comment,
+                    (task.billable == true ? "Yes" : "No"),
+                    po.to_s
                   ]
                 end
               end

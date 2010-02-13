@@ -1,4 +1,5 @@
 <script type="text/javascript" charset="utf-8">
+  
   function click_time_spent_event_handler(object) {
     if ($(this).children().length == 0) { // we have clicked on this already
       id = $(this).attr("id").split("time_spent_")[1];
@@ -37,6 +38,37 @@
   }
   
   $(function() {
+    $('.edit_po').editable('/tasks/<%= @task.id %>', {
+             indicator : 'Saving...',
+             tooltip   : 'Click to edit...',
+             name      : 'task[purchase_order]',
+             method    : 'PUT',
+             submitdata: {
+                 authenticity_token: <%= form_authenticity_token.to_json %>,
+                 wants: 'purchase_order'
+             }
+         });
+   $('.edit_billable').editable('/tasks/<%= @task.id %>', {
+            data      : {1 : "Yes", 0: "No" },
+            type      : "select", 
+            indicator : 'Saving...',
+            tooltip   : 'Click to edit...',
+            name      : 'task[billable]',
+            method    : 'PUT',
+            submit    : 'OK',
+            submitdata: {
+                authenticity_token: <%= form_authenticity_token.to_json %>,
+                wants: 'billable'
+            },
+            callback : function() {
+              if ($(this).html() == "true") {
+                $(this).html("Yes");
+              } else {
+                $(this).html("No");
+              }
+            }
+        });
+    
     ////////////////////////////////////////////
     // changes SHOW
     ////////////////////////////////////////////
@@ -100,6 +132,7 @@
     
   })
 </script>
+
 <style type="text/css" media="screen">
   pre {
     white-space: -moz-pre-wrap; /* Mozilla, supported since 1999 */
@@ -225,11 +258,6 @@
         </tr>
         <!-- </tr> -->
         <tr>
-          <td>Billable:</td>
-          <td><%= @task.billable == false ? "no" : "yes" %></td>
-        </tr>
-        
-        <tr>
           <td>Start date:</td>
           <td><%= @task.start_date %></td>
         </tr>
@@ -240,8 +268,13 @@
         </tr>
         
         <tr>
+          <td>Billable:</td>
+          <td><div class="edit_billable" style="display:inline;"><%= @task.billable == false ? "No" : "Yes" %></div></td>
+        </tr>
+        
+        <tr>
           <td>Purchase order:</td>
-          <td><%= @task.purchase_order %></td>
+          <td><div class="edit_po"><%= @task.purchase_order %></div></td>
         </tr>
         
       </table>

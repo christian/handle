@@ -183,6 +183,14 @@ class TasksController < ApplicationController
     end
   end
 
+  def update
+    @task = Task.find(params[:id])
+    @task.update_attributes(params[:task])
+    respond_to do |format| 
+      format.js { render :text => @task.send(params[:wants]) }      
+    end   
+  end
+  
   private
   
   def set_filter_session_vars

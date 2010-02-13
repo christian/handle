@@ -28,7 +28,7 @@
 
   <p>
     <b>Time spent:</b>
-    <span style="color: <%= change.minutes == 0 ? 'gray' : 'green' %>; font-weight: bold;" id="<% if change.user == current_user %>time_spent_<%= change.id %><% else %>other_time_spent_<% end %>"><%= humanized_duration change.minutes %></span>
+    <span style="color: <%= change.minutes == 0 ? 'gray' : 'green' %>; font-weight: bold;" id="<% if change.user == current_user or current_user.is_superadmin %>time_spent_<%= change.id %><% else %>other_time_spent_<% end %>"><%= humanized_duration change.minutes %></span>
   </p>
 
 <div style="text-align:right;">
