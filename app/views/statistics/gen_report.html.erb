@@ -9,7 +9,12 @@
       <table>
         <thead>
           <tr style="background-color: #A4C1EF;" >
-            <th colspan="3"><span style="background-color: white;">&nbsp;Task:&nbsp; </span>&nbsp; <%= task.title %></th>
+            <th colspan="3"><span style="background-color: white;">&nbsp;Task:&nbsp; </span>&nbsp; <%= task.title %>.
+             Billable: <%= task.billable == true ? "Yes" : "No" %>. 
+            <% if task.purchase_order %>  
+              (Purchase order: <%= task.purchase_order %>)
+            <% end %>
+            </th>
           </tr>          
         </thead>
         <% changes.each do |change| %>

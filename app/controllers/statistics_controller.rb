@@ -144,7 +144,7 @@ class StatisticsController < ApplicationController
                   csv << [
                     project.name,
                     day,
-                    task.title,
+                    task.title + ". Billable: " + (task.billable == true ? "Yes" : "No") + ("PO: #{task.purchase_order}" if task.purchase_order),
                     change.user.name,
                     humanized_duration(change.minutes),
                     change.comment
