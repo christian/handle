@@ -38,14 +38,14 @@
 <h2>Reports</h2>
 
 <div style="text-align: center;">
-  <% form_tag({:action => statistics_from_until_gen_report_path(@start_date, @end_date)}, {:id => "dates_form"}) do %>
+  <% form_tag({:action => statistics_from_until_gen_report_path(@start_date, @end_date, :format => "html")}, {:id => "dates_form"}) do %>
     From: <%= date_select :from, "From", :default => Date.parse(@start_date)  %> 
     Until: <%= date_select :until, "From", :default => Date.parse(@end_date)  %> 
     
-    <p>
-    <%= link_to "Generate csv file", "", :id => "csv_button", :class => "button" %><br />
+    <div style="text-align: center; padding-left: 350px;">
+    <%= link_to "Generate csv file", "", :id => "csv_button", :class => "button" %>
     <%= link_to "View html report", "", :id => "html_button", :class => "button" %>
-    </p>
+    </div>
   <% end %>
 </div>
 <div class="clear"></div>
