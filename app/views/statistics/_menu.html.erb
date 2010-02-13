@@ -1,6 +1,18 @@
+<style type="text/css" media="screen">
+  .stat_button_selected {
+    float: left;
+/*    padding-top: 10px;
+    padding-bottom: 10px;
+*/    padding-right: 10px;
+    padding-left: 10px;
+    background-color: #819FCF;
+    
+  }
+</style>
 <div class="box">
-  <%= link_to params[:action] == "index" ? "<span class=\"loud\"><strong>Overall</strong></span>" : "Overall", :action => 'index' %> |
-  <%= link_to params[:action] == "projects" ? "<span class=\"loud\"><strong>Projects</strong></span>" : "Projects", :action => 'projects' %> | 
-  <%= link_to params[:action] == "users" ? "<span class=\"loud\"><strong>Users</strong></span>" : "Users", :action => 'users' %> |
-  Reports
+  <!-- Dear me in the future, please forgive me for writing this code. -->
+  <%= link_to params[:action] == "index" ? "<div class=\"stat_button_selected\"><strong>Overall</strong></div>" : "<div style=\"float:left;\">&nbsp;&nbsp;Overall&nbsp;&nbsp;</div>", :action => 'index' %> 
+  <%= link_to params[:action] == "projects" ? "<div class=\"stat_button_selected\"><strong>Projects</strong></div>" : "<div style=\"float:left;\">&nbsp;&nbsp;Projects&nbsp;&nbsp;</div>", :action => 'projects' %> 
+  <%= link_to params[:action] == "users" ? "<div class=\"stat_button_selected\"><strong>Users</strong></div>" : "<div style=\"float:left;\">&nbsp;&nbsp;Users&nbsp;&nbsp;</div>", :action => 'users' %> 
+  <%= link_to params[:action] == "reports" ? "<div class=\"stat_button_selected\"><strong>Reports</strong></div>" : "<div style=\"float:left;\">&nbsp;&nbsp;Reports&nbsp;&nbsp;</div>", :action => 'reports' %> 
 </div>

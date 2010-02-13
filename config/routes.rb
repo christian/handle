@@ -19,6 +19,8 @@ ActionController::Routing::Routes.draw do |map|
   map.statistics_user_time_day 'statistics/users/:user_id/time_for_day', :controller => 'statistics', :action => 'time_for_day'
 
   map.statistics_from_until 'statistics/:from/:until', :controller => 'statistics', :action => 'index'
+  map.statistics_from_until_gen_report 'reports/:from/:until/:format', :controller => 'statistics', :action => 'gen_report'
+  
   map.statistics 'statistics', :controller => 'statistics', :action => 'index'
     
   map.resources :user_sessions

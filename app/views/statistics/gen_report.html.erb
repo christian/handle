@@ -1,0 +1,26 @@
+<h2>Reports <span style="color: orange;"><%= @start_date.to_s(:long) %> - <%= @end_date.to_s(:long) %></span></h2>
+
+<% @projects.each do |project|  %>
+  <h3 style="border-bottom: 1px #aaa solid; padding-bottom: 5px;"><%= project.name %></h3>
+  <% (@start_date..@end_date).each do |day| %>
+    <h5><%= day.to_s(:long) %></h5>
+    <% project.changes.for_day_with_tasks(day).group_by(&:task).each do |task, changes| %>
+
+      <table>
+        <thead>
+          <tr style="background-color: #A4C1EF;" >
+            <th colspan="3"><span style="background-color: white;">&nbsp;Task:&nbsp; </span>&nbsp; <%= task.title %></th>
+          </tr>          
+        </thead>
+        <% changes.each do |change| %>
+          <tr class="<%= cycle('odd', 'even') %>">
+            <td style="width: 12%;"><strong><%= change.user.name %></td>
+            <td style="width: 7%;"><span class="added"><%= humanized_duration(change.minutes) %></span></strong></td>
+            <td><%= change.comment %></td>
+          </tr>
+        <% end %>
+      </table>
+
+    <% end %>
+  <% end %>
+<% end %>

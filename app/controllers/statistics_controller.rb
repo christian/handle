@@ -1,4 +1,6 @@
+require 'fastercsv'
 class StatisticsController < ApplicationController
+  include ApplicationHelper
   before_filter :login_required, :current_project
   helper_method :projects_collection, :current_project
   
@@ -112,6 +114,56 @@ class StatisticsController < ApplicationController
   #     format.xml {render :action => "user_detail.xml.builder", :layout => false}
   #   end
   # end
+  
+  def reports
+    @start_date = params[:from] || Date.today.strftime("%Y-%m-%d")
+    @end_date = params[:until] || Date.today.strftime("%Y-%m-%d")
+  end
+  
+  def gen_report
+    @projects = Project.all
+    @start_date = Date.parse(params[:from])
+    @end_date = Date.parse(params[:until])
+    respond_to do |format| 
+      format.csv {
+        @outfile = "report.csv"
+        
+        csv_data = FasterCSV.generate do |csv|
+          csv << [
+          "Project",
+          "Date",
+          "Task",
+          "Person",
+          "Time",
+          "Comment",
+          ]
+          @projects.each do |project|
+            (@start_date..@end_date).each do |day|
+              project.changes.for_day_with_tasks(day).group_by(&:task).each do |task, changes|
+                changes.each do |change|
+                  csv << [
+                    project.name,
+                    day,
+                    task.title,
+                    change.user.name,
+                    humanized_duration(change.minutes),
+                    change.comment
+                  ]
+                end
+              end
+            end
+          end
+        end
+
+        send_data csv_data,
+          :type => 'text/csv; charset=iso-8859-1; header=present',
+          :disposition => "attachment; filename=#{@outfile}"
+      }
+      format.html {
+        
+      }
+    end
+  end
 
   private
   

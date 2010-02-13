@@ -20,6 +20,13 @@ class Change < ActiveRecord::Base
     :conditions => ['for_day between ? and ?', start_date, end_date]
     }
   }
+  
+  named_scope :for_day_with_tasks, lambda { |day| {
+    :conditions => ['for_day = ?', day],
+    :joins => [:task, :user],
+    :group => '`users`.id'
+    }
+  }  
     
   def convert_time_spent_to_minutes
     return if text_time_spent == "nochange"
